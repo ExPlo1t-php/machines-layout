@@ -29,8 +29,11 @@ class AuthenticatedSessionController extends Controller
     public function store(LoginRequest $request)
     {
         $request->authenticate();
-
+        
         $request->session()->regenerate();
+        // setting session variable to store username
+        $username = Auth::user()->name;
+        session()->put('username', $username);
 
         return redirect()->intended(RouteServiceProvider::HOME);
     }

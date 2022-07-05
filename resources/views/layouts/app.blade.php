@@ -30,5 +30,9 @@
                 {{ $slot }}
             </main>
         </div>
+        {{-- Sortable JS --}}
+        <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+        <script src="/js/draggable.js"></script>
+
     </body>
 </html>

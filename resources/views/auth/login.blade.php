@@ -1,11 +1,15 @@
 <x-guest-layout>
     <x-auth-card>
         <x-slot name="logo">
-            <a href="/">
-                <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
+            <a href="home" class="flex justify-center py-2" >
+                {{-- style="
+            padding:0px;
+            display: flex;
+            margin-left:160px
+            " --}}
+                <x-application-logo class="w-20 h-20 fill-current text-gray-500 " />
             </a>
         </x-slot>
-
         <!-- Session Status -->
         <x-auth-session-status class="mb-4" :status="session('status')" />
 
@@ -17,7 +21,7 @@
 
             <!-- username -->
             <div>
-                <x-label for="name" :value="__('Name')" />
+                <x-label for="name" :value="__('Username')" />
 
                 <x-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus />
             </div>

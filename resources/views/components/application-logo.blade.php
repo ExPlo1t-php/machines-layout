@@ -1,1 +1,2 @@
-<img src="assets/images/logo.jfif" alt="logo" class="">
+    <img src="assets/images/logo.png" alt="logo" {{$attributes}}>
+
