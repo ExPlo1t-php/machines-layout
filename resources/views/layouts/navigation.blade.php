@@ -1,4 +1,4 @@
-<nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
+<nav x-data="{ open: false }" class="bg-white border-b border-gray-100 mb-3">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
@@ -11,13 +11,6 @@
                 </div>  
 
                 <!-- Navigation Links -->
-                @if (session()->get('username'))
-                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
-                    </x-nav-link>
-                </div>
-                @endif
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('injection')" :active="request()->routeIs('injection')">
                         {{ __('Injection') }}
@@ -64,6 +57,15 @@
 
                     <x-slot name="content">
                         <!-- Authentication -->
+                        <form method="get" action="{{ route('dashboard') }}">
+                            @csrf
+                            
+                            <x-dropdown-link :href="route('dashboard')"
+                                    onclick="event.preventDefault();
+                                    this.closest('form').submit();">
+                                {{ __('Dashboard') }}
+                            </x-dropdown-link>
+                        </form>
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
                             

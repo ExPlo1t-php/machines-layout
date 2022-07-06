@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+// controllers
+use App\Http\Controllers\Admin\AdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,6 +30,9 @@ Route::get('/assembly', function(){
 Route::get('/injection', function(){
     return view('pages.injection');
 })->name('injection');
+
+// admin routers
+Route::get('/addCabinet', [AdminController::class, 'cabinetForm'])->name('addCabinet');
 
 
 Route::get('/dashboard', function () {
