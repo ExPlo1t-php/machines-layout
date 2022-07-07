@@ -9,14 +9,18 @@ use PhpParser\Node\Stmt\Switch_;
 class Station extends Model
 {
     use HasFactory;
+    public $timestamps = false;
     protected $table = 'station';
     protected $fillable = [
+        'type',
         'name',
         'SN',
         'supplier',
         'mainIpAddr',
+        'switch',
         'port',
         'decription',
+        'line',
 
     ];
 

@@ -32,7 +32,28 @@ Route::get('/injection', function(){
 })->name('injection');
 
 // admin routers
-Route::get('/addCabinet', [AdminController::class, 'cabinetForm'])->name('addCabinet');
+// network cabinet
+Route::get('/cabinet', [AdminController::class, 'showCab'])->name('cabinet')->middleware(['auth']);
+Route::post('/addCabinet', [AdminController::class, 'addCabinet'])->name('addCabinet');
+// switch
+Route::get('/switch', [AdminController::class, 'showSw'])->name('switch')->middleware(['auth']);
+Route::post('/addSwitch', [AdminController::class, 'addSwitch'])->name('addSwitch');
+// Assembly lines
+Route::get('/lines', [AdminController::class, 'showLn'])->name('lines')->middleware(['auth']);
+Route::post('/addLine', [AdminController::class, 'addLine'])->name('addLine');
+// Station 
+Route::get('/equipment', [AdminController::class, 'showEquipment'])->name('equipment')->middleware(['auth']);
+Route::post('/addStationType', [AdminController::class, 'addStationType'])->name('addStationType');
+// Station 
+Route::get('/station', [AdminController::class, 'showStation'])->name('station')->middleware(['auth']);
+Route::post('/addStation', [AdminController::class, 'addStation'])->name('addStation');
+// Station Type
+Route::get('/station-type', [AdminController::class, 'showStationType'])->name('station-type')->middleware(['auth']);
+Route::post('/addStationType', [AdminController::class, 'addStationType'])->name('addStationType');
+// Equipment Type
+Route::get('/equipment-type', [AdminController::class, 'showEquipmentType'])->name('equipment-type')->middleware(['auth']);
+Route::post('/addEquipmentType', [AdminController::class, 'addEquipmentType'])->name('addEquipmentType');
+
 
 
 Route::get('/dashboard', function () {

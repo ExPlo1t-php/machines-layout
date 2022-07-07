@@ -1,17 +1,27 @@
 <x-app-layout>
 
 
-    <div id="box" class="py-8">
+    <div id="box" class="py-6">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 bg-white border-b border-gray-200 text-green-400">
+                <div class="p-5 bg-white border-b border-gray-200 text-green-400">
                     You're logged in!
                 </div>
             </div>
         </div>
     </div>
     <div class="flex justify-around">
-        <x-adminControls></x-adminControls>
+        <x-adminControls>
+            @if (Route::currentRouteName()=='dashboard')
+            <div class="text-center">
+                <h1 class="text-2xl">welcome to the admin's dashboard</h1>
+                <p>here you can add and manage your stations, <br>
+                    equipments, and machines</p>
+                </div>
+            @else
+            @yield('component')
+            @endif
+        </x-adminControls>
     </div>
     <script>
         setTimeout(() => {
@@ -21,7 +31,7 @@
         //   // 👇️ removes element from DOM
           box.style.display = 'none';
 
-        }, 5000); 
+        }, 3000); 
 
         
     </script>

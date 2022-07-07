@@ -15,7 +15,8 @@ return new class extends Migration
     {
         Schema::create('network_cabinet', function (Blueprint $table) {
             $table->string('name', 20)->primary();
-            $table->string('description');
+            $table->string('zone', 20);
+            $table->longText('description')->nullable();
         });
     }
 

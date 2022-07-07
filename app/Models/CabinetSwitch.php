@@ -8,8 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class CabinetSwitch extends Model
 {
     use HasFactory;
+    public $timestamps = false;
     protected $table = 'switch';
     protected $fillable = [
+        'cabName',
         'ipAddr',
         'portsNum',
 
