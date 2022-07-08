@@ -23,12 +23,15 @@
             @endif
         </x-adminControls>
     </div>
+    <div class="table w-11/12 flex justify-items-end m-4 flex  p-4  bg-fuchsia-300">
+        @yield('table')
+    </div>
     <script>
         setTimeout(() => {
             // 👇️ hiding the logged in status after 5 seconds
           const box = document.getElementById('box');
 
-        //   // 👇️ removes element from DOM
+          // 👇️ removes element from DOM
           box.style.display = 'none';
 
         }, 3000); 

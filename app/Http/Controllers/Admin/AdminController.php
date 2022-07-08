@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 
 // data models
 use App\Models\CabinetSwitch;
+use App\Models\Equipment;
 use App\Models\EquipmentType;
 use App\Models\Line;
 use App\Models\NetworkCabinet;
@@ -18,7 +19,7 @@ use Illuminate\Http\Request;
 class AdminController extends Controller
 {
 
-    // show components ------------------------------------
+    // show form components ------------------------------------
     // network cabinet
     public function showCab(){
         return view('components.forms.cabinet');
@@ -158,7 +159,7 @@ class AdminController extends Controller
     }
     // equipment type--------------------------------------------
 
-    // equipment type--------------------------------------------
+    // add station--------------------------------------------
     public function addStation(Request $request){
         // fetching input data
         $input = $request->all();
@@ -184,6 +185,33 @@ class AdminController extends Controller
         return redirect('dashboard');
 
     }
-    // equipment type--------------------------------------------
+    // add station--------------------------------------------
+
+    // add station--------------------------------------------
+    public function addEquipment(Request $request){
+        // fetching input data
+        $input = $request->all();
+
+        
+        
+        // validating input data
+        $request->validate([
+            'type' => 'required|max:20',
+            'name' => 'required|max:20',
+            'SN' => 'required|max:20|unique:station',
+            'supplier' => 'required|max:20',
+            'ipAddr' => ['required', 'max:15', 'regex:/^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/i'],
+            'port' => 'required|max:20',
+            'station' => 'required|max:20',
+            'description' => 'max:500',
+        ]);
+        
+        // inserting validated data
+        Equipment::create($input);
+
+        return redirect('dashboard');
+
+    }
+    // add station--------------------------------------------
 
 }

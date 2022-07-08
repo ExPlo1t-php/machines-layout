@@ -8,7 +8,25 @@
           <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
             Switch location
           </label>
-          <input name="cabName" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="text" placeholder="Cabinet name">
+          <select name="cabName"
+          onchange="let add = document.querySelector('.add');
+          if(this.options[this.selectedIndex] == add){
+          window.location = add.value;
+          }"
+          {{-- select option -> add button --}}
+          class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password">
+            <option value="null" selected disabled hidden >- select a network cabinet -</option>
+            {{-- fetching cabinet data to load in select menu --}}
+            @php
+                use App\Models\NetworkCabinet;
+                $cabinets = NetworkCabinet::get();
+            @endphp
+            @foreach ($cabinets as $cabinet)
+            <option value="{{$cabinet['name']}}"> {{$cabinet['name']}}</option>
+            @endforeach
+
+            <option class="add" value="cabinet">&#x2b; Add a new cabinet</option>
+          </select>
         </div>
       </div>
 

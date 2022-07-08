@@ -8,7 +8,25 @@
           <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
             Equipment type
           </label>
-          <input name="type" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="text" placeholder="equipment type">
+          <select name="type"
+          onchange="let add = document.querySelector('.add');
+          if(this.options[this.selectedIndex] == add){
+          window.location = add.value;
+          }"
+          {{-- select option -> add button --}}
+          class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password">
+            <option value="null" selected disabled hidden >- select a the equipment type -</option>
+            {{-- fetching cabinet data to load in select menu --}}
+            @php
+                use App\Models\EquipmentType;
+                $types = EquipmentType::get();
+            @endphp
+            @foreach ($types as $type)
+            <option value="{{$type['name']}}"> {{$type['name']}}</option>
+            @endforeach
+  
+            <option class="add" value="equipment-type">&#x2b; Add a new equipment type</option>
+          </select>
         </div>
       </div>
 
@@ -33,7 +51,7 @@
       <div class="flex flex-wrap -mx-3 mb-6">
         <div class="w-full px-3">
           <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
-            Supplier
+            Equipment Supplier
           </label>
           <input name="supplier" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="text" placeholder="Supplier's name">
         </div>
@@ -46,7 +64,7 @@
           </label>
           <input name="ipAddr" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="text" placeholder="Ip address format(xxx.xxx.xxx.xxx)">
         </div>
-      </div>
+      </div> 
 
       <div class="flex flex-wrap -mx-3 mb-6">
         <div class="w-full px-3">
@@ -60,9 +78,27 @@
       <div class="flex flex-wrap -mx-3 mb-6">
         <div class="w-full px-3">
           <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
-           Assembly line name
+           station name
           </label>
-          <input name="line" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="text" placeholder="Assembly line">
+          <select name="station"
+          onchange="let add = document.querySelector('.add');
+          if(this.options[this.selectedIndex] == add){
+          window.location = add.value;
+          }"
+          {{-- select option -> add button --}}
+          class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password">
+            <option value="null" selected disabled hidden >- select a the station where this equipment exist -</option>
+            {{-- fetching cabinet data to load in select menu --}}
+            @php
+                use App\Models\Station;
+                $stations = Station::get();
+            @endphp
+            @foreach ($stations as $station)
+            <option value="{{$station['name']}}"> {{$station['name']}}</option>
+            @endforeach
+  
+            <option class="add" value="line">&#x2b; Add a new station</option>
+          </select>
         </div>
       </div>
 

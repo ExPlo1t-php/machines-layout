@@ -3,23 +3,46 @@
 @section('component')
 <form class="w-full max-w-lg flex-col self-center" method="POST" action="addStation" enctype="multipart/form-data">
     @csrf
-      <div class="flex flex-wrap -mx-3 mb-6">
-        <div class="w-full px-3">
-          <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
-            Station type
-          </label>
-          <input name="type" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="text" placeholder="station type">
-        </div>
+    
+    <div class="flex flex-wrap -mx-3 mb-6">
+      <div class="w-full px-3">
+        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
+          Station name
+        </label>
+        <input name="name" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="text" placeholder="station name">
       </div>
+    </div>
+    
+    <div class="help-tip">
+      <p>This is the inline help tip! It can contain all kinds of HTML. Style it as you please.</p>
+  </div>
+    <div class="flex flex-wrap -mx-3 mb-6">
+      <div class="w-full px-3">
+        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
+          Station type
+        </label>
+        
+        <select name="type"
+        onchange="let add = document.querySelector('.add');
+        if(this.options[this.selectedIndex] == add){
+        window.location = add.value;
+        }"
+        {{-- select option -> add button --}}
+        class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password">
+          <option value="null" selected disabled hidden >- select a station type -</option>
+          {{-- fetching cabinet data to load in select menu --}}
+          @php
+              use App\Models\StationType;
+              $types = StationType::get();
+          @endphp
+          @foreach ($types as $type)
+          <option value="{{$type['name']}}"> {{$type['name']}}</option>
+          @endforeach
 
-      <div class="flex flex-wrap -mx-3 mb-6">
-        <div class="w-full px-3">
-          <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
-            Station name
-          </label>
-          <input name="name" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="text" placeholder="station name">
-        </div>
+          <option class="add" value="station-type">&#x2b; Add a new station type</option>
+        </select>
       </div>
+    </div>
 
       <div class="flex flex-wrap -mx-3 mb-6">
         <div class="w-full px-3">
@@ -53,7 +76,25 @@
           <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
             switch name
           </label>
-          <input name="switch" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="text" placeholder="&quot;connected to&quot; switch name">
+          <select name="switch"
+          onchange="let add = document.querySelector('.add');
+          if(this.options[this.selectedIndex] == add){
+          window.location = add.value;
+          }"
+          {{-- select option -> add button --}}
+          class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password">
+            <option value="null" selected disabled hidden >- select a the switch connected to this station -</option>
+            {{-- fetching cabinet data to load in select menu --}}
+            @php
+                use App\Models\CabinetSwitch;
+                $switches = CabinetSwitch::get();
+            @endphp
+            @foreach ($switches as $switch)
+            <option value="{{$switch['switchId']}}"> {{$switch['cabName']}} - {{ $switch['switchId']}}</option>
+            @endforeach
+  
+            <option class="add" value="switch">&#x2b; Add a new switch</option>
+          </select>
         </div>
       </div>
 
@@ -71,7 +112,25 @@
           <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
            Assembly line name
           </label>
-          <input name="line" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="text" placeholder="Assembly line">
+          <select name="line"
+          onchange="let add = document.querySelector('.add');
+          if(this.options[this.selectedIndex] == add){
+          window.location = add.value;
+          }"
+          {{-- select option -> add button --}}
+          class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password">
+            <option value="null" selected disabled hidden >- select a the line where this station exist -</option>
+            {{-- fetching cabinet data to load in select menu --}}
+            @php
+                use App\Models\Line;
+                $lines = Line::get();
+            @endphp
+            @foreach ($lines as $line)
+            <option value="{{$line['name']}}"> {{$line['name']}}</option>
+            @endforeach
+  
+            <option class="add" value="line">&#x2b; Add a new assembly line</option>
+          </select>
         </div>
       </div>
 
@@ -98,4 +157,5 @@
     </div>
     {{-- error handling --}}
     </form>
+    
 @endsection

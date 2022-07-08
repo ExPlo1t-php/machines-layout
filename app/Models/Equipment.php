@@ -8,15 +8,17 @@ use Illuminate\Database\Eloquent\Model;
 class Equipment extends Model
 {
     use HasFactory;
+    public $timestamps = false;
     protected $table = 'equipment';
     protected $fillable = [
+        'type',
         'name',
         'SN',
         'supplier',
-        'IpAddr',
+        'ipAddr',
         'port',
         'decription',
-
+        'station',
     ];
 
     public function station()
