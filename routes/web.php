@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 // controllers
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\SearchController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,6 +22,9 @@ Route::get('/', function () {
 Route::get('/home', function () {
     return view('pages.home');
 })->name('home');
+// search bar routes
+Route::get('/index',[SearchController::class, 'index'])->name('index');
+Route::get('/search',[SearchController::class, 'search'])->name('search');
 
 // pages router
 Route::get('/assembly', function(){

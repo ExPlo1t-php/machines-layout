@@ -23,7 +23,8 @@
             @endif
         </x-adminControls>
     </div>
-    <div class="table w-11/12 flex justify-items-end m-4 flex  p-4  bg-fuchsia-300">
+    <div class="table w-full flex  p-4 bg-gray-200"">
+        <h1 class="m-3 text-center text-xl">Available elements</h1>
         @yield('table')
     </div>
     <script>
