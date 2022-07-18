@@ -162,7 +162,23 @@
 
 
 @section('table')
-    
+    {{-- live search to station table --}}
+<script type="text/javascript">
+  $('#search').on('keyup',function(){
+  $value=$(this).val();
+  $.ajax({
+  type : 'get',
+  url : '{{URL::to('searchStation')}}',
+  data:{'search':$value},
+  success:function(data){
+  $('tbody').html(data);
+  }
+  });
+  })
+  </script>
+  <script type="text/javascript">
+  $.ajaxSetup({ headers: { 'csrftoken' : '{{ csrf_token() }}' } });
+  </script>  
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
   <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400 ">
       <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">

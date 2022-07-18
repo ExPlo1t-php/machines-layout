@@ -23,8 +23,7 @@ Route::get('/home', function () {
     return view('pages.home');
 })->name('home');
 // search bar routes
-Route::get('/index',[SearchController::class, 'index'])->name('index');
-Route::get('/search',[SearchController::class, 'search'])->name('search');
+Route::get('/searchStation',[SearchController::class, 'searchStation'])->name('searchStation');
 
 // pages router
 Route::get('/assembly', function(){
