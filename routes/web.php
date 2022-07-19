@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 // controllers
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\DeleteController;
 use App\Http\Controllers\SearchController;
 
 /*
@@ -22,8 +23,17 @@ Route::get('/', function () {
 Route::get('/home', function () {
     return view('pages.home');
 })->name('home');
+// home routers
+
 // search bar routes
+Route::get('/searchLine',[SearchController::class, 'searchLine'])->name('searchLine');
 Route::get('/searchStation',[SearchController::class, 'searchStation'])->name('searchStation');
+Route::get('/searchEquipment',[SearchController::class, 'searchEquipment'])->name('searchEquipment');
+Route::get('/searchSwitch',[SearchController::class, 'searchSwitch'])->name('searchSwitch');
+Route::get('/searchCabinet',[SearchController::class, 'searchCabinet'])->name('searchCabinet');
+Route::get('/searchStationType',[SearchController::class, 'searchStationType'])->name('searchStationType');
+Route::get('/searchEquipmentType',[SearchController::class, 'searchEquipmentType'])->name('searchEquipmentType');
+// search bar routes
 
 // pages router
 Route::get('/assembly', function(){
@@ -47,20 +57,17 @@ Route::post('/addLine', [AdminController::class, 'addLine'])->name('addLine');
 // Station 
 Route::get('/station', [AdminController::class, 'showStation'])->name('station')->middleware(['auth']);
 Route::post('/addStation', [AdminController::class, 'addStation'])->name('addStation');
+Route::delete('/deleteStation/{SN}',[DeleteController::class, 'deleteStation'])->name('deleteStation');
 // Station Type
 Route::get('/station-type', [AdminController::class, 'showStationType'])->name('station-type')->middleware(['auth']);
 Route::post('/addStationType', [AdminController::class, 'addStationType'])->name('addStationType');
+Route::delete('/deleteStationType/{name}', [DeleteController::class, 'deleteStationType'])->name('deleteStationType');
 // Equipment
 Route::get('/equipment', [AdminController::class, 'showEquipment'])->name('equipment')->middleware(['auth']);
 Route::post('/addEquipment', [AdminController::class, 'addEquipment'])->name('addEquipment');
+Route::delete('/deleteEquipment/{SN}',[DeleteController::class, 'deleteEquipment'])->name('deleteEquipment');
 // Equipment Type
 Route::get('/equipment-type', [AdminController::class, 'showEquipmentType'])->name('equipment-type')->middleware(['auth']);
 Route::post('/addEquipmentType', [AdminController::class, 'addEquipmentType'])->name('addEquipmentType');
+Route::delete('/deleteEquipmentType/{name}', [DeleteController::class, 'deleteEquipmentType'])->name('deleteEquipmentType');
 
-
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
-
-require __DIR__.'/auth.php';
