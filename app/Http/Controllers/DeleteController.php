@@ -2,14 +2,41 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CabinetSwitch;
 use App\Models\Equipment;
 use App\Models\EquipmentType;
+use App\Models\Line;
+use App\Models\NetworkCabinet;
 use App\Models\Station;
 use App\Models\StationType;
 use Exception;
 
 class DeleteController extends Controller
 {
+    // delete cabinet -----------------------------------
+    // childrens : tbd
+    // parents: tbd
+    public function deleteCabinet($name){
+        $equipment = NetworkCabinet::where('name','=',$name);
+        $equipment->delete();
+    }
+
+    // delete switch -----------------------------------
+    // childrens : tbd
+    // parents: tbd
+    public function deleteSwitch($switchId){
+        $equipment = CabinetSwitch::where('switchId','=',$switchId);
+        $equipment->delete();
+    }
+
+    // delete line -----------------------------------
+    // childrens : tbd
+    // parents: tbd
+    public function deleteLine($name){
+        $equipment = Line::where('name','=',$name);
+        $equipment->delete();
+    }
+
     // delete equipment -----------------------------------
     // childrens : none
     // parents: station - equipment type
@@ -39,7 +66,7 @@ class DeleteController extends Controller
     public function deleteStationType($name){
             $stationtype = StationType::where('name','=',$name);
             $stationtype->delete();
-            return view('station')->with('stat','you can\'t delete this type because it\'s being used by another element');
+            // return view('station')->with('stat','you can\'t delete this type because it\'s being used by another element');
  
 
                 // try{    //here trying to update email and phone in db which are unique values

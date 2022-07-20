@@ -1,2 +1,2 @@
-    <img src="assets/images/logo.png" alt="logo" {{$attributes}}>
+    <img src="/assets/images/logo.png" alt="logo" {{$attributes}}>
 

@@ -1,6 +1,9 @@
 @extends('dashboard')
 
 @section('component')
+@isset($edit)
+{{print_r($edit);}}
+@endisset
 <form class="w-full max-w-lg flex-col self-center" method="POST" action="addLine">
     @csrf
       <div class="flex flex-wrap -mx-3 mb-6">
@@ -8,7 +11,7 @@
           <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
             Assembly Line name
           </label>
-          <input name="name" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="text" placeholder="Line name">
+          <input  name="name" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="text" placeholder="Line name">
         </div>
       </div>
 
@@ -35,7 +38,23 @@
 @endsection
 
 @section('table')
-    
+<script type="text/javascript">
+  // {{-- live search to station table --}}
+      $('#search').on('keyup',function(){
+      $value=$(this).val();
+      $.ajax({
+      type : 'get',
+      url : '{{URL::to('searchLine')}}',
+      data:{'search':$value},
+      success:function(data){
+      $('tbody').html(data);
+      }
+      });
+      })
+      $.ajaxSetup({ headers: { 'csrftoken' : '{{ csrf_token() }}' } });
+      // {{-- live search to station table --}}
+
+      </script>  
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
   <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400 ">
       <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -48,7 +67,7 @@
             </th>
 
             <th scope="col" class="px-6 py-3">
-                <span class="sr-only">Edit</span>
+              tools
             </th>
           </tr>
       </thead>
@@ -59,15 +78,16 @@
         @endphp
           @foreach ($lines as $line)
           <tr class="border-b dark:bg-gray-800 dark:border-gray-700 odd:bg-white even:bg-gray-50 odd:dark:bg-gray-800 even:dark:bg-gray-700">
-            <th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
+            <td scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
               {{$line['name']}}
-            </th>
+            </td>
             <td class="px-6 py-4">
                 {{$line['description']}}
               </td>
-              <td class="px-6 py-4 text-right">
-                  <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-              </td>
+              <td class="px-4 py-4 text-right flex">
+                <a data-id="{{$line['name']}}" data-method="GET" href="{{route('showLine', $line['name'])}}" id="edit" class="m-2 font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                <a data-id="{{$line['name']}}" data-method="DELETE" href="{{route('deleteLine', $line['name'])}}" id="delete" class="m-2 font-medium text-red-600 dark:text-red-500 hover:underline">Delete</a>
+            </td>
           </tr>
           @endforeach
           

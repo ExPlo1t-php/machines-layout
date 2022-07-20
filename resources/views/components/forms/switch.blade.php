@@ -63,6 +63,23 @@
 @endsection
 
 @section('table')
+<script>
+$('#search').on('keyup',function(){
+  $value=$(this).val();
+  $.ajax({
+  type : 'get',
+  url : '{{URL::to('searchSwitch')}}',
+  data:{'search':$value},
+  success:function(data){
+  $('tbody').html(data);
+  }
+  });
+  })
+  </script>
+  <script type="text/javascript">
+  $.ajaxSetup({ headers: { 'csrftoken' : '{{ csrf_token() }}' } });
+  </script>  
+  {{-- live search to station table --}}
     
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
   <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400 ">
@@ -81,7 +98,7 @@
                 Cabinet name
             </th>
             <th scope="col" class="px-6 py-3">
-                <span class="sr-only">Edit</span>
+              tools
             </th>
           </tr>
       </thead>
@@ -104,9 +121,11 @@
             <td class="px-6 py-4">
                 {{$switch['cabName']}}
               </td>
-              <td class="px-6 py-4 text-right">
-                  <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-              </td>
+              <td class="px-4 py-4 text-right flex">
+                <a href="#" class="m-2 font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                
+                <a data-id="{{$switch['switchId']}}" data-method="DELETE" href="{{route('deleteSwitch', $switch['switchId'])}}" id="delete" class="m-2 font-medium text-red-600 dark:text-red-500 hover:underline">Delete</a>
+            </td>
           </tr>
           @endforeach
           

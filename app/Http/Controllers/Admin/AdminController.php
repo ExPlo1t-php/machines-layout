@@ -30,7 +30,8 @@ class AdminController extends Controller
     }
     // Assembly lines
     public function showLn(){
-        return view('components.forms.line');
+        $line='';
+        return view('components.forms.line')->with('line', $line);
     }
     // station
     public function showStation(){

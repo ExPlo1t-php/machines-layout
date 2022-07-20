@@ -19,6 +19,7 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
         <script src="//unpkg.com/alpinejs" defer></script>
         <script src="/js/jquery-3.6.0.min.js"></script>
+        <script src="/js/delete.js"></script>
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100">

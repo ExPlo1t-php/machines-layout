@@ -35,3 +35,44 @@ $(document).ready(function () {
        return false;
     });
   });
+
+
+
+
+
+
+
+
+
+
+
+
+        // edit in the same page
+        $(document).ready(function () {
+          $("body").on("click","#edit",function(e){
+          
+             e.preventDefault();
+             var id = $(this).data("id");
+             var token = $("meta[name='csrf-token']").attr("content");
+             var url = e.target;
+          
+             $.ajax(
+                 {
+                   url: url.href, 
+                   type: 'GET',
+                   data: {
+                     _token: token,
+                         id: id
+                 },
+                 success: function (response)
+                 {
+                    //  console.log(response); // see the reponse sent
+                 },
+                 error: function(xhr) {
+                  // console.log(xhr.responseText); // this line will save you tons of hours while debugging
+                 // do something here because of error
+                }
+              });
+              
+            });
+          });

@@ -21,7 +21,7 @@ return new class extends Migration
             $table->integer('port');
             $table->longText('description');
             // foreign key
-            $table->string('type')->unique();
+            $table->string('type');
             $table->foreign('type')->references('name')->on('equipment_type');
             $table->string('station');
             $table->foreign('station')->references('name')->on('station');

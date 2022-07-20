@@ -15,7 +15,7 @@
           }"
           {{-- select option -> add button --}}
           class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password">
-            <option value="null" selected disabled hidden >- select a the equipment type -</option>
+            <option value="null" selected disabled hidden >- select an equipment type -</option>
             {{-- fetching cabinet data to load in select menu --}}
             @php
                 use App\Models\EquipmentType;
@@ -78,7 +78,7 @@
       <div class="flex flex-wrap -mx-3 mb-6">
         <div class="w-full px-3">
           <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
-           equipment name
+           station name
           </label>
           <select name="equipment"
           onchange="let add = document.querySelector('.add');
@@ -87,7 +87,7 @@
           }"
           {{-- select option -> add button --}}
           class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password">
-            <option value="null" selected disabled hidden >- select a the equipment where this equipment exist -</option>
+            <option value="null" selected disabled hidden >- select the station where this equipment exist -</option>
             {{-- fetching cabinet data to load in select menu --}}
             @php
                 use App\Models\equipment;
@@ -128,6 +128,24 @@
 @endsection
 
 @section('table')
+   {{-- live search to station table --}}
+   <script type="text/javascript">
+    $('#search').on('keyup',function(){
+    $value=$(this).val();
+    $.ajax({
+    type : 'get',
+    url : '{{URL::to('searchEquipment')}}',
+    data:{'search':$value},
+    success:function(data){
+    $('tbody').html(data);
+    }
+    });
+    })
+    </script>
+    <script type="text/javascript">
+    $.ajaxSetup({ headers: { 'csrftoken' : '{{ csrf_token() }}' } });
+    </script>  
+    {{-- live search to station table --}}
     
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
   <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400 ">
@@ -159,7 +177,7 @@
                 equipment description
             </th>
             <th scope="col" class="px-6 py-3">
-                <span class="sr-only">Edit</span>
+              tools
             </th>
           </tr>
       </thead>
@@ -194,9 +212,11 @@
             <td class="px-6 py-4">
                 {{$equipment['description']}}
               </td>
-              <td class="px-6 py-4 text-right">
-                  <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-              </td>
+              <td class="px-4 py-4 text-right flex">
+                <a href="#" class="m-2 font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                
+                <a data-id="{{$equipment['SN']}}" data-method="DELETE" href="{{route('deleteEquipment', $equipment['SN'])}}" id="delete" class="m-2 font-medium text-red-600 dark:text-red-500 hover:underline">Delete</a>
+            </td>
           </tr>
           @endforeach
           
