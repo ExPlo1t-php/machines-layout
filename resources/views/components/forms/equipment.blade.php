@@ -1,6 +1,9 @@
 @extends('dashboard')
 
 @section('component')
+@if( Session::has('success') )
+        <span id="successTxt" class="text-green-500 flex self-center">{{ Session::get('success') }}</span>
+@endif  
 <form class="w-full max-w-lg flex-col self-center" method="POST" action="addEquipment" enctype="multipart/form-data">
     @csrf
       <div class="flex flex-wrap -mx-3 mb-6">
@@ -213,8 +216,7 @@
                 {{$equipment['description']}}
               </td>
               <td class="px-4 py-4 text-right flex">
-                <a href="#" class="m-2 font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                
+                <a data-id="{{$equipment['name']}}" data-method="get" href="{{route('showEquipment', $equipment['name'])}}" id="edit" class="m-2 font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
                 <a data-id="{{$equipment['SN']}}" data-method="DELETE" href="{{route('deleteEquipment', $equipment['SN'])}}" id="delete" class="m-2 font-medium text-red-600 dark:text-red-500 hover:underline">Delete</a>
             </td>
           </tr>

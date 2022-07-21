@@ -20,6 +20,7 @@
         <script src="//unpkg.com/alpinejs" defer></script>
         <script src="/js/jquery-3.6.0.min.js"></script>
         <script src="/js/delete.js"></script>
+        <script src="/js/hideStuff.js"></script>
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100">

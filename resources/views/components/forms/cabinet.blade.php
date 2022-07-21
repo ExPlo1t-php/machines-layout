@@ -1,6 +1,11 @@
 @extends('dashboard')
 
 @section('component')
+@if( Session::has('success') )
+        <span id="successTxt" class="text-green-500 flex self-center">{{ Session::get('success') }}</span>
+@endif
+        
+
 <form class="w-full max-w-lg flex-col self-center" method="POST" action="addCabinet">
     @csrf
       <div class="flex flex-wrap -mx-3 mb-6">
@@ -62,6 +67,8 @@
     $.ajaxSetup({ headers: { 'csrftoken' : '{{ csrf_token() }}' } });
     </script>  
     {{-- live search to station table --}}
+    <span id="deleteTxt" class="text-red-500 flex text-center">spsss</span>
+    
 
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
   <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400 ">
@@ -98,8 +105,7 @@
                 {{$cabinet['description']}}
               </td>
               <td class="px-4 py-4 text-right flex">
-                <a href="#" class="m-2 font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                
+                <a data-id="{{$cabinet['name']}}" data-method="get" href="{{route('showCabinet', $cabinet['name'])}}" id="edit" class="m-2 font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
                 <a data-id="{{$cabinet['name']}}" data-method="DELETE" href="{{route('deleteCabinet', $cabinet['name'])}}" id="delete" class="m-2 font-medium text-red-600 dark:text-red-500 hover:underline">Delete</a>
             </td>
           </tr>

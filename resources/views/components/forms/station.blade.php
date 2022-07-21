@@ -1,6 +1,9 @@
 @extends('dashboard')
 
 @section('component')
+@if( Session::has('success') )
+        <span id="successTxt" class="text-green-500 flex self-center">{{ Session::get('success') }}</span>
+@endif
 <form class="w-full max-w-lg flex-col self-center" method="POST" action="addStation" enctype="multipart/form-data">
     @csrf
     
@@ -162,6 +165,7 @@
 
 
 @section('table')
+
     {{-- live search to station table --}}
     <script type="text/javascript">
   $('#search').on('keyup',function(){
@@ -253,8 +257,7 @@
               </td>
 
               <td class="px-4 py-4 text-right flex">
-                <a href="#" class="m-2 font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                
+                <a data-id="{{$station['name']}}" data-method="get" href="{{route('showStation', $station['name'])}}" id="edit" class="m-2 font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
                 <a data-id="{{$station['SN']}}" data-method="DELETE" href="{{route('deleteStation', $station['SN'])}}" id="delete" class="m-2 font-medium text-red-600 dark:text-red-500 hover:underline">Delete</a>
             </td>
           </tr>

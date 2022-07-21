@@ -23,14 +23,20 @@
             @endif
         </x-adminControls>
     </div>
-    <div class="table w-full flex  p-4 bg-gray-200"">
-        <div class="flex justify-center ">
+    {{-- search bar --}}
+    <div class="table w-full flex  p-4 bg-gray-200">
+        <div id="searchBar" class="flex justify-center ">
             <h1 class="m-3 text-center text-xl">Available elements</h1>
-            <div class="form-group">
-                <input class="border-2 border-gray-300 bg-white h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none"
+            <div class="form-group flex place-items-center justify-items-center items-center">
+                <input class="border-2 border-gray-300 bg-white h-8 px-5 pr-16 rounded-lg text-sm focus:outline-none"
                 type="search" id="search" name="search" placeholder="Search">
             </div>
         </div>
+        @if (Route::current()->getName() === 'dashboard')
+            <script>
+                hide();
+            </script>
+        @endif
         
         @yield('table')
     </div>

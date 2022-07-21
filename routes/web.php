@@ -49,11 +49,15 @@ Route::get('/cabinet', [AdminController::class, 'showCab'])->name('cabinet')->mi
 Route::get('/searchCabinet',[SearchController::class, 'searchCabinet'])->name('searchCabinet');
 Route::post('/addCabinet', [AdminController::class, 'addCabinet'])->name('addCabinet');
 Route::delete('/deleteCabinet/{name}',[DeleteController::class, 'deleteCabinet'])->name('deleteCabinet');
+Route::get('/showCabinet/{name}', [UpdateController::class, 'showCabinet'])->name('showCabinet');
+Route::post('/updateCabinet/{name}', [UpdateController::class, 'updateCabinet'])->name('updateCabinet');
 // switch
 Route::get('/switch', [AdminController::class, 'showSw'])->name('switch')->middleware(['auth']);
 Route::get('/searchSwitch',[SearchController::class, 'searchSwitch'])->name('searchSwitch');
 Route::post('/addSwitch', [AdminController::class, 'addSwitch'])->name('addSwitch');
 Route::delete('/deleteSwitch/{switchId}',[DeleteController::class, 'deleteSwitch'])->name('deleteSwitch');
+Route::get('/showSwitch/{switchId}', [UpdateController::class, 'showSwitch'])->name('showSwitch');
+Route::post('/updateSwitch/{switchId}', [UpdateController::class, 'updateSwitch'])->name('updateSwitch');
 // Assembly lines
 Route::get('/lines', [AdminController::class, 'showLn'])->name('lines')->middleware(['auth']);
 Route::get('/searchLine',[SearchController::class, 'searchLine'])->name('searchLine');
@@ -66,19 +70,27 @@ Route::get('/station', [AdminController::class, 'showStation'])->name('station')
 Route::get('/searchStation',[SearchController::class, 'searchStation'])->name('searchStation');
 Route::post('/addStation', [AdminController::class, 'addStation'])->name('addStation');
 Route::delete('/deleteStation/{SN}',[DeleteController::class, 'deleteStation'])->name('deleteStation');
+Route::get('/showStation/{name}', [UpdateController::class, 'showStation'])->name('showStation');
+Route::post('/updateStation/{name}', [UpdateController::class, 'updateStation'])->name('updateStation');
 // Station Type
 Route::get('/station-type', [AdminController::class, 'showStationType'])->name('station-type')->middleware(['auth']);
 Route::get('/searchStationType',[SearchController::class, 'searchStationType'])->name('searchStationType');
 Route::post('/addStationType', [AdminController::class, 'addStationType'])->name('addStationType');
 Route::delete('/deleteStationType/{name}', [DeleteController::class, 'deleteStationType'])->name('deleteStationType');
+Route::get('/showStationType/{name}', [UpdateController::class, 'showStationType'])->name('showStationType');
+Route::post('/updateStationType/{name}', [UpdateController::class, 'updateStationType'])->name('updateStationType');
 // Equipment
 Route::get('/equipment', [AdminController::class, 'showEquipment'])->name('equipment')->middleware(['auth']);
 Route::get('/searchEquipment',[SearchController::class, 'searchEquipment'])->name('searchEquipment');
 Route::post('/addEquipment', [AdminController::class, 'addEquipment'])->name('addEquipment');
 Route::delete('/deleteEquipment/{SN}',[DeleteController::class, 'deleteEquipment'])->name('deleteEquipment');
+Route::get('/showEquipment/{name}', [UpdateController::class, 'showEquipment'])->name('showEquipment');
+Route::post('/updateEquipment/{name}', [UpdateController::class, 'updateEquipment'])->name('updateEquipment');
 // Equipment Type
 Route::get('/equipment-type', [AdminController::class, 'showEquipmentType'])->name('equipment-type')->middleware(['auth']);
 Route::get('/searchEquipmentType',[SearchController::class, 'searchEquipmentType'])->name('searchEquipmentType');
 Route::post('/addEquipmentType', [AdminController::class, 'addEquipmentType'])->name('addEquipmentType');
 Route::delete('/deleteEquipmentType/{name}', [DeleteController::class, 'deleteEquipmentType'])->name('deleteEquipmentType');
+Route::get('/showEquipmentType/{name}', [UpdateController::class, 'showEquipmentType'])->name('showEquipmentType');
+Route::post('/updateEquipmentType/{name}', [UpdateController::class, 'updateEquipmentType'])->name('updateEquipmentType');
 // end of admin routes

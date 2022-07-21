@@ -1,6 +1,9 @@
 @extends('dashboard')
 
 @section('component')
+@if( Session::has('success') )
+        <span id="successTxt" class="text-green-500 flex self-center">{{ Session::get('success') }}</span>
+@endif  
 <form class="w-full max-w-lg flex-col self-center" method="POST" action="addStationType" enctype="multipart/form-data">
     @csrf
       <div class="flex flex-wrap -mx-3 mb-6">
@@ -129,8 +132,7 @@
                <img src="/image/{{$type['icon']}}" alt="icon" class="w-1/7 h-1/7"> 
               </td>
               <td class="px-4 py-4 text-right flex">
-                <a href="#" class="m-2 font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                
+                <a data-id="{{$type['name']}}" data-method="get" href="{{route('showStationType', $type['name'])}}" id="edit" class="m-2 font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
                 <a data-id="{{$type['name']}}" data-method="DELETE" href="{{route('deleteStationType', $type['name'])}}" id="delete" class="m-2 font-medium text-red-600 dark:text-red-500 hover:underline">Delete</a>
             </td>
           </tr>
