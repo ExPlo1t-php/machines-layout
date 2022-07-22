@@ -5,7 +5,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\DeleteController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\StationsController;
 use App\Http\Controllers\UpdateController;
+use App\Models\Station;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,59 +40,64 @@ Route::get('/home', function () {
 Route::get('/assembly', function(){
     return view('pages.assembly');
 })->name('assembly');
-
+// ⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️
 Route::get('/injection', function(){
-    return view('pages.injection');
+    $stations = Station::get();
+    return view('pages.injection', ['stations'=>$stations]);
 })->name('injection');
 
-// admin routes
+// admin routes ------------------------------------------------------------------------------------------------------------------
+// data showing routes
+// stationinfo
+Route::get('/stationInfo/{name}', [StationsController::class, 'stationInfo'])->name('stationInfo');
+// data management routes add - delete - update - search ------------------------------------------------------------------------ 
 // network cabinet
+Route::get('/searchCabinet',[SearchController::class, 'searchCabinet'])->name('searchCabinet')->middleware(['auth']);
 Route::get('/cabinet', [AdminController::class, 'showCab'])->name('cabinet')->middleware(['auth']);
-Route::get('/searchCabinet',[SearchController::class, 'searchCabinet'])->name('searchCabinet');
-Route::post('/addCabinet', [AdminController::class, 'addCabinet'])->name('addCabinet');
-Route::delete('/deleteCabinet/{name}',[DeleteController::class, 'deleteCabinet'])->name('deleteCabinet');
-Route::get('/showCabinet/{name}', [UpdateController::class, 'showCabinet'])->name('showCabinet');
-Route::post('/updateCabinet/{name}', [UpdateController::class, 'updateCabinet'])->name('updateCabinet');
+Route::post('/addCabinet', [AdminController::class, 'addCabinet'])->name('addCabinet')->middleware(['auth']);
+Route::delete('/deleteCabinet/{name}',[DeleteController::class, 'deleteCabinet'])->name('deleteCabinet')->middleware(['auth']);
+Route::get('/showCabinet/{name}', [UpdateController::class, 'showCabinet'])->name('showCabinet')->middleware(['auth']);
+Route::post('/updateCabinet/{name}', [UpdateController::class, 'updateCabinet'])->name('updateCabinet')->middleware(['auth']);
 // switch
+Route::get('/searchSwitch',[SearchController::class, 'searchSwitch'])->name('searchSwitch')->middleware(['auth']);
 Route::get('/switch', [AdminController::class, 'showSw'])->name('switch')->middleware(['auth']);
-Route::get('/searchSwitch',[SearchController::class, 'searchSwitch'])->name('searchSwitch');
-Route::post('/addSwitch', [AdminController::class, 'addSwitch'])->name('addSwitch');
-Route::delete('/deleteSwitch/{switchId}',[DeleteController::class, 'deleteSwitch'])->name('deleteSwitch');
-Route::get('/showSwitch/{switchId}', [UpdateController::class, 'showSwitch'])->name('showSwitch');
-Route::post('/updateSwitch/{switchId}', [UpdateController::class, 'updateSwitch'])->name('updateSwitch');
+Route::post('/addSwitch', [AdminController::class, 'addSwitch'])->name('addSwitch')->middleware(['auth']);
+Route::delete('/deleteSwitch/{switchId}',[DeleteController::class, 'deleteSwitch'])->name('deleteSwitch')->middleware(['auth']);
+Route::get('/showSwitch/{switchId}', [UpdateController::class, 'showSwitch'])->name('showSwitch')->middleware(['auth']);
+Route::post('/updateSwitch/{switchId}', [UpdateController::class, 'updateSwitch'])->name('updateSwitch')->middleware(['auth']);
 // Assembly lines
+Route::get('/searchLine',[SearchController::class, 'searchLine'])->name('searchLine')->middleware(['auth']);
 Route::get('/lines', [AdminController::class, 'showLn'])->name('lines')->middleware(['auth']);
-Route::get('/searchLine',[SearchController::class, 'searchLine'])->name('searchLine');
-Route::post('/addLine', [AdminController::class, 'addLine'])->name('addLine');
-Route::delete('/deleteLine/{name}',[DeleteController::class, 'deleteLine'])->name('deleteLine');
-Route::get('/showLine/{name}', [UpdateController::class, 'showLine'])->name('showLine');
-Route::post('/updateLine/{name}', [UpdateController::class, 'updateLine'])->name('updateLine');
+Route::post('/addLine', [AdminController::class, 'addLine'])->name('addLine')->middleware(['auth']);
+Route::delete('/deleteLine/{name}',[DeleteController::class, 'deleteLine'])->name('deleteLine')->middleware(['auth']);
+Route::get('/showLine/{name}', [UpdateController::class, 'showLine'])->name('showLine')->middleware(['auth']);
+Route::post('/updateLine/{name}', [UpdateController::class, 'updateLine'])->name('updateLine')->middleware(['auth']);
 // Station 
+Route::get('/searchStation',[SearchController::class, 'searchStation'])->name('searchStation')->middleware(['auth']);
 Route::get('/station', [AdminController::class, 'showStation'])->name('station')->middleware(['auth']);
-Route::get('/searchStation',[SearchController::class, 'searchStation'])->name('searchStation');
-Route::post('/addStation', [AdminController::class, 'addStation'])->name('addStation');
-Route::delete('/deleteStation/{SN}',[DeleteController::class, 'deleteStation'])->name('deleteStation');
-Route::get('/showStation/{name}', [UpdateController::class, 'showStation'])->name('showStation');
-Route::post('/updateStation/{name}', [UpdateController::class, 'updateStation'])->name('updateStation');
+Route::post('/addStation', [AdminController::class, 'addStation'])->name('addStation')->middleware(['auth']);
+Route::delete('/deleteStation/{SN}',[DeleteController::class, 'deleteStation'])->name('deleteStation')->middleware(['auth']);
+Route::get('/showStation/{name}', [UpdateController::class, 'showStation'])->name('showStation')->middleware(['auth']);
+Route::post('/updateStation/{name}', [UpdateController::class, 'updateStation'])->name('updateStation')->middleware(['auth']);
 // Station Type
+Route::get('/searchStationType',[SearchController::class, 'searchStationType'])->name('searchStationType')->middleware(['auth']);
 Route::get('/station-type', [AdminController::class, 'showStationType'])->name('station-type')->middleware(['auth']);
-Route::get('/searchStationType',[SearchController::class, 'searchStationType'])->name('searchStationType');
-Route::post('/addStationType', [AdminController::class, 'addStationType'])->name('addStationType');
-Route::delete('/deleteStationType/{name}', [DeleteController::class, 'deleteStationType'])->name('deleteStationType');
-Route::get('/showStationType/{name}', [UpdateController::class, 'showStationType'])->name('showStationType');
-Route::post('/updateStationType/{name}', [UpdateController::class, 'updateStationType'])->name('updateStationType');
+Route::post('/addStationType', [AdminController::class, 'addStationType'])->name('addStationType')->middleware(['auth']);
+Route::delete('/deleteStationType/{name}', [DeleteController::class, 'deleteStationType'])->name('deleteStationType')->middleware(['auth']);
+Route::get('/showStationType/{name}', [UpdateController::class, 'showStationType'])->name('showStationType')->middleware(['auth']);
+Route::post('/updateStationType/{name}', [UpdateController::class, 'updateStationType'])->name('updateStationType')->middleware(['auth']);
 // Equipment
+Route::get('/searchEquipment',[SearchController::class, 'searchEquipment'])->name('searchEquipment')->middleware(['auth']);
 Route::get('/equipment', [AdminController::class, 'showEquipment'])->name('equipment')->middleware(['auth']);
-Route::get('/searchEquipment',[SearchController::class, 'searchEquipment'])->name('searchEquipment');
-Route::post('/addEquipment', [AdminController::class, 'addEquipment'])->name('addEquipment');
-Route::delete('/deleteEquipment/{SN}',[DeleteController::class, 'deleteEquipment'])->name('deleteEquipment');
-Route::get('/showEquipment/{name}', [UpdateController::class, 'showEquipment'])->name('showEquipment');
-Route::post('/updateEquipment/{name}', [UpdateController::class, 'updateEquipment'])->name('updateEquipment');
+Route::post('/addEquipment', [AdminController::class, 'addEquipment'])->name('addEquipment')->middleware(['auth']);
+Route::delete('/deleteEquipment/{SN}',[DeleteController::class, 'deleteEquipment'])->name('deleteEquipment')->middleware(['auth']);
+Route::get('/showEquipment/{name}', [UpdateController::class, 'showEquipment'])->name('showEquipment')->middleware(['auth']);
+Route::post('/updateEquipment/{name}', [UpdateController::class, 'updateEquipment'])->name('updateEquipment')->middleware(['auth']);
 // Equipment Type
+Route::get('/searchEquipmentType',[SearchController::class, 'searchEquipmentType'])->name('searchEquipmentType')->middleware(['auth']);
 Route::get('/equipment-type', [AdminController::class, 'showEquipmentType'])->name('equipment-type')->middleware(['auth']);
-Route::get('/searchEquipmentType',[SearchController::class, 'searchEquipmentType'])->name('searchEquipmentType');
-Route::post('/addEquipmentType', [AdminController::class, 'addEquipmentType'])->name('addEquipmentType');
-Route::delete('/deleteEquipmentType/{name}', [DeleteController::class, 'deleteEquipmentType'])->name('deleteEquipmentType');
-Route::get('/showEquipmentType/{name}', [UpdateController::class, 'showEquipmentType'])->name('showEquipmentType');
-Route::post('/updateEquipmentType/{name}', [UpdateController::class, 'updateEquipmentType'])->name('updateEquipmentType');
+Route::post('/addEquipmentType', [AdminController::class, 'addEquipmentType'])->name('addEquipmentType')->middleware(['auth']);
+Route::delete('/deleteEquipmentType/{name}', [DeleteController::class, 'deleteEquipmentType'])->name('deleteEquipmentType')->middleware(['auth']);
+Route::get('/showEquipmentType/{name}', [UpdateController::class, 'showEquipmentType'])->name('showEquipmentType')->middleware(['auth']);
+Route::post('/updateEquipmentType/{name}', [UpdateController::class, 'updateEquipmentType'])->name('updateEquipmentType')->middleware(['auth']);
 // end of admin routes

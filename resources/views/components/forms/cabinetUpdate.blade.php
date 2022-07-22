@@ -2,6 +2,7 @@
 document.querySelector('#searchBar').setProperty("display", "none", "important");
 hide();
 </script>
+@section('title', 'Layout | Update network cabinet')
 @extends('dashboard')
 
 @section('component')

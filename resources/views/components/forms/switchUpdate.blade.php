@@ -1,3 +1,4 @@
+@section('title', 'Layout | Update Switch')
 @extends('dashboard')
 
 @section('component')

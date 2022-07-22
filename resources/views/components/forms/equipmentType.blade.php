@@ -1,3 +1,4 @@
+@section('title', 'Layout | New equipment type')
 @extends('dashboard')
 
 @section('component')

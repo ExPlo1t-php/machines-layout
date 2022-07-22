@@ -1,3 +1,4 @@
+@section('title', 'Layout | New station')
 @extends('dashboard')
 
 @section('component')

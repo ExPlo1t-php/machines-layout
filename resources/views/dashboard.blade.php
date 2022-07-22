@@ -1,4 +1,5 @@
 <x-app-layout>
+    @section('title', 'Layout | dashboard')
 
 
     <div id="box" class="py-6">

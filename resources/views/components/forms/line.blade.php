@@ -1,3 +1,4 @@
+@section('title', 'Layout | New Assembly line')
 @extends('dashboard')
 
 @section('component')

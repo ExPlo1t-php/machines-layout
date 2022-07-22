@@ -1,3 +1,4 @@
+@section('title', 'Layout | New network cabinet')
 @extends('dashboard')
 
 @section('component')
