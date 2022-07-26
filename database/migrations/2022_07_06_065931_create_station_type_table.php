@@ -14,7 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::create('station_type', function (Blueprint $table) {
-            $table->string('name', 20)->primary();
+            $table->id();
+            $table->string('name', 20)->unique();
             $table->longText('description')->nullable();
             $table->string('icon');
         });

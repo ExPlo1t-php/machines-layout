@@ -2,6 +2,7 @@
 @extends('dashboard')
 
 @section('component')
+
 <form class="w-full max-w-lg flex-col self-center" method="POST" action="/updateStation/{{$station[$index]->name}}" enctype="multipart/form-data">
     @csrf
     
@@ -23,7 +24,7 @@
           Station type
         </label>
         
-        <select name="type"
+        <select name="type" id="type"
         onchange="let add = document.querySelector('.add');
         if(this.options[this.selectedIndex] == add){
         window.location = add.value;
@@ -54,8 +55,33 @@
           <input value="{{$station[$index]->supplier}}" name="supplier" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="text" placeholder="Supplier's name">
         </div>
       </div>
+      <script>
+        if($('#type').val()=='bnb'){
+        var i = 3;
+        for (i; i >= 1 ; i--) {
+            var elem =  "<div id='ipAddr"+[i]+"' class='flex flex-wrap -mx-3 mb-6'><div class='w-full px-3'><label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='grid-password'>ip address "+[i]+"</label><input name='ipAddr"+[i]+"' class='appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500' id='grid-password' type='text' placeholder='ip address "+[i]+"'></div></div>";
+            // console.log(i);
+           $(elem).insertAfter( "#ip" );
+          }
+      }
 
-      <div class="flex flex-wrap -mx-3 mb-6">
+      // adding 3 inputs of ip if type == bnb
+  $('#type').on('change', function() {
+    if(this.value == 'bnb'){
+      var i = 3;
+      for (i; i >= 1 ; i--) {
+          var elem =  "<div id='ipAddr"+[i]+"' class='flex flex-wrap -mx-3 mb-6'><div class='w-full px-3'><label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='grid-password'>ip address "+[i]+"</label><input name='ipAddr"+[i]+"' class='appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500' id='grid-password' type='text' placeholder='ip address "+[i]+"'></div></div>";
+          // console.log(i);
+         $(elem).insertAfter("#ipAddr");
+        }
+    }else{
+    for (let j= 3; j >= 1 ; j--) {
+      $(`#ipAddr${[j]}`).remove();
+    }
+  }
+});
+    </script>
+      <div class="flex flex-wrap -mx-3 mb-6" id="ipAddr">
         <div class="w-full px-3">
           <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
             main ip address
@@ -63,6 +89,33 @@
           <input value="{{$station[$index]->mainIpAddr}}" name="mainIpAddr" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="text" placeholder="Main ip address format(xxx.xxx.xxx.xxx)">
         </div>
       </div>
+
+      @if ($station[$index]->type == 'bnb')
+      <div class="flex flex-wrap -mx-3 mb-6">
+        <div class="w-full px-3">
+          <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
+            Ip address 1
+          </label>
+          <input value="{{$station[$index]->IpAddr1}}" name="ipAddr1" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="text" placeholder="Ip address 1">
+        </div>
+      </div>
+      <div class="flex flex-wrap -mx-3 mb-6">
+        <div class="w-full px-3">
+          <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
+            Ip address 2
+          </label>
+          <input value="{{$station[$index]->IpAddr2}}" name="ipAddr2" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="text" placeholder="Ip address 2">
+        </div>
+      </div>
+      <div class="flex flex-wrap -mx-3 mb-6">
+        <div class="w-full px-3">
+          <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
+            Ip address 3
+          </label>
+          <input value="{{$station[$index]->IpAddr3}}" name="ipAddr3" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="text" placeholder="Ip address 3">
+        </div>
+      </div>
+      @endif
 
       <div class="flex flex-wrap -mx-3 mb-6">
         <div class="w-full px-3">
@@ -150,5 +203,6 @@
     </div>
     {{-- error handling --}}
     </form>
+
     
 @endsection

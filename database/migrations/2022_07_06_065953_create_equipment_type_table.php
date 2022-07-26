@@ -14,8 +14,9 @@ return new class extends Migration
     public function up()
     {
         Schema::create('equipment_type', function (Blueprint $table) {
-            $table->string('name', 20)->primary();
-            $table->string('description');
+            $table->id();
+            $table->string('name', 20)->unique();
+            $table->string('description')->nullable();
             $table->string('icon');
         });
     }

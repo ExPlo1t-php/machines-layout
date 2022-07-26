@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('supplier');
             $table->string('IpAddr', 15)->unique();
             $table->integer('port');
-            $table->longText('description');
+            $table->longText('description')->nullable();
             // foreign key
             $table->string('type');
             $table->foreign('type')->references('name')->on('equipment_type');

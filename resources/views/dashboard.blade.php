@@ -26,6 +26,7 @@
     </div>
     {{-- search bar --}}
     <div class="table w-full flex  p-4 bg-gray-200">
+        @if (Route::current()->getName() !== 'dashboard')
         <div id="searchBar" class="flex justify-center ">
             <h1 class="m-3 text-center text-xl">Available elements</h1>
             <div class="form-group flex place-items-center justify-items-center items-center">
@@ -33,10 +34,6 @@
                 type="search" id="search" name="search" placeholder="Search">
             </div>
         </div>
-        @if (Route::current()->getName() === 'dashboard')
-            <script>
-                hide();
-            </script>
         @endif
         
         @yield('table')

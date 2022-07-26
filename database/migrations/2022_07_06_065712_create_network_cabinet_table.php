@@ -14,7 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::create('network_cabinet', function (Blueprint $table) {
-            $table->string('name', 20)->primary();
+            $table->id();
+            $table->string('name', 20)->unique();
             $table->string('zone', 20);
             $table->longText('description')->nullable();
         });

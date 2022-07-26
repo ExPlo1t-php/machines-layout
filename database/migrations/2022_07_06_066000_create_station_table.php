@@ -18,6 +18,9 @@ return new class extends Migration
             $table->string('SN')->unique()->primary();
             $table->string('supplier');
             $table->string('mainIpAddr', 15)->unique();
+            $table->string('IpAddr1', 15)->unique()->nullable();
+            $table->string('IpAddr2', 15)->unique()->nullable();
+            $table->string('IpAddr3', 15)->unique()->nullable();
             $table->integer('port');
             $table->longText('description')->nullable();
             // foreign key
