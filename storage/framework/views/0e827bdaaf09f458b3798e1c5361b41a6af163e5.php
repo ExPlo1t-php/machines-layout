@@ -15,11 +15,14 @@
         <!-- Custom style -->
         <link rel="stylesheet" href="/css/tips.css">
         <link rel="stylesheet" href="https://demos.creative-tim.com/notus-js/assets/styles/tailwind.css">
+        <link rel="stylesheet" href="https://unpkg.com/flowbite@1.5.1/dist/flowbite.min.css" />
 
         <!-- Scripts -->
         <?php echo app('Illuminate\Foundation\Vite')(['resources/css/app.css', 'resources/js/app.js']); ?>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
         <script src="//unpkg.com/alpinejs" defer></script>
+        <script src="https://unpkg.com/flowbite@1.5.1/dist/flowbite.js"></script>
+        <script src="../path/to/flowbite/dist/flowbite.js"></script>
         <script src="/js/jquery-3.6.0.min.js"></script>
         <script src="/js/delete.js"></script>
         <script src="/js/hideStuff.js"></script>

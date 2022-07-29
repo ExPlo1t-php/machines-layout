@@ -16,7 +16,7 @@
         
         
         <?php $__currentLoopData = $stations->skip(0)->take(4); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $station): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-        <div onclick="location.href='/stationInfo/<?php echo e($station->name); ?>'" class="<?php echo e($station->name); ?> w-fit h-fit p-3 mx-5 z-0 text-xs flex-col items-center justify-center text-center text-white bg-black/40 hover:bg-black/10 cursor-pointer hover:text-violet-900">
+        <div onclick="location.href='/stationInfo/<?php echo e($station->name); ?>'" class="<?php echo e($station->name); ?> w-28 h-56 p-3 mx-5 z-0 text-xs flex-col items-center justify-center text-center text-white bg-black/40 hover:bg-black/10 cursor-pointer hover:text-violet-900">
             <div class="flex items-center justify-center">
                 <h1><?php echo e($station->name); ?></h1>
                 <?php
@@ -26,10 +26,10 @@
                         echo  '<i class="fa-solid fa-circle w-1/12 text-xs text-red-600"></i>';
                         // echo '<p class="text-xs">'.print_r($ping).'</p>';
                     }elseif ($status == 0) {
-                        echo  '<i class="fa-solid fa-circle text-green-500"></i>';
+                        echo  '<i class="fa-solid fa-circle w-1/12 text-xs text-green-500"></i>';
                         // echo '<p class="text-xs">'.print_r($ping).'</p>';
                     }else{
-                        echo  '<i class="fa-solid fa-circle text-orange-500"></i>';
+                        echo  '<i class="fa-solid fa-circle w-1/12 text-xs text-orange-500"></i>';
                         // echo '<p class="text-xs">'.print_r($ping).'</p>';
                     }
                     ?>
@@ -44,7 +44,7 @@
     </div>
     <div class="container w-full h-fit right border-2 border-current mx-auto ml-1 grid gap-6 grid-cols-6 grid-rows-1 p-5 h-screen place-items-center flex ">
         <?php $__currentLoopData = $stations->skip(4)->take(3); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $station): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-        <div onclick="location.href='/stationInfo/<?php echo e($station->name); ?>'" class="<?php echo e($station->name); ?> w-fit h-fit p-3 mx-5 z-0 text-xs flex-col items-center justify-center text-center text-white bg-black/40 hover:bg-black/10 cursor-pointer hover:text-violet-900">
+        <div onclick="location.href='/stationInfo/<?php echo e($station->name); ?>'" class="<?php echo e($station->name); ?> w-28 h-56 p-3 mx-5 z-0 text-xs flex-col items-center justify-center text-center text-white bg-black/40 hover:bg-black/10 cursor-pointer hover:text-violet-900">
             <div class="flex items-center justify-center">
                 <h1><?php echo e($station->name); ?></h1>
                 <?php
@@ -78,7 +78,7 @@
         
         
         <?php $__currentLoopData = $stations->skip(0)->take(4); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $station): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-        <div onclick="location.href='/stationInfo/<?php echo e($station->name); ?>'" class="<?php echo e($station->name); ?> w-fit h-fit p-3 mx-5 z-0 text-xs flex-col items-center justify-center text-center text-white bg-black/40 hover:bg-black/10 cursor-pointer hover:text-violet-900">
+        <div onclick="location.href='/stationInfo/<?php echo e($station->name); ?>'" class="<?php echo e($station->name); ?> w-28 h-56 p-3 mx-5 z-0 text-xs flex-col items-center justify-center text-center text-white bg-black/40 hover:bg-black/10 cursor-pointer hover:text-violet-900">
             <div class="flex items-center justify-center">
                 <h1><?php echo e($station->name); ?></h1>
                 <?php
@@ -106,7 +106,7 @@
     </div>
     <div class="bot container w-full h-fit border-2 border-current mx-auto ml-1 grid gap-6 grid-cols-6 grid-rows-1 p-5 h-screen place-items-center flex ">
         <?php $__currentLoopData = $stations->skip(4)->take(3); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $station): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-        <div onclick="location.href='/stationInfo/<?php echo e($station->name); ?>'" class="<?php echo e($station->name); ?> w-fit h-fit p-3 mx-5 z-0 text-xs flex-col items-center justify-center text-center text-white bg-black/40 hover:bg-black/10 cursor-pointer hover:text-violet-900">
+        <div onclick="location.href='/stationInfo/<?php echo e($station->name); ?>'" class="<?php echo e($station->name); ?> w-28 h-56 p-3 mx-5 z-0 text-xs flex-col items-center justify-center text-center text-white bg-black/40 hover:bg-black/10 cursor-pointer hover:text-violet-900">
             <div class="flex items-center justify-center">
                 <h1><?php echo e($station->name); ?></h1>
                 <?php

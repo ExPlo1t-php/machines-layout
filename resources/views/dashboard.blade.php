@@ -11,7 +11,7 @@
             </div>
         </div>
     </div>
-    <div class="flex justify-around">
+    <div class="flex justify-around" id="forms">
         <x-adminControls>
             @if (Route::currentRouteName()=='dashboard')
             <div class="text-center">
@@ -25,7 +25,7 @@
         </x-adminControls>
     </div>
     {{-- search bar --}}
-    <div class="table w-full flex  p-4 bg-gray-200">
+    <div class="table w-full flex  p-4 bg-gray-200" id="table">
         @if (Route::current()->getName() !== 'dashboard')
         <div id="searchBar" class="flex justify-center ">
             <h1 class="m-3 text-center text-xl">Available elements</h1>

@@ -1,4 +1,4 @@
-<p align="center"><img src="public/assets/images/logo.png" width="400" style="background:#fff; border-radius:50% ;"></p>
+<p align="center"><img src="public/assets/images/logo-white.png" width="400" style="background:#fff; border-radius:50% ;"></p>
 
 
 ## About VARROC
