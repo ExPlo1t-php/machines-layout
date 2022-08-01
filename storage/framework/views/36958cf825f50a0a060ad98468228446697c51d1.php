@@ -7,36 +7,23 @@
 <?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
 <?php endif; ?>
 <?php $component->withAttributes([]); ?>
+    <?php $__env->startSection('title', 'Layout | Assembly lines layout'); ?>
     <link rel="stylesheet" href="/css/draggable.css">
     <div class="flex">
         <div class="container left mx-auto grid gap-4 grid-cols-8 grid-rows-1 p-5 h-screen">
-            <div class="p1mt w-full h-full mx-5 z-0 flex items-center justify-center text-center text-white bg-teal-800">
-                <h1>1</h1>
+            <?php $__currentLoopData = $lines->skip(0)->take(4); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $line): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+            <div onclick="location.href='/lineInfo/<?php echo e($line->name); ?>'" class="p1mt w-full h-full mx-5 z-0 flex items-center justify-center text-center text-white bg-black/40 hover:bg-black/10 cursor-pointer hover:text-violet-900">
+                <h1><?php echo e($line->name); ?></h1>
             </div>
-            <div class="p2x w-full h-full mx-5 z-1 flex items-center justify-center text-center text-white bg-teal-600">
-                <h1>2</h1>
-            </div>
-            <div class="xji w-full h-full mx-5 z-2 flex items-center justify-center text-center text-white bg-red-800">
-                <h1>3</h1>
-            </div>
-            <div class="xjk w-full h-full mx-5 z-3 flex items-center justify-center text-center text-white bg-orange-600">
-                <h1>4</h1>
-            </div>
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
         </div>
         <div class="container right  mx-auto grid gap-4 grid-cols-8 grid-rows-1 p-5 h-screen">
-            <div class="p1mt w-full h-full mx-5 z-0 flex items-center justify-center text-center text-white bg-teal-800">
-        <h1>P1MT</h1>
-    </div>
-    <div class="p2x w-full h-full mx-5 z-1 flex items-center justify-center text-center text-white bg-teal-600">
-        <h1>P2X</h1>
-    </div>
-    <div class="xji w-full h-full mx-5 z-2 flex items-center justify-center text-center text-white bg-red-800">
-        <h1>XJI</h1>
-    </div>
-    <div class="xjk w-full h-full mx-5 z-3 flex items-center justify-center text-center text-white bg-orange-600">
-        <h1>XJK</h1>
-    </div>
-</div>
+            <?php $__currentLoopData = $lines->skip(4)->take(3); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $line): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+            <div class="p1mt w-full h-full mx-5 z-0 flex items-center justify-center text-center text-white bg-black/40 hover:bg-black/10 cursor-pointer hover:text-violet-900">
+                <h1><?php echo e($line->name); ?></h1>
+            </div>
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+        </div>
 
 </div>
  <?php echo $__env->renderComponent(); ?>

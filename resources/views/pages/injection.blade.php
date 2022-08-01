@@ -1,9 +1,8 @@
 <x-app-layout>
+    @section('title', 'Layout | Injection layout')
     <link rel="stylesheet" href="/css/draggable.css">
     {{-- -----------------------------top section--------------------------- --}}
     <div class="flex place-content-evenly grid grid-cols-2 gap-4 w-full mb-24">
-
-        
     <div class="container w-full h-fit left border-2 border-current mx-auto ml-1 grid gap-6 grid-cols-6 grid-rows-1 p-5 h-screen place-items-center flex ">
         {{-- @foreach ($stations->where('name', '=', 'sugogomous') as $station) --}}
         @foreach ($stations->skip(0)->take(4) as $station)
@@ -11,6 +10,7 @@
             <div class="flex items-center justify-center">
                 <h1>{{$station->name}}</h1>
                 @php
+ 
                     $ip = $station->mainIpAddr;
                     $ping = exec('ping -n 1 '.$ip, $output, $status);
                     if($status == 1){
@@ -26,9 +26,11 @@
                     @endphp
             </div>
             <h1>{{$station->mainIpAddr}}</h1>
-            
-            
-            <img src="/assets/images/machines/bnb.png" alt="{{$station->name}}" class="m-auto p-0 object-fit ">
+            @php
+                $index = $type->where('name', '=', $station->type)->keys()[0];
+                $stType = $type->where('name', '=', $station->type)[$index];
+            @endphp
+            <img src="/assets/images/machines/{{$stType->icon}}" alt="{{$station->name}}" class="m-auto p-0 object-fit ">
         </div>
         @endforeach
 
@@ -54,8 +56,7 @@
                 @endphp
             </div>
             <h1>{{$station->mainIpAddr}}</h1>
-            
-            <img src="/assets/images/machines/bnb.png" alt="{{$station->name}}" class="m-auto p-0 object-fit ">
+            <img src="/assets/images/machines/{{$stType->icon}}" alt="{{$station->name}}" class="m-auto p-0 object-fit ">
         </div>
         @endforeach
     </div>
@@ -89,8 +90,7 @@
             </div>
             <h1>{{$station->mainIpAddr}}</h1>
             
-            
-            <img src="/assets/images/machines/bnb.png" alt="{{$station->name}}" class="m-auto p-0 object-fit ">
+            <img src="/assets/images/machines/{{$stType->icon}}" alt="{{$station->name}}" class="m-auto p-0 object-fit ">
         </div>
         @endforeach
 
@@ -117,7 +117,7 @@
             </div>
             <h1>{{$station->mainIpAddr}}</h1>
             
-            <img src="/assets/images/machines/bnb.png" alt="{{$station->name}}" class="m-auto p-0 object-fit ">
+            <img src="/assets/images/machines/{{$stType->icon}}" alt="{{$station->name}}" class="m-auto p-0 object-fit ">
         </div>
         @endforeach
     </div>

@@ -17,8 +17,9 @@ return new class extends Migration
             $table->increments('switchId');
             $table->string('ipAddr');
             $table->integer('portsNum');
+            
             // foreign key
-            $table->string('cabName', 20)->unique();
+            $table->string('cabName', 20)->unique() ->onUpdate('cascade');
             $table->foreign('cabName')->references('name')->on('network_cabinet');
         });
         

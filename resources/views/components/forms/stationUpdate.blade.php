@@ -3,23 +3,20 @@
 
 @section('component')
 
-<form class="w-full max-w-lg flex-col self-center" method="POST" action="/updateStation/{{$station[$index]->name}}" enctype="multipart/form-data">
+<form class="w-full max-w-2xl flex-col self-center" method="POST" action="/updateStation/{{$station[$index]->name}}" enctype="multipart/form-data">
     @csrf
     
-    <div class="flex flex-wrap -mx-3 mb-6">
-      <div class="w-full px-3">
+    <div class="flex justify-between">
+      <x-formInput class="w-full mr-3">
         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
           Station name
         </label>
-        <input value="{{$station[$index]->name}}" name="name" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="text" placeholder="station name">
-      </div>
-    </div>
-    
-    <div class="help-tip">
-      <p>This is the inline help tip! It can contain all kinds of HTML. Style it as you please.</p>
-  </div>
-    <div class="flex flex-wrap -mx-3 mb-6">
-      <div class="w-full px-3">
+        <input name="name" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="text" placeholder="station name">
+      </x-formInput>
+      
+      
+    <div class="flex flex-wrap mb-6 w-full">
+      <div class="w-full">
         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
           Station type
         </label>
@@ -31,12 +28,12 @@
         }"
         {{-- select option -> add button --}}
         class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password">
-          <option value="{{$station[$index]->type}}" selected hidden >{{$station[$index]->type}}</option>
+          <option value="null" selected disabled hidden >- select a station type -</option>
           {{-- fetching cabinet data to load in select menu --}}
           @php
               use App\Models\StationType;
               $types = StationType::get();
-          @endphp
+              @endphp
           @foreach ($types as $type)
           <option value="{{$type['name']}}"> {{$type['name']}}</option>
           @endforeach
@@ -45,16 +42,24 @@
         </select>
       </div>
     </div>
+  </div>
+    
+  <div class="flex justify-between">
+    <x-formInput class="w-full mr-3">
+    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
+      Station's serial number
+    </label>
+    <input name="SN" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="number" placeholder="serial number">
+  </x-formInput>
 
+  <x-formInput>
+    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
+      Supplier
+    </label>
+    <input name="supplier" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="text" placeholder="Supplier's name">
+  </x-formInput>
+</div>
 
-      <div class="flex flex-wrap -mx-3 mb-6">
-        <div class="w-full px-3">
-          <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
-            Supplier
-          </label>
-          <input value="{{$station[$index]->supplier}}" name="supplier" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="text" placeholder="Supplier's name">
-        </div>
-      </div>
       <script>
         if($('#type').val()=='bnb'){
         var i = 3;

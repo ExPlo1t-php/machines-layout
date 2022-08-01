@@ -17,6 +17,11 @@
                <!-- Settings Dropdown -->
                <div class=" flex-col sm:flex-col sm:items-center sm:ml-6 text-center mt-10">
                <div class="text-xl text-indigo-900">{{ Auth::user()->name }}</div>
+                <div class="pt-4 pb-1 border-t border-gray-200">
+                    <div class="px-4">
+                        <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
+                    </div>
+                </div>
                
                <!-- Authentication -->
                <form method="get" action="{{ route('dashboard') }}">
@@ -38,8 +43,8 @@
                     </x-dropdown-link>
                 </form>
                 
-                <div class="text-md text-italic text-indigo-900 mt-6">Admin controls</div>
-                <ul class="flex flex-col">
+                <div class="text-md text-italic text-indigo-900 mt-6 ">Admin controls</div>
+                <ul class="flex flex-col pt-4 pb-1 border-t border-gray-200">
                     <x-dashboard-buttons :href="route('cabinet')" :active="request()->routeIs('cabinet')">
                     {{ __('Add a Network cabinet') }}
                 </x-dashboard-buttons>
@@ -63,11 +68,23 @@
                 </x-dashboard-buttons>
                 </ul>
             </div>
+            </div>
                @else
                 <div class="flex-col sm:flex-col sm:items-center sm:ml-6 text-center mt-10">
                     <x-dropdown-link :href="route('login')" class="text-xl"> {{ __('Login') }}</x-dropdown-link>
                     <p class="text-xs text-gray-400">There's no user connected <span class="text-indigo-500">Log In</span> to unlock admin controls</p>
                     </div>
+                    <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
+                        <div class="pt-2 pb-3 space-y-1">
+                    <x-responsive-nav-link :href="route('home')" :active="request()->routeIs('home')">
+                        {{ __('General Layout') }}
+                    </x-responsive-nav-link>
+                    <x-responsive-nav-link :href="route('injection')" :active="request()->routeIs('injection')">
+                        {{ __('Injection') }}
+                    </x-responsive-nav-link>
+                    <x-responsive-nav-link :href="route('assembly')" :active="request()->routeIs('assembly')">
+                        {{ __('Assembly') }}
+                    </x-responsive-nav-link>
                @endif
 
  </div>

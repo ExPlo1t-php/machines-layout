@@ -9,7 +9,7 @@
     @csrf
 
     <div class="flex justify-between">
-      <x-formInput>
+      <x-formInput class="w-full mr-3">
         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
           Station name
         </label>
@@ -17,8 +17,8 @@
       </x-formInput>
       
       
-    <div class="flex flex-wrap mx-3 mb-6 w-full">
-      <div class="w-full px-3">
+    <div class="flex flex-wrap mb-6 w-full">
+      <div class="w-full">
         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
           Station type
         </label>
@@ -47,7 +47,7 @@
   </div>
     
   <div class="flex justify-between">
-    <x-formInput>
+    <x-formInput class="w-full mr-3">
     <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
       Station's serial number
     </label>
@@ -67,7 +67,7 @@
         if($('#type').val()=='bnb'){
         var i = 3;
         for (i; i >= 1 ; i--) {
-            var elem =  "<div id='ipAddr"+[i]+"' class='flex flex-wrap mx-3 mb-6'><div class='w-full px-3'><label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='grid-password'>ip address "+[i]+"</label><input name='ipAddr"+[i]+"' class='appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500' id='grid-password' type='text' placeholder='ip address "+[i]+"'></div></div>";
+            var elem =  "<div id='ipAddr"+[i]+"' class='flex flex-wrap  mb-6'><div class='w-full'><label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='grid-password'>ip address "+[i]+"</label><input name='ipAddr"+[i]+"' class='appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500' id='grid-password' type='text' placeholder='ip address "+[i]+"'></div></div>";
             // console.log(i);
            $(elem).insertAfter( "#ip" );
           }
@@ -76,7 +76,7 @@
     if(this.value == 'bnb'){
       var i = 3;
       for (i; i >= 1 ; i--) {
-          var elem =  "<div id='ipAddr"+[i]+"' class='flex flex-wrap mx-3 mb-6'><div class='w-full px-3'><label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='grid-password'>ip address "+[i]+"</label><input name='ipAddr"+[i]+"' class='appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500' id='grid-password' type='text' placeholder='ip address "+[i]+"'></div></div>";
+          var elem =  "<div id='ipAddr"+[i]+"' class='flex flex-wrap  mb-6'><div class='w-full'><label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='grid-password'>ip address "+[i]+"</label><input name='ipAddr"+[i]+"' class='appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500' id='grid-password' type='text' placeholder='ip address "+[i]+"'></div></div>";
           // console.log(i);
          $(elem).insertAfter( "#ip" );
         }
@@ -101,8 +101,8 @@
       <input name="port" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="text" placeholder="station port number">
     </x-formInput>
 
- <div class="flex flex-wrap mx-3 mb-6 w-full">
-  <div class="w-full px-3">
+ <div class="flex flex-wrap mb-6 w-full">
+  <div class="w-full">
     <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
       switch name
     </label>
@@ -128,8 +128,8 @@
   </div>
 </div>
 
-  <div class="flex flex-wrap mx-3 mb-6 w-full">
-    <div class="w-full px-3">
+  <div class="flex flex-wrap  mb-6 w-full">
+    <div class="w-full">
       <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
         Assembly line name
       </label>
@@ -200,7 +200,7 @@
   if($('#type').value=='bnb'){
     var i = 3;
     for (i; i >= 1 ; i--) {
-        var elem =  "<div id='ipAddr"+[i]+"' class='flex flex-wrap mx-3 mb-6'><div class='w-full px-3'><label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='grid-password'>ip address "+[i]+"</label><input name='ipAddr"+[i]+"' class='appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500' id='grid-password' type='text' placeholder='ip address "+[i]+"'></div></div>";
+        var elem =  "<div id='ipAddr"+[i]+"' class='flex flex-wrap  mb-6'><div class='w-full'><label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='grid-password'>ip address "+[i]+"</label><input name='ipAddr"+[i]+"' class='appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500' id='grid-password' type='text' placeholder='ip address "+[i]+"'></div></div>";
         // console.log(i);
        $(elem).insertAfter( "#ip" );
       }

@@ -7,19 +7,18 @@
 <?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
 <?php endif; ?>
 <?php $component->withAttributes([]); ?>
+    
     <link rel="stylesheet" href="/css/draggable.css">
     
     <div class="flex place-content-evenly grid grid-cols-2 gap-4 w-full mb-24">
-
-        
     <div class="container w-full h-fit left border-2 border-current mx-auto ml-1 grid gap-6 grid-cols-6 grid-rows-1 p-5 h-screen place-items-center flex ">
-        
         
         <?php $__currentLoopData = $stations->skip(0)->take(4); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $station): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
         <div onclick="location.href='/stationInfo/<?php echo e($station->name); ?>'" class="<?php echo e($station->name); ?> w-28 h-56 p-3 mx-5 z-0 text-xs flex-col items-center justify-center text-center text-white bg-black/40 hover:bg-black/10 cursor-pointer hover:text-violet-900">
             <div class="flex items-center justify-center">
                 <h1><?php echo e($station->name); ?></h1>
                 <?php
+ 
                     $ip = $station->mainIpAddr;
                     $ping = exec('ping -n 1 '.$ip, $output, $status);
                     if($status == 1){
@@ -35,9 +34,11 @@
                     ?>
             </div>
             <h1><?php echo e($station->mainIpAddr); ?></h1>
-            
-            
-            <img src="/assets/images/machines/bnb.png" alt="<?php echo e($station->name); ?>" class="m-auto p-0 object-fit ">
+            <?php
+                $index = $type->where('name', '=', $station->type)->keys()[0];
+                $stType = $type->where('name', '=', $station->type)[$index];
+            ?>
+            <img src="/assets/images/machines/<?php echo e($stType->icon); ?>" alt="<?php echo e($station->name); ?>" class="m-auto p-0 object-fit ">
         </div>
         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
@@ -63,8 +64,7 @@
                 ?>
             </div>
             <h1><?php echo e($station->mainIpAddr); ?></h1>
-            
-            <img src="/assets/images/machines/bnb.png" alt="<?php echo e($station->name); ?>" class="m-auto p-0 object-fit ">
+            <img src="/assets/images/machines/<?php echo e($stType->icon); ?>" alt="<?php echo e($station->name); ?>" class="m-auto p-0 object-fit ">
         </div>
         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
     </div>
@@ -98,8 +98,7 @@
             </div>
             <h1><?php echo e($station->mainIpAddr); ?></h1>
             
-            
-            <img src="/assets/images/machines/bnb.png" alt="<?php echo e($station->name); ?>" class="m-auto p-0 object-fit ">
+            <img src="/assets/images/machines/<?php echo e($stType->icon); ?>" alt="<?php echo e($station->name); ?>" class="m-auto p-0 object-fit ">
         </div>
         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
@@ -126,7 +125,7 @@
             </div>
             <h1><?php echo e($station->mainIpAddr); ?></h1>
             
-            <img src="/assets/images/machines/bnb.png" alt="<?php echo e($station->name); ?>" class="m-auto p-0 object-fit ">
+            <img src="/assets/images/machines/<?php echo e($stType->icon); ?>" alt="<?php echo e($station->name); ?>" class="m-auto p-0 object-fit ">
         </div>
         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
     </div>

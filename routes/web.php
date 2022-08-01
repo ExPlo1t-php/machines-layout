@@ -4,10 +4,14 @@ use Illuminate\Support\Facades\Route;
 // controllers
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\DeleteController;
+use App\Http\Controllers\LineController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\StationsController;
 use App\Http\Controllers\UpdateController;
+use App\Models\Equipment;
+use App\Models\Line;
 use App\Models\Station;
+use App\Models\StationType;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,18 +42,23 @@ Route::get('/home', function () {
 // @everyone
 // pages router
 Route::get('/assembly', function(){
-    return view('pages.assembly');
+    $lines = Line::get();
+    return view('pages.assembly', ['lines'=>$lines]);
 })->name('assembly');
 // ⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️
 Route::get('/injection', function(){
     $stations = Station::get();
-    return view('pages.injection', ['stations'=>$stations]);
+    $type = StationType::get();
+    return view('pages.injection', ['stations'=>$stations, 'type'=>$type]);
 })->name('injection');
 
 // admin routes ------------------------------------------------------------------------------------------------------------------
 // data showing routes
 // stationinfo
 Route::get('/stationInfo/{name}', [StationsController::class, 'stationInfo'])->name('stationInfo');
+//assembly line inner layout
+Route::get('/lineInfo/{type}', [LineController::class, 'lineInfo'])->name('lineInfo');
+
 // data management routes add - delete - update - search ------------------------------------------------------------------------ 
 // network cabinet
 Route::get('/searchCabinet',[SearchController::class, 'searchCabinet'])->name('searchCabinet')->middleware(['auth']);

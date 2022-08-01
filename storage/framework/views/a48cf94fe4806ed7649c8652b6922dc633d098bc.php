@@ -19,7 +19,7 @@
             </div>
         </div>
     </div>
-    <div class="flex justify-around">
+    <div class="flex justify-around" id="forms">
         <?php if (isset($component)) { $__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4 = $component; } ?>
 <?php $component = $__env->getContainer()->make(Illuminate\View\AnonymousComponent::class, ['view' => 'components.adminControls','data' => []] + (isset($attributes) ? (array) $attributes->getIterator() : [])); ?>
 <?php $component->withName('adminControls'); ?>
@@ -46,7 +46,7 @@
 <?php endif; ?>
     </div>
     
-    <div class="table w-full flex  p-4 bg-gray-200">
+    <div class="table w-full flex  p-4 bg-gray-200" id="table">
         <?php if(Route::current()->getName() !== 'dashboard'): ?>
         <div id="searchBar" class="flex justify-center ">
             <h1 class="m-3 text-center text-xl">Available elements</h1>

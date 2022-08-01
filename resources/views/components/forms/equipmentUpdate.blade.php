@@ -2,8 +2,25 @@
 @extends('dashboard')
 
 @section('component')
-<form class="w-full max-w-lg flex-col self-center" method="POST" action="/updateEquipment/{{$equipment[$index]->name}}" enctype="multipart/form-data">
+<form class="w-full max-w-2xl flex-col self-center" method="POST" action="/updateEquipment/{{$equipment[$index]->name}}" enctype="multipart/form-data">
     @csrf
+
+    <div class="flex justify-between">
+      <x-formInput class="pr-3 w-full">
+        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
+        equipment name
+        </label>
+        <input name="name" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="text" placeholder="equipment name">
+      </x-formInput>
+  
+        <x-formInput>
+          <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
+            Equipment Supplier
+          </label>
+          <input value="{{$equipment[$index]->supplier}}" name="supplier" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="text" placeholder="Supplier's name">
+          </x-formInput>
+        </div>
+
       <div class="flex flex-wrap -mx-3 mb-6">
         <div class="w-full px-3">
           <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
@@ -28,24 +45,6 @@
   
             <option class="add" value="equipment-type">&#x2b; Add a new equipment type</option>
           </select>
-        </div>
-      </div>
-
-      <div class="flex flex-wrap -mx-3 mb-6">
-        <div class="w-full px-3">
-          <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
-            equipment name
-          </label>
-          <input value="{{$equipment[$index]->name}}" name="name" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="text" placeholder="equipment name">
-        </div>
-      </div>
- 
-      <div class="flex flex-wrap -mx-3 mb-6">
-        <div class="w-full px-3">
-          <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
-            Equipment Supplier
-          </label>
-          <input value="{{$equipment[$index]->supplier}}" name="supplier" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="text" placeholder="Supplier's name">
         </div>
       </div>
 
