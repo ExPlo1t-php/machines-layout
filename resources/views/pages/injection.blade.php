@@ -67,7 +67,6 @@
 
         
     <div class="top container w-full h-fit border-2 border-current mx-auto ml-1 grid gap-6 grid-cols-6 grid-rows-1 p-5 h-screen place-items-center flex ">
-        {{-- hehe boi 😆 --}}
         {{-- @foreach ($stations->where('name', '=', '') as $station) --}}
         @foreach ($stations->skip(0)->take(4) as $station)
         <div onclick="location.href='/stationInfo/{{$station->name}}'" class="{{$station->name}} w-28 h-56 p-3 mx-5 z-0 text-xs flex-col items-center justify-center text-center text-white bg-black/40 hover:bg-black/10 cursor-pointer hover:text-violet-900">

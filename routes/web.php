@@ -1,8 +1,10 @@
 <?php
 
+use Algolia\AlgoliaSearch\Http\Psr7\Request;
 use Illuminate\Support\Facades\Route;
 // controllers
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Controller;
 use App\Http\Controllers\DeleteController;
 use App\Http\Controllers\LineController;
 use App\Http\Controllers\SearchController;
@@ -36,6 +38,10 @@ Route::get('/', function () {
 Route::get('/home', function () {
     return view('pages.home');
 })->name('home');
+Route::get('/test', function () {
+    return view('test');
+})->name('test');
+Route::post('/addor', [Controller::class, 'addor'])->name('addor');
 // end of general
 
 
@@ -47,7 +53,7 @@ Route::get('/assembly', function(){
 })->name('assembly');
 // ⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️
 Route::get('/injection', function(){
-    $stations = Station::get();
+    $stations = Station::get()->where('type', '!==', 'assembly');
     $type = StationType::get();
     return view('pages.injection', ['stations'=>$stations, 'type'=>$type]);
 })->name('injection');

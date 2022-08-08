@@ -15,9 +15,9 @@ class StationsController extends Controller
         $station = Station::get()->where('name', '=', $name);
         $index = $station->keys()[0];
         $switch = CabinetSwitch::get()->where('switchId', '=', $station[$index]->switch);
-        $cabinet = NetworkCabinet::get()->where('cabName', '=', $switch[0]->name);
+        $cabinet = NetworkCabinet::get()->where('name', '=', $switch[$switch->keys()[0]]->cabName);
         $equipments = Equipment::get()->where('station', '=', $name);
             $eqtype = EquipmentType::get();
-        return view('pages.stationInfo', ['station'=>$station[$index], 'switch'=>$switch[0], 'cabinet'=>$cabinet[0], 'equipments'=>$equipments, 'eqtype'=>$eqtype]);
+        return view('pages.stationInfo', ['index'=>$index, 'station'=>$station[$index], 'switch'=>$switch[$switch->keys()[0]], 'cabinet'=>$cabinet[$cabinet->keys()[0]],  'equipments'=>$equipments, 'eqtype'=>$eqtype]);
     }
 }

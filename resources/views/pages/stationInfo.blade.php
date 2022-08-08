@@ -2,21 +2,23 @@
   @section('title', 'Layout | Station Info')
     <!-- component -->
 
-
-
 <section class="relative pt-13 bg-blueGray-50 max-h-screen overflow-hidden">
 <div class="container mx-4"> 
   <div class="flex flex-wrap w-screen content-between items-center">
     <div class="w-10/12 md:w-6/12 lg:w-4/12 px-12 md:px-4 mr-auto ml-auto -mt-78">
       <div class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg bg-gray-300">
-        <img alt="..." src="/assets/images/machines/bnb.png" class="w-1/4 align-middle rounded-t-lg rotate-90 align-center self-center">
+        @if ($station->type!== 'assembly')
+        <img alt="..." src="/assets/images/machines/{{$station->type}}.png" class="w-1/4 align-middle rounded-t-lg rotate-90 align-center self-center">
+        @endif
         <h1 class="text-center font-semibold text-md">Station Details</h1>
         <ul class="border border-gray-200 rounded overflow-hidden shadow-md text-left">
             
             
-            <li class="px-4 py-3 bg-white border-b last:border-none border-gray-200 text-gray-500 transition-all duration-300 ease-in-out"><span class="text-md text-black pr-6 ">Station name: </span> {{$station->name}}</li>
+            <li class="px-4 py-3 bg-white border-b last:border-none border-gray-200 text-gray-500 transition-all duration-300 ease-in-out"><span class="text-md text-black pr-6 ">Station name: </span>{{$station->name}}</li>
             <li class="px-4 py-3 bg-white border-b last:border-none border-gray-200 text-gray-500 transition-all duration-300 ease-in-out"><span class="text-md text-black pr-6 ">Station type: </span> {{$station->type}}</li>
+            @if ($station->line!==null)
             <li class="px-4 py-3 bg-white border-b last:border-none border-gray-200 text-gray-500 transition-all duration-300 ease-in-out"><span class="text-md text-black pr-6 ">Station line: </span> {{$station->line}}</li>
+            @endif
             <li class="px-4 py-3 bg-white border-b last:border-none border-gray-200 text-gray-500 transition-all duration-300 ease-in-out"><span class="text-md text-black pr-6 ">Serial number: </span> {{$station->SN}}</li>
             <li class="px-4 py-3 bg-white border-b last:border-none border-gray-200 text-gray-500 transition-all duration-300 ease-in-out"><span class="text-md text-black pr-6 ">Station supplier: </span> {{$station->supplier}}</li>
             <li class="px-4 py-3 bg-white border-b last:border-none border-gray-200 text-gray-500 transition-all duration-300 ease-in-out"><span class="text-md text-black pr-6 ">Main Ip Address: </span> {{$station->mainIpAddr}} 

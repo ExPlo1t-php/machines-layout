@@ -26,7 +26,7 @@ return new class extends Migration
             // foreign key
             $table->unsignedInteger('switch');
             $table->foreign('switch')->references('switchId')->on('switch');
-            $table->string('line', 20);
+            $table->string('line', 20)->nullable();
             $table->foreign('line')->references('name')->on('line');
             $table->string('type', 20);
             $table->foreign('type')->references('name')->on('station_type');
