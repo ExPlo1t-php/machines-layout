@@ -19,7 +19,11 @@
             </div>
         </div>
     </div>
-    <div class="flex justify-around" id="forms">
+    <?php if(Route::currentRouteName()=='dashboard'): ?>
+    <div class="flex justify-around h-screen" id="forms">
+    <?php else: ?>
+        <div class="flex justify-around h-full" id="forms">
+    <?php endif; ?>
         <?php if (isset($component)) { $__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4 = $component; } ?>
 <?php $component = $__env->getContainer()->make(Illuminate\View\AnonymousComponent::class, ['view' => 'components.adminControls','data' => []] + (isset($attributes) ? (array) $attributes->getIterator() : [])); ?>
 <?php $component->withName('adminControls'); ?>
@@ -47,29 +51,17 @@
     </div>
     
     <div class="table w-full flex  p-4 bg-gray-200" id="table">
-        <?php if(Route::current()->getName() !== 'dashboard'): ?>
-        <div id="searchBar" class="flex justify-center ">
-            <h1 class="m-3 text-center text-xl">Available elements</h1>
-            <div class="form-group flex place-items-center justify-items-center items-center">
-                <input class="border-2 border-gray-300 bg-white h-8 px-5 pr-16 rounded-lg text-sm focus:outline-none"
-                type="search" id="search" name="search" placeholder="Search">
-            </div>
-        </div>
-        <?php endif; ?>
-        
+        <?php echo $__env->yieldContent('searchBar'); ?>
         <?php echo $__env->yieldContent('table'); ?>
     </div>
     <script>
         setTimeout(() => {
             // 👇️ hiding the logged in status after 5 seconds
           const box = document.getElementById('box');
-
           // 👇️ removes element from DOM
           box.style.display = 'none';
 
         }, 3000); 
-
-        
     </script>
     
  <?php echo $__env->renderComponent(); ?>

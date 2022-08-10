@@ -5,6 +5,9 @@
 @if( Session::has('success') )
         <span id="successTxt" class="text-green-500 flex self-center">{{ Session::get('success') }}</span>
 @endif
+@if( Session::has('delete') )
+        <span id="successTxt" class="text-green-500 flex self-center">{{ Session::get('success') }}</span>
+@endif
         
 
 <form class="w-full max-w-lg flex-col self-center" method="POST" action="addCabinet">
@@ -68,8 +71,6 @@
     $.ajaxSetup({ headers: { 'csrftoken' : '{{ csrf_token() }}' } });
     </script>  
     {{-- live search to station table --}}
-    <span id="deleteTxt" class="text-red-500 flex text-center">spsss</span>
-    
 
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
   <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400 ">
@@ -116,4 +117,8 @@
       </table>
 </div>
 
+@endsection
+
+@section('searchBar')
+<x-searchBar></x-searchBar>
 @endsection

@@ -11,7 +11,11 @@
             </div>
         </div>
     </div>
-    <div class="flex justify-around" id="forms">
+    @if (Route::currentRouteName()=='dashboard')
+    <div class="flex justify-around h-screen" id="forms">
+    @else
+        <div class="flex justify-around h-full" id="forms">
+    @endif
         <x-adminControls>
             @if (Route::currentRouteName()=='dashboard')
             <div class="text-center">
@@ -26,29 +30,17 @@
     </div>
     {{-- search bar --}}
     <div class="table w-full flex  p-4 bg-gray-200" id="table">
-        @if (Route::current()->getName() !== 'dashboard')
-        <div id="searchBar" class="flex justify-center ">
-            <h1 class="m-3 text-center text-xl">Available elements</h1>
-            <div class="form-group flex place-items-center justify-items-center items-center">
-                <input class="border-2 border-gray-300 bg-white h-8 px-5 pr-16 rounded-lg text-sm focus:outline-none"
-                type="search" id="search" name="search" placeholder="Search">
-            </div>
-        </div>
-        @endif
-        
+        @yield('searchBar')
         @yield('table')
     </div>
     <script>
         setTimeout(() => {
             // 👇️ hiding the logged in status after 5 seconds
           const box = document.getElementById('box');
-
           // 👇️ removes element from DOM
           box.style.display = 'none';
 
         }, 3000); 
-
-        
     </script>
     
 </x-app-layout>

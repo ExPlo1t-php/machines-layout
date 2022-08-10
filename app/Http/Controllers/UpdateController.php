@@ -118,7 +118,7 @@ class UpdateController extends Controller
             'ipAddr3' => ['max:15', 'regex:/^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/i'],
             'switch' => 'required|max:20',
             'port' => 'required|max:20',
-            'line' => 'required|max:20',
+            'line' => 'max:20',
             'description' => 'max:500',
          ]);
          // inserting validated data

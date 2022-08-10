@@ -11,6 +11,7 @@ use App\Http\Controllers\SearchController;
 use App\Http\Controllers\StationsController;
 use App\Http\Controllers\UpdateController;
 use App\Models\Equipment;
+use App\Models\Coordinates;
 use App\Models\Line;
 use App\Models\Station;
 use App\Models\StationType;
@@ -38,10 +39,14 @@ Route::get('/', function () {
 Route::get('/home', function () {
     return view('pages.home');
 })->name('home');
+// ---------------------test-----------------------
 Route::get('/test', function () {
-    return view('test');
+    $coo = Station::get();
+    return view('test', ['coo'=>$coo]);
 })->name('test');
-Route::post('/addor', [Controller::class, 'addor'])->name('addor');
+Route::post('/stationPos/{SN}', [StationsController::class, 'stationPos'])->name('stationPos');
+Route::post('/linePos/{id}', [StationsController::class, 'linePos'])->name('linePos');
+// ---------------------test-----------------------
 // end of general
 
 

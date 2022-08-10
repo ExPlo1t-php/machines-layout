@@ -19,8 +19,8 @@ return new class extends Migration
             $table->integer('portsNum');
             
             // foreign key
-            $table->string('cabName', 20)->unique() ->onUpdate('cascade');
-            $table->foreign('cabName')->references('name')->on('network_cabinet');
+            $table->string('cabName', 20)->unique();
+            $table->foreign('cabName')->references('name')->on('network_cabinet')->onUpdate('cascade');
         });
         
         

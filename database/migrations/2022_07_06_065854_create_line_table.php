@@ -17,6 +17,8 @@ return new class extends Migration
             $table->id();
             $table->string('name', 20)->unique();
             $table->string('description')->nullable();
+            $table->decimal('posTop',  4, 2)->nullable();
+            $table->decimal('posLeft',  4, 2)->nullable();
         });
     }
 

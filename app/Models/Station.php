@@ -24,6 +24,8 @@ class Station extends Model
         'port',
         'decription',
         'line',
+        'posTop',
+        'posLeft',
 
     ];
 

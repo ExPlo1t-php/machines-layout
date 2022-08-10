@@ -143,3 +143,6 @@
 </div>
 
 @endsection
+@section('searchBar')
+<x-searchBar></x-searchBar>
+@endsection

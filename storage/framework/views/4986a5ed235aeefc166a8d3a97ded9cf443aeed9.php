@@ -102,15 +102,16 @@
 </div>
 
       <script>
-        console.log($('#type').val())
-        if($('#type').val()=='bnb'){
-        var i = 3;
-        for (i; i >= 1 ; i--) {
-            var elem =  "<div id='ipAddr"+[i]+"' class='flex flex-wrap  mb-6'><div class='w-full'><label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='grid-password'>ip address "+[i]+"</label><input name='ipAddr"+[i]+"' class='appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500' id='grid-password' type='text' placeholder='ip address "+[i]+"'></div></div>";
-            // console.log(i);
-           $(elem).insertAfter( "#ip" );
-          }
-      }
+      //   console.log($('#type').val())
+      //   if($('#type').val()=='bnb'){
+      //   var i = 3;
+      //   for (i; i >= 1 ; i--) {
+      //       var elem =  "<div id='ipAddr"+[i]+"' class='flex flex-wrap  mb-6'><div class='w-full'><label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='grid-password'>ip address "+[i]+"</label><input name='ipAddr"+[i]+"' class='appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500' id='grid-password' type='text' placeholder='ip address "+[i]+"'></div></div>";
+      //       // console.log(i);
+      //      $(elem).insertAfter( "#ip" );
+      //     }
+      // }
+      // adding 3 inputs of ip if type == bnb
       $('#type').on('change', function() {
     if(this.value == 'bnb'){
       var i = 3;
@@ -122,6 +123,7 @@
     }else{
     for (let j= 3; j >= 1 ; j--) {
       $(`#ipAddr${[j]}`).remove();
+      console.log(j);
     }
   }
 });
@@ -326,7 +328,7 @@
       <tbody>
         <?php
             use App\Models\Station;
-            $stations = Station::get();
+            $stations = Station::where('line', '!=', null)->get();
         ?>
           <?php $__currentLoopData = $stations; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $station): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
           <tr class="border-b dark:bg-gray-800 dark:border-gray-700 odd:bg-white even:bg-gray-50 odd:dark:bg-gray-800 even:dark:bg-gray-700">
@@ -378,5 +380,21 @@
       </table>
 </div>
 
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('searchBar'); ?>
+<?php if (isset($component)) { $__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4 = $component; } ?>
+<?php $component = $__env->getContainer()->make(Illuminate\View\AnonymousComponent::class, ['view' => 'components.searchBar','data' => []] + (isset($attributes) ? (array) $attributes->getIterator() : [])); ?>
+<?php $component->withName('searchBar'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $constructor = (new ReflectionClass(Illuminate\View\AnonymousComponent::class))->getConstructor()): ?>
+<?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
+<?php endif; ?>
+<?php $component->withAttributes([]); ?> <?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4)): ?>
+<?php $component = $__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4; ?>
+<?php unset($__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4); ?>
+<?php endif; ?>
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('dashboard', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\layout\resources\views/components/forms/station.blade.php ENDPATH**/ ?>

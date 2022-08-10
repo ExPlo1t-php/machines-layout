@@ -16,7 +16,7 @@ setTimeout(() => {
   box.style.display = 'none';
 }, 3000); 
 
-function hide(){
-  document.querySelector('#searchBar').setProperty("display", "none", "important");
-  // document.querySelector('#searchBar').style.display='none';
-}
+// function hide(){
+//   document.querySelector('#searchBar').setProperty("display", "none", "important");
+//   // document.querySelector('#searchBar').style.display='none';
+// }

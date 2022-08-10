@@ -63,15 +63,16 @@
 </div>
 
       <script>
-        console.log($('#type').val())
-        if($('#type').val()=='bnb'){
-        var i = 3;
-        for (i; i >= 1 ; i--) {
-            var elem =  "<div id='ipAddr"+[i]+"' class='flex flex-wrap  mb-6'><div class='w-full'><label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='grid-password'>ip address "+[i]+"</label><input name='ipAddr"+[i]+"' class='appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500' id='grid-password' type='text' placeholder='ip address "+[i]+"'></div></div>";
-            // console.log(i);
-           $(elem).insertAfter( "#ip" );
-          }
-      }
+      //   console.log($('#type').val())
+      //   if($('#type').val()=='bnb'){
+      //   var i = 3;
+      //   for (i; i >= 1 ; i--) {
+      //       var elem =  "<div id='ipAddr"+[i]+"' class='flex flex-wrap  mb-6'><div class='w-full'><label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='grid-password'>ip address "+[i]+"</label><input name='ipAddr"+[i]+"' class='appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500' id='grid-password' type='text' placeholder='ip address "+[i]+"'></div></div>";
+      //       // console.log(i);
+      //      $(elem).insertAfter( "#ip" );
+      //     }
+      // }
+      // adding 3 inputs of ip if type == bnb
       $('#type').on('change', function() {
     if(this.value == 'bnb'){
       var i = 3;
@@ -83,6 +84,7 @@
     }else{
     for (let j= 3; j >= 1 ; j--) {
       $(`#ipAddr${[j]}`).remove();
+      console.log(j);
     }
   }
 });
@@ -248,7 +250,7 @@
       <tbody>
         @php
             use App\Models\Station;
-            $stations = Station::get();
+            $stations = Station::where('line', '!=', null)->get();
         @endphp
           @foreach ($stations as $station)
           <tr class="border-b dark:bg-gray-800 dark:border-gray-700 odd:bg-white even:bg-gray-50 odd:dark:bg-gray-800 even:dark:bg-gray-700">
@@ -291,4 +293,7 @@
       </table>
 </div>
 
+@endsection
+@section('searchBar')
+<x-searchBar></x-searchBar>
 @endsection

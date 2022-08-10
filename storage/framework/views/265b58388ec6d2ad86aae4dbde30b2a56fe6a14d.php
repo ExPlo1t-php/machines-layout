@@ -30,7 +30,7 @@
             <li class="px-4 py-3 bg-white border-b last:border-none border-gray-200 text-gray-500 transition-all duration-300 ease-in-out"><span class="text-md text-black pr-6 ">Serial number: </span> <?php echo e($station->SN); ?></li>
             <li class="px-4 py-3 bg-white border-b last:border-none border-gray-200 text-gray-500 transition-all duration-300 ease-in-out"><span class="text-md text-black pr-6 ">Station supplier: </span> <?php echo e($station->supplier); ?></li>
             <li class="px-4 py-3 bg-white border-b last:border-none border-gray-200 text-gray-500 transition-all duration-300 ease-in-out"><span class="text-md text-black pr-6 ">Main Ip Address: </span> <?php echo e($station->mainIpAddr); ?> 
-                <?php
+              <?php
                 $ip = $station->mainIpAddr;
                 $ping = exec('ping -n 1 '.$ip, $output, $status);
                 if($status == 1){
@@ -38,10 +38,11 @@
                 }elseif ($status == 0) {
                     echo  '<i class="fa-solid fa-circle  w-2/12 text-xs text-green-500 text-right">Live</i>';
                 }else{
-                    echo  '<i class="fa-solid fa-circle  w-2/12 text-xs text-orange-500 text-right">Error</i>';
+                  echo  '<i class="fa-solid fa-circle  w-2/12 text-xs text-orange-500 text-right">Error</i>';
                 }
-            ?>
+                ?>
             </li>
+            <li class="px-4 py-3 bg-white border-b last:border-none border-gray-200 text-gray-500 transition-all duration-300 ease-in-out"><span class="text-md text-black pr-6 ">Switch: </span> <?php echo e($station->switch); ?> 
             <li class="px-4 py-3 bg-white border-b last:border-none border-gray-200 text-gray-500 transition-all duration-300 ease-in-out"><span class="text-md text-black pr-6 ">Port: </span> <?php if(!$station->port): ?>there's no port <?php endif; ?><?php echo e($station->port); ?></li>
             <li class="px-4 py-3 bg-white border-b last:border-none border-gray-200 text-gray-500 transition-all duration-300 ease-in-out"><span class="text-md text-black pr-6 ">Description: </span> <?php if(!$station->description): ?>there's no description <?php endif; ?><?php echo e($station->description); ?></li>
         </ul>

@@ -22,9 +22,9 @@ return new class extends Migration
             $table->longText('description')->nullable();
             // foreign key
             $table->string('type');
-            $table->foreign('type')->references('name')->on('equipment_type');
+            $table->foreign('type')->references('name')->on('equipment_type')->onUpdate('cascade');
             $table->string('station');
-            $table->foreign('station')->references('name')->on('station');
+            $table->foreign('station')->references('name')->on('station')->onUpdate('cascade');
             // foreign key
         });
     }

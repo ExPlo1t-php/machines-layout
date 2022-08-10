@@ -18,6 +18,8 @@ class SearchController extends Controller
     $station= DB::table('station')
     ->where('name','LIKE','%'.$request->search."%")
     ->orWhere('SN','LIKE','%'.$request->search."%")
+    ->orWhere('type','LIKE','%'.$request->search."%")
+    ->orWhere('mainIpAddr','LIKE','%'.$request->search."%")
     ->orWhere('mainIpAddr','LIKE','%'.$request->search."%")
     ->get();
     // just a variable to store classes of td opening tag
@@ -53,7 +55,7 @@ class SearchController extends Controller
     {
     $output="";
     // search criteria
-    $type= DB::table('equipment_type')
+    $type= DB::table('station_type')
     ->where('name','LIKE','%'.$request->search."%")
     ->get();
     // just a variable to store classes of td opening tag
@@ -181,6 +183,7 @@ class SearchController extends Controller
     // search criteria
     $cabinet= DB::table('network_cabinet')
     ->where('name','LIKE','%'.$request->search."%")
+    ->orWhere('zone','LIKE','%'.$request->search."%")
     ->get();
     // just a variable to store classes of td opening tag
     $attr = '<td scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">';
@@ -211,6 +214,9 @@ class SearchController extends Controller
     // search criteria
     $switch= DB::table('switch')
     ->where('switchId','LIKE','%'.$request->search."%")
+    ->orWhere('ipAddr','LIKE','%'.$request->search."%")
+    ->orWhere('portsNum','LIKE','%'.$request->search."%")
+    ->orWhere('cabName','LIKE','%'.$request->search."%")
     ->get();
     // just a variable to store classes of td opening tag
     $attr = '<td scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">';
