@@ -18,7 +18,7 @@
                 <h1><?php echo e($line->name); ?></h1>
                 <span
                 onclick="location.href='/lineInfo/<?php echo e($line->id); ?>'"
-                class="bg-black w-full m-2 p-1 rounded-md hover:hover:bg-black/10 cursor-pointer"
+                class="bg-black w-full m-2 p-1 rounded-md hover:hover:bg-black/10 cursor-pointer ease-in-out"
                 >Go to details</span>
                 <form action="/linePos" method="POST">
                     <?php echo csrf_field(); ?>
@@ -57,7 +57,7 @@ stop: function(event,ui){
         headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
-        url: `linePos/<?php echo e($line->id); ?>`,
+        url: `/linePos/<?php echo e($line->id); ?>`,
         type: 'post',
         data: {
             // _token:token,

@@ -4,7 +4,7 @@
 
 
     @if (isset($index[0]))
-    <div class="container w-full h-fit right mx-auto grid gap-3 grid-cols-2 grid-rows-1 p-5 h-screen place-items-center flex ">
+    <div class="container w-full h-screen right mx-auto grid gap-3 grid-cols-2 grid-rows-1 p-5 h-screen place-items-center flex ">
         <div>
             @foreach ($stations as $station)
             <div 
