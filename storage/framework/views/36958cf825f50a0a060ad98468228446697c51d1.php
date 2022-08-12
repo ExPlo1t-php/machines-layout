@@ -11,11 +11,15 @@
     <link rel="stylesheet" href="/css/draggable.css">
     <div class="flex">
         <div class="container mx-auto grid gap-4 col-start-1 row-start-1 grid-cols-8 grid-rows-1 p-5 h-screen">
-            <?php $__currentLoopData = $lines->skip(0)->take(4); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $line): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-            <div nclick="location.href='/lineInfo/<?php echo e($line->id); ?>'"
-                style="<?php echo e($line->posTop); ?>px; left:<?php echo e($line->posLeft); ?>px;"
-                 class="<?php echo e($line->id); ?> w-2/3 h-full mx-5 z-0 flex items-center justify-center text-center text-white bg-black/40 hover:bg-black/10 cursor-pointer hover:text-violet-900">
+            <?php $__currentLoopData = $lines; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $line): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+            <div 
+                style="top:<?php echo e($line->posTop); ?>px; left:<?php echo e($line->posLeft); ?>px;"
+                 class="<?php echo e($line->id); ?> w-2/3 h-full mx-5 z-0 flex items-center justify-center text-center text-white bg-black/40 cursor-move">
                 <h1><?php echo e($line->name); ?></h1>
+                <span
+                onclick="location.href='/lineInfo/<?php echo e($line->id); ?>'"
+                class="bg-black w-full m-2 p-1 rounded-md hover:hover:bg-black/10 cursor-pointer"
+                >Go to details</span>
                 <form action="/linePos" method="POST">
                     <?php echo csrf_field(); ?>
                     </form>
@@ -24,12 +28,15 @@ $(document).ready(function(){
 // making the DOM element with a specific class draggable
 $('.<?php echo e($line->id); ?>').draggable({
 // return to original position
-// revert: true,
+<?php if(!session()->get('username')): ?>
+    revert: true,
+<?php endif; ?>
 //container aka walls
 containment: '.container',
 // container grid
-grid: [ 70, 80 ],
+grid: [ 10, 10 ],
 // execute a function on stop drag
+<?php if(session()->get('username')): ?>
 stop: function(event,ui){
     // get the position of the selected element
     dragposition = ui.position;
@@ -59,7 +66,9 @@ stop: function(event,ui){
         },
     })
 // stop function end
-}});
+}
+<?php endif; ?>
+});
 
 })
 </script>

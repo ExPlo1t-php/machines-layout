@@ -4,10 +4,14 @@
     <div class="flex">
         <div class="container mx-auto grid gap-4 col-start-1 row-start-1 grid-cols-8 grid-rows-1 p-5 h-screen">
             @foreach ($lines as $line)
-            <div nclick="location.href='/lineInfo/{{$line->id}}'"
-                style="{{$line->posTop}}px; left:{{$line->posLeft}}px;"
-                 class="{{$line->id}} w-2/3 h-full mx-5 z-0 flex items-center justify-center text-center text-white bg-black/40 hover:bg-black/10 cursor-pointer hover:text-violet-900">
+            <div 
+                style="top:{{$line->posTop}}px; left:{{$line->posLeft}}px;"
+                 class="{{$line->id}} w-2/3 h-full mx-5 z-0 flex items-center justify-center text-center text-white bg-black/40 cursor-move">
                 <h1>{{$line->name}}</h1>
+                <span
+                onclick="location.href='/lineInfo/{{$line->id}}'"
+                class="bg-black w-full m-2 p-1 rounded-md hover:hover:bg-black/10 cursor-pointer ease-in-out"
+                >Go to details</span>
                 <form action="/linePos" method="POST">
                     @csrf
                     </form>
@@ -16,12 +20,15 @@ $(document).ready(function(){
 // making the DOM element with a specific class draggable
 $('.{{$line->id}}').draggable({
 // return to original position
-// revert: true,
+@if (!session()->get('username'))
+    revert: true,
+@endif
 //container aka walls
 containment: '.container',
 // container grid
-grid: [ 70, 80 ],
+grid: [ 10, 10 ],
 // execute a function on stop drag
+@if (session()->get('username'))
 stop: function(event,ui){
     // get the position of the selected element
     dragposition = ui.position;
@@ -42,7 +49,7 @@ stop: function(event,ui){
         headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
-        url: `linePos/{{{$line->id}}}`,
+        url: `/linePos/{{{$line->id}}}`,
         type: 'post',
         data: {
             // _token:token,
@@ -51,7 +58,9 @@ stop: function(event,ui){
         },
     })
 // stop function end
-}});
+}
+@endif
+});
 
 })
 </script>

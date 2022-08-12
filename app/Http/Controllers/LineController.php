@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\CabinetSwitch;
 use App\Models\Equipment;
 use App\Models\EquipmentType;
+use App\Models\Line;
 use App\Models\NetworkCabinet;
 use App\Models\Station;
 use Illuminate\Http\Request;
@@ -14,7 +15,8 @@ class LineController extends Controller
 {
     public function lineInfo($type){
     $url = rawurldecode($type);
-    $stations = Station::get()->where('line', '=', $url);
+    $line = Line::get()->where('id', '=', $url);
+    $stations = Station::get()->where('line', '=', $line[$line->keys()[0]]->name);
     $index = $stations->keys();
 
     if(isset($index[0])){

@@ -6,7 +6,7 @@
     @endphp     
     <div id="2-name"
     class="{{$coo->SN}}  w-28 h-28 p-3 bg-violet-900/40 m-0 w-fit"
-    style="{{$coo->posTop}}px; left:{{$coo->posLeft}}px;"
+    style="top:{{$coo->posTop}}px; left:{{$coo->posLeft}}px;"
     >{{$i}}
     <form action="/addor" method="POST">
         @csrf
@@ -17,7 +17,6 @@ $(document).ready(function(){
     // making the DOM element with a specific class draggable
     $('.{{$coo->SN}}').draggable({
         // return to original position
-        revert: true,
         //container aka walls
         containment: 'main',
         // container grid
