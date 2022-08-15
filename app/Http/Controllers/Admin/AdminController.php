@@ -123,7 +123,7 @@ class AdminController extends Controller
         
         // moving temporary image to the main folder and switching the request name
         // with the actual file name
-        $input['icon']-> move(public_path('Image'), $filename);
+        $input['icon']-> move(public_path('/assets/images/machines/'), $filename);
         $input['icon']= $filename;
         // inserting validated data
         StationType::create($input);
@@ -150,7 +150,7 @@ class AdminController extends Controller
         
         // moving temporary image to the main folder and switching the request name
         // with the actual file name
-        $input['icon']-> move(public_path('Image'), $filename);
+        $input['icon']-> move(public_path('assets/images/equipments/'), $filename);
         $input['icon']= $filename;
         // inserting validated data
         EquipmentType::create($input);
@@ -181,7 +181,7 @@ class AdminController extends Controller
             'mainIpAddr' => ['required', 'max:15', 'regex:/^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/i'],
             'switch' => 'required|max:20',
             'port' => 'required|max:20',
-            'line' => 'required|max:20',
+            'line' => 'max:20',
             'description' => 'max:500',
         ]);
         

@@ -58,7 +58,7 @@ Route::get('/assembly', function(){
 })->name('assembly');
 // ⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️
 Route::get('/injection', function(){
-    $stations = Station::get()->whereNullend('line');
+    $stations = Station::get()->whereNull('line');
     $type = StationType::get();
     return view('pages.injection', ['stations'=>$stations, 'type'=>$type]);
 })->name('injection');

@@ -9,7 +9,7 @@
             @foreach ($stations as $station)
             <div 
             style="top:{{$station->posTop}}px; left:{{$station->posLeft}}px;"
-            class="{{$station->SN}} bg-white  shadow-md m-10 border border-gray-200 rounded-lg max-w-sm dark:bg-gray-800 dark:border-gray-700 cursor-move">
+            class="{{$station->SN}} bg-white  shadow-md m-1 border border-gray-200 rounded-lg max-w-sm dark:bg-gray-800 dark:border-gray-700 cursor-move">
                 <div class="p-10 ">
                     <a href="/stationInfo/{{$station->name}}">
                     <h5 class="text-gray-900 hover:bg-gray-300 rounded text-center font-bold text-xl tracking-tight mb-2 dark:text-white">{{$station->name}}</h5>

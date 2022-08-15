@@ -17,7 +17,7 @@ class UpdateController extends Controller
 
     // network cabinet update ------------------------------------------
     public function showCabinet($name){
-        $url = rawurldecode($name);
+        $url = urldecode($name);
         // echo $url;
         $cabinet = NetworkCabinet::get()->where('name', '=', $url);
         // getting the goddamned index value 😠
@@ -27,16 +27,17 @@ class UpdateController extends Controller
         
     }
     public function updateCabinet(Request $request, $name){
+        $url = urldecode($name);
          // fetching input data
          $input = $request->except('_token', 'update');
          // validating input data
          $request->validate([
-            'name' => 'required|max:20|unique:network_cabinet',
+            'name' => 'required|max:20',
             'zone' => 'required|max:20',
             'description' => 'max:500',
          ]);
          // inserting validated data
-         NetworkCabinet::where('name',$name)->update($input);
+         NetworkCabinet::where('name',$url)->update($input);
  
          return redirect('cabinet')->with('success','item changed successfully!');
     }
@@ -44,7 +45,7 @@ class UpdateController extends Controller
 
     // cabinet switch update ------------------------------------------
     public function showSwitch($switchId){
-        $url = rawurldecode($switchId);
+        $url = urldecode($switchId);
         // echo $url;
         $switch = CabinetSwitch::get()->where('switchId', '=', $url);
         // getting the goddamned index value 😠
@@ -58,7 +59,7 @@ class UpdateController extends Controller
          $input = $request->except('_token', 'update');
          // validating input data
          $request->validate([
-            'cabName' => 'required|max:20',
+            'cabName' => 'required|max:20|unique:switch',
             'ipAddr' => ['required', 'max:15', 'regex:/^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/i'],
             'portsNum' => 'required|max:2'
          ]);
@@ -71,7 +72,7 @@ class UpdateController extends Controller
 
     // assembly line update ------------------------------------------
     public function showLine($name){
-        $url = rawurldecode($name);
+        $url = urldecode($name);
         // echo $url;
         $line = Line::get()->where('name', '=', $url);
         // getting the goddamned index value 😠
@@ -80,15 +81,16 @@ class UpdateController extends Controller
         
     }
     public function updateLine(Request $request, $name){
+        $url = urldecode($name);
          // fetching input data
          $input = $request->except('_token', 'update');
          // validating input data
          $request->validate([
-            'name' => 'required|max:20|unique:line',
+            'name' => 'required|max:20',
             'description' => 'max:500',
          ]);
          // inserting validated data
-         Line::where('name',$name)->update($input);
+         Line::where('name',$url)->update($input);
  
          return redirect('lines')->with('success','item changed successfully!');;
     }
@@ -96,7 +98,7 @@ class UpdateController extends Controller
 
     // station update ------------------------------------------
     public function showStation($name){
-        $url = rawurldecode($name);
+        $url = urldecode($name);
         // echo $url;
         $station = Station::get()->where('name', '=', $url);
         // getting the goddamned index value 😠
@@ -105,6 +107,7 @@ class UpdateController extends Controller
         
     }
     public function updateStation(Request $request, $name){
+        $url = urldecode($name);
          // fetching input data
          $input = $request->except('_token', 'update');
          // validating input data
@@ -122,7 +125,7 @@ class UpdateController extends Controller
             'description' => 'max:500',
          ]);
          // inserting validated data
-         Station::where('name',$name)->update($input);
+         Station::where('name',$url)->update($input);
  
          return redirect('station')->with('success','item changed successfully!');;
     }
@@ -130,7 +133,7 @@ class UpdateController extends Controller
 
     // station type update ------------------------------------------
     public function showStationType($name){
-        $url = rawurldecode($name);
+        $url = urldecode($name);
         // echo $url;
         $type = StationType::get()->where('name', '=', $url);
         // getting the goddamned index value 😠
@@ -139,6 +142,7 @@ class UpdateController extends Controller
         
     }
     public function updateStationType(Request $request, $name){
+        $url = urldecode($name);
          // fetching input data
          $input = $request->except('_token', 'update');
          // validating input data
@@ -146,7 +150,7 @@ class UpdateController extends Controller
         
          // validating input data
          $request->validate([
-             'name' => 'required|max:20|unique:station_type',
+             'name' => 'required|max:20',
              'description' => 'max:500',
              'icon' => 'max:50',
          ]);
@@ -156,15 +160,14 @@ class UpdateController extends Controller
          $input['icon']-> move(public_path('Image'), $filename);
          $input['icon']= $filename;
          // inserting validated data
-         StationType::where('name',$name)->update($input);
- 
-         return redirect('stationType')->with('success','item changed successfully!');;
+         StationType::where('name',$url)->update($input);
+         return redirect('station-type')->with('success','item changed successfully!');;
     }
     // Station type update ------------------------------------------
     
     // equipment update ------------------------------------------
     public function showEquipment($name){
-        $url = rawurldecode($name);
+        $url = urldecode($name);
         // echo $url;
         $equipment = Equipment::get()->where('name', '=', $url);
         // getting the goddamned index value 😠
@@ -173,6 +176,7 @@ class UpdateController extends Controller
         
     }
     public function updateEquipment(Request $request, $name){
+        $url = urldecode($name);
          // fetching input data
          $input = $request->except('_token', 'update');
          // validating input data
@@ -186,7 +190,7 @@ class UpdateController extends Controller
             'description' => 'max:500',
          ]);
          // inserting validated data
-         Equipment::where('name',$name)->update($input);
+         Equipment::where('name',$url)->update($input);
  
          return redirect('equipment')->with('success','item changed successfully!');;
     }
@@ -194,7 +198,7 @@ class UpdateController extends Controller
 
     // station type update ------------------------------------------
     public function showEquipmentType($name){
-        $url = rawurldecode($name);
+        $url = urldecode($name);
         // echo $url;
         $type = EquipmentType::get()->where('name', '=', $url);
         // getting the goddamned index value 😠
@@ -203,6 +207,7 @@ class UpdateController extends Controller
         
     }
     public function updateEquipmentType(Request $request, $name){
+        $url = urldecode($name);
          // fetching input data
          $input = $request->except('_token', 'update');
          // validating input data
@@ -210,7 +215,7 @@ class UpdateController extends Controller
         
          // validating input data
          $request->validate([
-             'name' => 'required|max:20|unique:station_type',
+             'name' => 'required|max:20 ',
              'description' => 'max:500',
              'icon' => 'max:50',
          ]);
@@ -220,7 +225,7 @@ class UpdateController extends Controller
          $input['icon']-> move(public_path('Image'), $filename);
          $input['icon']= $filename;
          // inserting validated data
-         EquipmentType::where('name',$name)->update($input);
+         EquipmentType::where('name',$url)->update($input);
     
          return redirect('equipment-type')->with('success','item changed successfully!');;
     }

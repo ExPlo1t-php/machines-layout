@@ -7,7 +7,7 @@
   <div class="flex flex-wrap w-screen content-between items-center">
     <div class="w-10/12 md:w-6/12 mb-32 lg:w-4/12 px-12 md:px-4 mr-auto ml-auto -mt-78">
       <div class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg bg-gray-300">
-        @if ($station->type!== 'assembly')
+        @if ($station->line == null)
         <img alt="..." src="/assets/images/machines/{{$station->type}}.png" class="w-1/4 align-middle rounded-t-lg rotate-90 align-center self-center">
         @endif
         <h1 class="text-center font-semibold text-md">Station Details</h1>
@@ -74,7 +74,7 @@
                   $type = $eqtype->where('name', '=', $equipment->type)[0];
                   @endphp
                   <li class="flex px-4 py-3 border-b last:border-none border-gray-200 text-gray-500 transition-all duration-300 ease-in-out">
-                    <img class="w-14 h-14 rounded-full" src="/Image/{{$type->icon}}">
+                    <img class="w-14 h-14 rounded-full" src="/assets/images/equipments/{{$type->icon}}">
                     <div class="block">
                     {{$equipment->name}}
                     <div class="flex items-center text-gray-400">
@@ -95,9 +95,11 @@
                       </div>
                     </li>
                     @endforeach
+                    @if(session()->get('username'))
                     <li onclick="location.href='/equipment'" class="flex px-4 py-3 border-b last:border-none border-gray-200 hover:bg-gray-200 text-gray-500 transition-all duration-300 ease-in-out cursor-pointer">
                       &#x2b; Add a new equipment 
                     </li>
+                  @endif
                   @endif
                 </ul>
               </div>

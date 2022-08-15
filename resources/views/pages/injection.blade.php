@@ -1,17 +1,16 @@
-<x-app-layout>
+<x-app-layout>  
     @section('title', 'Layout | Injection layout')
     <link rel="stylesheet" href="/css/draggable.css">
     {{-- -----------------------------top section--------------------------- --}}
-    <div class="w-full h-auto mb-24 mr-0">
-    <div class="top-container w-full h-auto border-2 border-current mx-1 p-3 flex grid grid-rows-5 grid-cols-12">
+    <div class="container w-full h-screen border-2 border-current mx-1 p-3 flex overflow-auto">
+        {{-- <div class="container flex p-5 h-screen w-full overflow-auto"> --}}
         @foreach ($stations as $station)
         <div
         style="top:{{$station->posTop}}px; left:{{$station->posLeft}}px;"
-        class="{{$station->SN}} w-28 h-56 p-3 mx-5 z-0 text-xs flex-col items-center justify-center text-center text-white bg-black/40  cursor-move draggable ui-widget-content">
+        class="{{$station->SN}} w-28 h-56 p-3 z-0 text-xs flex-col items-center justify-center text-center text-white bg-black/40  cursor-move draggable ui-widget-content">
             <div class="flex items-center justify-center">
                 <h1>{{$station->name}}</h1>
                 @php
- 
                     $ip = $station->mainIpAddr;
                     $ping = exec('ping -n 1 '.$ip, $output, $status);
                     if($status == 1){
@@ -31,10 +30,10 @@
                 $index = $type->where('name', '=', $station->type)->keys()[0];
                 $stType = $type->where('name', '=', $station->type)[$index];
             @endphp
-            <img src="/assets/images/machines/{{$stType->icon}}" alt="{{$station->name}}" class="m-auto p-0 object-fit ">
+            <img src="/assets/images/machines/{{$stType->icon}}" alt="{{$station->name}}" class="m-auto p-0 object-fit h-3/4">
             <span
             onclick="location.href='/stationInfo/{{$station->name}}'" 
-            class="bg-black w-full p-2 rounded-md hover:hover:bg-black/10 cursor-pointer ease-in-out"
+            class="bg-black w-full p-2 rounded-md sm:text-2xs md:text-2xs hover:hover:bg-black/10 cursor-pointer ease-in-out"
             >Go to details</span>
         </div>
             <form action="/stationPos" method="POST">
@@ -49,9 +48,9 @@
             revert: true,
             @endif
             //container aka walls
-            containment: '.top-container',  
+            containment: '.container',  
             // container grid
-            grid: [ 10 , 10 ],
+            grid: [ 6, 6 ],
             scroll: true,
             scrollSensitivity: 100,
             // execute a function on stop drag
@@ -92,6 +91,5 @@
             })
             </script>
         @endforeach
-    </div>
     </div>
 </x-app-layout>

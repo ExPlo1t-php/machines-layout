@@ -10,6 +10,7 @@ use Illuminate\Database\DetectsLostConnections;
 use Illuminate\Queue\Events\JobExceptionOccurred;
 use Illuminate\Queue\Events\JobProcessed;
 use Illuminate\Queue\Events\JobProcessing;
+use Illuminate\Queue\Events\JobReleasedAfterException;
 use Illuminate\Queue\Events\Looping;
 use Illuminate\Queue\Events\WorkerStopping;
 use Illuminate\Support\Carbon;
@@ -469,6 +470,10 @@ class Worker
             // another listener (or this same one). We will re-throw this exception after.
             if (! $job->isDeleted() && ! $job->isReleased() && ! $job->hasFailed()) {
                 $job->release($this->calculateBackoff($job, $options));
+
+                $this->events->dispatch(new JobReleasedAfterException(
+                    $connectionName, $job
+                ));
             }
         }
 
@@ -674,6 +679,10 @@ class Worker
     protected function listenForSignals()
     {
         pcntl_async_signals(true);
+
+        pcntl_signal(SIGQUIT, function () {
+            $this->shouldQuit = true;
+        });
 
         pcntl_signal(SIGTERM, function () {
             $this->shouldQuit = true;

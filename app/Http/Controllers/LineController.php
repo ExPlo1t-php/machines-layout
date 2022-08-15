@@ -14,7 +14,7 @@ use Mockery\Undefined;
 class LineController extends Controller
 {
     public function lineInfo($type){
-    $url = rawurldecode($type);
+    $url = urldecode($type);
     $line = Line::get()->where('id', '=', $url);
     $stations = Station::get()->where('line', '=', $line[$line->keys()[0]]->name);
     $index = $stations->keys();

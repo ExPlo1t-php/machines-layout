@@ -9,16 +9,15 @@
 <?php $component->withAttributes([]); ?>
     <?php $__env->startSection('title', 'Layout | Assembly lines layout'); ?>
     <link rel="stylesheet" href="/css/draggable.css">
-    <div class="flex">
-        <div class="container mx-auto grid gap-4 col-start-1 row-start-1 grid-cols-8 grid-rows-1 p-5 h-screen">
+        <div class="container flex p-5 h-screen w-full">
             <?php $__currentLoopData = $lines; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $line): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
             <div 
                 style="top:<?php echo e($line->posTop); ?>px; left:<?php echo e($line->posLeft); ?>px;"
-                 class="<?php echo e($line->id); ?> w-2/3 h-full mx-5 z-0 flex items-center justify-center text-center text-white bg-black/40 cursor-move">
+                 class="<?php echo e($line->id); ?> w-1/12 h-full flex flex-col items-center justify-center text-center md:text-md sm:text-sm text-white bg-black/40 cursor-move ">
                 <h1><?php echo e($line->name); ?></h1>
                 <span
                 onclick="location.href='/lineInfo/<?php echo e($line->id); ?>'"
-                class="bg-black w-full m-2 p-1 rounded-md hover:hover:bg-black/10 cursor-pointer ease-in-out"
+                class="bg-black w-full m-1 p-1 rounded-md hover:hover:bg-black/10 cursor-pointer ease-in-out md:text-sm sm:text-2xs"
                 >Go to details</span>
                 <form action="/linePos" method="POST">
                     <?php echo csrf_field(); ?>
@@ -34,7 +33,7 @@ $('.<?php echo e($line->id); ?>').draggable({
 //container aka walls
 containment: '.container',
 // container grid
-grid: [ 10, 10 ],
+grid: [ 6, 6 ],
 // execute a function on stop drag
 <?php if(session()->get('username')): ?>
 stop: function(event,ui){
@@ -76,7 +75,6 @@ stop: function(event,ui){
             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
         </div>
 
-</div>
 
  <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>

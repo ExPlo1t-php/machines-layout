@@ -6,20 +6,19 @@
 <?php if (isset($attributes) && $constructor = (new ReflectionClass(App\View\Components\AppLayout::class))->getConstructor()): ?>
 <?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
 <?php endif; ?>
-<?php $component->withAttributes([]); ?>
+<?php $component->withAttributes([]); ?>  
     <?php $__env->startSection('title', 'Layout | Injection layout'); ?>
     <link rel="stylesheet" href="/css/draggable.css">
     
-    <div class="w-full h-auto mb-24 mr-0">
-    <div class="top-container w-full h-auto border-2 border-current mx-1 p-3 flex grid grid-rows-5 grid-cols-12">
+    <div class="container w-full h-screen border-2 border-current mx-1 p-3 flex overflow-auto">
+        
         <?php $__currentLoopData = $stations; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $station): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
         <div
         style="top:<?php echo e($station->posTop); ?>px; left:<?php echo e($station->posLeft); ?>px;"
-        class="<?php echo e($station->SN); ?> w-28 h-56 p-3 mx-5 z-0 text-xs flex-col items-center justify-center text-center text-white bg-black/40  cursor-move draggable ui-widget-content">
+        class="<?php echo e($station->SN); ?> w-28 h-56 p-3 z-0 text-xs flex-col items-center justify-center text-center text-white bg-black/40  cursor-move draggable ui-widget-content">
             <div class="flex items-center justify-center">
                 <h1><?php echo e($station->name); ?></h1>
                 <?php
- 
                     $ip = $station->mainIpAddr;
                     $ping = exec('ping -n 1 '.$ip, $output, $status);
                     if($status == 1){
@@ -39,13 +38,13 @@
                 $index = $type->where('name', '=', $station->type)->keys()[0];
                 $stType = $type->where('name', '=', $station->type)[$index];
             ?>
-            <img src="/assets/images/machines/<?php echo e($stType->icon); ?>" alt="<?php echo e($station->name); ?>" class="m-auto p-0 object-fit ">
+            <img src="/assets/images/machines/<?php echo e($stType->icon); ?>" alt="<?php echo e($station->name); ?>" class="m-auto p-0 object-fit h-3/4">
             <span
             onclick="location.href='/stationInfo/<?php echo e($station->name); ?>'" 
-            class="bg-black w-full p-2 rounded-md hover:hover:bg-black/10 cursor-pointer"
+            class="bg-black w-full p-2 rounded-md sm:text-2xs md:text-2xs hover:hover:bg-black/10 cursor-pointer ease-in-out"
             >Go to details</span>
         </div>
-        <form action="/stationPos" method="POST">
+            <form action="/stationPos" method="POST">
             <?php echo csrf_field(); ?>
             </form>
             <script type="text/javascript">
@@ -57,9 +56,9 @@
             revert: true,
             <?php endif; ?>
             //container aka walls
-            containment: '.top-container',  
+            containment: '.container',  
             // container grid
-            grid: [ 10 , 10 ],
+            grid: [ 6, 6 ],
             scroll: true,
             scrollSensitivity: 100,
             // execute a function on stop drag
@@ -84,7 +83,7 @@
             headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
-            url: `stationPos/<?php echo e($station->SN); ?>`,
+            url: `/stationPos/<?php echo e($station->SN); ?>`,
             type: 'post',
             data: {
                 // _token:token,
@@ -100,7 +99,6 @@
             })
             </script>
         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-    </div>
     </div>
  <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>

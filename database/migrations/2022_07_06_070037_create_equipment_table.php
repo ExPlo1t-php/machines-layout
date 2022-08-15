@@ -21,10 +21,10 @@ return new class extends Migration
             $table->integer('port');
             $table->longText('description')->nullable();
             // foreign key
-            $table->string('type');
-            $table->foreign('type')->references('name')->on('equipment_type')->onUpdate('cascade');
-            $table->string('station');
-            $table->foreign('station')->references('name')->on('station')->onUpdate('cascade');
+            $table->string('type')->nullable();
+            $table->foreign('type')->references('name')->on('equipment_type')->onUpdate('cascade')->onDelete('set null');
+            $table->string('station')->nullable();
+            $table->foreign('station')->references('name')->on('station')->onUpdate('cascade')->onDelete('set null');
             // foreign key
         });
     }

@@ -23,15 +23,15 @@ return new class extends Migration
             $table->string('IpAddr3', 15)->unique()->nullable();
             $table->integer('port');
             $table->longText('description')->nullable();
-            $table->decimal('posTop',  4, 2)->nullable();
-            $table->decimal('posLeft',  4, 2)->nullable();
+            $table->decimal('posTop',  4, 0)->nullable();
+            $table->decimal('posLeft',  4, 0)->nullable();
             // foreign key
-            $table->unsignedInteger('switch');
-            $table->foreign('switch')->references('switchId')->on('switch')->onUpdate('cascade');
+            $table->unsignedInteger('switch')->nullable();
+            $table->foreign('switch')->references('switchId')->on('switch')->onUpdate('cascade')->onDelete('set null');
             $table->string('line', 20)->nullable();
-            $table->foreign('line')->references('name')->on('line')->onUpdate('cascade');
-            $table->string('type', 20);
-            $table->foreign('type')->references('name')->on('station_type')->onUpdate('cascade');
+            $table->foreign('line')->references('name')->on('line')->onUpdate('cascade')->onDelete('set null');
+            $table->string('type', 20)->nullable();
+            $table->foreign('type')->references('name')->on('station_type')->onUpdate('cascade')->onDelete('set null');
             // foreign key
         });
     }
