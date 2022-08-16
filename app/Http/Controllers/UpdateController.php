@@ -32,7 +32,7 @@ class UpdateController extends Controller
          $input = $request->except('_token', 'update');
          // validating input data
          $request->validate([
-            'name' => 'required|max:20',
+            'name' => 'required|max:20|',
             'zone' => 'required|max:20',
             'description' => 'max:500',
          ]);
@@ -59,7 +59,7 @@ class UpdateController extends Controller
          $input = $request->except('_token', 'update');
          // validating input data
          $request->validate([
-            'cabName' => 'required|max:20|unique:switch',
+            'cabName' => 'required|max:20',
             'ipAddr' => ['required', 'max:15', 'regex:/^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/i'],
             'portsNum' => 'required|max:2'
          ]);

@@ -2,7 +2,7 @@
     @section('title', 'Layout | Injection layout')
     <link rel="stylesheet" href="/css/draggable.css">
     {{-- -----------------------------top section--------------------------- --}}
-    <div class="container w-full h-screen border-2 border-current mx-1 p-3 flex overflow-auto">
+    <div class="container w-full min-h-screen h-full border-2 border-current mx-1 p-3 flex overflow-auto">
         {{-- <div class="container flex p-5 h-screen w-full overflow-auto"> --}}
         @foreach ($stations as $station)
         <div
@@ -27,8 +27,9 @@
             </div>
             <h1>{{$station->mainIpAddr}}</h1>
             @php
-                $index = $type->where('name', '=', $station->type)->keys()[0];
-                $stType = $type->where('name', '=', $station->type)[$index];
+                $typereq =  $type->where('name', '=', $station->type);
+                $index = $typereq->keys()[0];
+                $stType = $typereq[$index];
             @endphp
             <img src="/assets/images/machines/{{$stType->icon}}" alt="{{$station->name}}" class="m-auto p-0 object-fit h-3/4">
             <span

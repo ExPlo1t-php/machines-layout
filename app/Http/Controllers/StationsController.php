@@ -10,17 +10,27 @@ use App\Models\Station;
 use Illuminate\Http\Request;
 use App\Models\Coordinates;
 use App\Models\Line;
+use App\Models\StationType;
 
 class StationsController extends Controller
 {
     public function stationInfo($name){
-        $station = Station::get()->where('name', '=', $name);
+        $url = urldecode($name);
+        $station = Station::get()->where('name', '=', $url);
         $index = $station->keys()[0];
-        $switch = CabinetSwitch::get()->where('switchId', '=', $station[$index]->switch);
-        $cabinet = NetworkCabinet::get()->where('name', '=', $switch[$switch->keys()[0]]->cabName);
-        $equipments = Equipment::get()->where('station', '=', $name);
+        if(!is_null($station[$index]->switch)){
+            $switch = CabinetSwitch::get()->where('switchId', '=', $station[$index]->switch);
+            $cabinet = NetworkCabinet::get()->where('name', '=', $switch[$switch->keys()[0]]->cabName);
+        }
+        $equipments = Equipment::get()->where('station', '=', $url);
             $eqtype = EquipmentType::get();
-        return view('pages.stationInfo', ['index'=>$index, 'station'=>$station[$index], 'switch'=>$switch[$switch->keys()[0]], 'cabinet'=>$cabinet[$cabinet->keys()[0]],  'equipments'=>$equipments, 'eqtype'=>$eqtype]);
+            $stType = StationType::get();
+            if(isset($switch) && isset($cabinet)){
+                return view('pages.stationInfo', ['index'=>$index, 'station'=>$station[$index], 'switch'=>$switch[$switch->keys()[0]], 'cabinet'=>$cabinet[$cabinet->keys()[0]],  'equipments'=>$equipments, 'eqtype'=>$eqtype, 'stType'=>$stType]);
+            }else{
+                return view('pages.stationInfo', ['index'=>$index, 'station'=>$station[$index],'equipments'=>$equipments, 'eqtype'=>$eqtype, 'stType'=>$stType]);
+
+            }
     }
 
     public function stationPos (Request $request, $SN) {

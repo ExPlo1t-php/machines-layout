@@ -5,7 +5,11 @@
 @if( Session::has('success') )
         <span id="successTxt" class="text-green-500 flex self-center">{{ Session::get('success') }}</span>
         @endif  
-        <form class="w-full max-w-2xl flex-col self-center" method="POST" action="addEquipment" enctype="multipart/form-data">
+        @if(isset($st))
+        <form class="w-full max-w-2xl flex-col self-center" method="POST" action="/addEquipment{{$st->SN}}" enctype="multipart/form-data">
+        @else
+        <form class="w-full max-w-2xl flex-col self-center" method="POST" action="/addEquipment" enctype="multipart/form-data">
+          @endif
           @csrf
 
     <div class="flex justify-between">
@@ -84,21 +88,25 @@
           <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
            station name
           </label>
-          <select name="equipment"
+          <select name="station"
           onchange="let add = document.querySelector('.add');
           if(this.options[this.selectedIndex] == add){
           window.location = add.value;
           }"
           {{-- select option -> add button --}}
           class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password">
-            <option value="null" selected disabled hidden >- select the station where this equipment exist -</option>
+          @if(isset($st))
+          <option value="{{$st['name']}}" selected hidden> {{$st['name']}}</option>
+          @else
+          <option value="null" selected disabled hidden >- select the station where this equipment exist -</option>
+          @endif
             {{-- fetching cabinet data to load in select menu --}}
             @php
-                use App\Models\equipment;
-                $equipments = equipment::get();
+                use App\Models\Station;
+                $stations = Station::get();
             @endphp
-            @foreach ($equipments as $equipment)
-            <option value="{{$equipment['name']}}"> {{$equipment['name']}}</option>
+            @foreach ($stations as $station)
+            <option value="{{$station['name']}}"> {{$station['name']}}</option>
             @endforeach
   
             <option class="add" value="line">&#x2b; Add a new equipment</option>
@@ -193,7 +201,7 @@
       </thead>
       <tbody>
         @php
-            // use App\Models\Equipment;
+            use App\Models\Equipment;
             $equipments = Equipment::get();
         @endphp
           @foreach ($equipments as $equipment)

@@ -5,7 +5,7 @@
 @if( Session::has('success') )
         <span id="successTxt" class="text-green-500 flex self-center">{{ Session::get('success') }}</span>
 @endif  
-<form class="w-full max-w-lg flex-col self-center" method="POST" action="addEquipmentType" enctype="multipart/form-data">
+<form class="w-full max-w-lg flex-col self-center" method="POST" action="/addEquipmentType" enctype="multipart/form-data">
     @csrf
       <div class="flex flex-wrap -mx-3 mb-6">
         <div class="w-full px-3">

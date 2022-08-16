@@ -5,7 +5,11 @@
 <?php if( Session::has('success') ): ?>
         <span id="successTxt" class="text-green-500 flex self-center"><?php echo e(Session::get('success')); ?></span>
         <?php endif; ?>  
-        <form class="w-full max-w-2xl flex-col self-center" method="POST" action="addEquipment" enctype="multipart/form-data">
+        <?php if(isset($st)): ?>
+        <form class="w-full max-w-2xl flex-col self-center" method="POST" action="/addEquipment<?php echo e($st->SN); ?>" enctype="multipart/form-data">
+        <?php else: ?>
+        <form class="w-full max-w-2xl flex-col self-center" method="POST" action="/addEquipment" enctype="multipart/form-data">
+          <?php endif; ?>
           <?php echo csrf_field(); ?>
 
     <div class="flex justify-between">
@@ -110,21 +114,25 @@
           <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
            station name
           </label>
-          <select name="equipment"
+          <select name="station"
           onchange="let add = document.querySelector('.add');
           if(this.options[this.selectedIndex] == add){
           window.location = add.value;
           }"
           
           class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password">
-            <option value="null" selected disabled hidden >- select the station where this equipment exist -</option>
+          <?php if(isset($st)): ?>
+          <option value="<?php echo e($st['name']); ?>" selected hidden> <?php echo e($st['name']); ?></option>
+          <?php else: ?>
+          <option value="null" selected disabled hidden >- select the station where this equipment exist -</option>
+          <?php endif; ?>
             
             <?php
-                use App\Models\equipment;
-                $equipments = equipment::get();
+                use App\Models\Station;
+                $stations = Station::get();
             ?>
-            <?php $__currentLoopData = $equipments; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $equipment): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-            <option value="<?php echo e($equipment['name']); ?>"> <?php echo e($equipment['name']); ?></option>
+            <?php $__currentLoopData = $stations; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $station): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+            <option value="<?php echo e($station['name']); ?>"> <?php echo e($station['name']); ?></option>
             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
   
             <option class="add" value="line">&#x2b; Add a new equipment</option>
@@ -219,7 +227,7 @@
       </thead>
       <tbody>
         <?php
-            // use App\Models\Equipment;
+            use App\Models\Equipment;
             $equipments = Equipment::get();
         ?>
           <?php $__currentLoopData = $equipments; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $equipment): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -257,7 +265,10 @@
 
               </td>
               <td class="px-4 py-4 text-right flex">
-                <a data-id="<?php echo e($equipment['name']); ?>" data-method="get" href="<?php echo e(route('showEquipment', $equipment['name'])); ?>" id="edit" class="m-2 font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                <?php
+                $url = urlencode($equipment['name']);   
+               ?>
+                <a data-id="<?php echo e($equipment['name']); ?>" data-method="get" href="<?php echo e(route('showEquipment', $url)); ?>" id="edit" class="m-2 font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
                 <a data-id="<?php echo e($equipment['SN']); ?>" data-method="DELETE" href="<?php echo e(route('deleteEquipment', $equipment['SN'])); ?>" id="delete" class="m-2 font-medium text-red-600 dark:text-red-500 hover:underline">Delete</a>
             </td>
           </tr>

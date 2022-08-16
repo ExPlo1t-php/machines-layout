@@ -109,6 +109,7 @@ Route::post('/updateStationType/{name}', [UpdateController::class, 'updateStatio
 // Equipment
 Route::get('/searchEquipment',[SearchController::class, 'searchEquipment'])->name('searchEquipment')->middleware(['auth']);
 Route::get('/equipment', [AdminController::class, 'showEquipment'])->name('equipment')->middleware(['auth']);
+Route::get('/equipment/{SN}', [AdminController::class, 'showSpecificEquipment'])->name('equipmentSpecific')->middleware(['auth']);
 Route::post('/addEquipment', [AdminController::class, 'addEquipment'])->name('addEquipment')->middleware(['auth']);
 Route::delete('/deleteEquipment/{SN}',[DeleteController::class, 'deleteEquipment'])->name('deleteEquipment')->middleware(['auth']);
 Route::get('/showEquipment/{name}', [UpdateController::class, 'showEquipment'])->name('showEquipment')->middleware(['auth']);

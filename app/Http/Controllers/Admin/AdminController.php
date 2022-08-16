@@ -45,6 +45,12 @@ class AdminController extends Controller
     public function showEquipment(){
         return view('components.forms.equipment');
     }
+    public function showSpecificEquipment($SN){
+        $url = urldecode($SN);
+        $station = Station::get()->where('SN', '=', $url);
+        $index = $station->keys()[0];
+        return view('components.forms.equipment', ['st'=>$station[$index]]);
+    }
     // equipment type
     public function showEquipmentType(){
         return view('components.forms.equipmentType');
@@ -66,7 +72,7 @@ class AdminController extends Controller
         // inserting validated data
         NetworkCabinet::create($input);
         
-        return redirect('dashboard');
+        return redirect('cabinet');
         
     }
     // cabinet-------------------------------------------
@@ -84,7 +90,7 @@ class AdminController extends Controller
         // inserting validated data
         CabinetSwitch::create($input);
 
-        return redirect('dashboard');
+        return redirect('switch');
 
     }
     // switch--------------------------------------------
@@ -101,7 +107,7 @@ class AdminController extends Controller
         // inserting validated data
         Line::create($input);
 
-        return redirect('dashboard');
+        return redirect('lines');
 
     }
     // Assembly line--------------------------------------------
@@ -128,7 +134,7 @@ class AdminController extends Controller
         // inserting validated data
         StationType::create($input);
 
-        return redirect('dashboard');
+        return redirect('station-type');
 
     }
     // Station type--------------------------------------------
@@ -155,7 +161,7 @@ class AdminController extends Controller
         // inserting validated data
         EquipmentType::create($input);
 
-        return redirect('dashboard');
+        return redirect('equipment-type');
 
     }
     // equipment type--------------------------------------------
@@ -188,12 +194,12 @@ class AdminController extends Controller
         // inserting validated data
         Station::create($input);
 
-        return redirect('dashboard');
+        return redirect('station');
 
     }
     // add station--------------------------------------------
 
-    // add station--------------------------------------------
+    // add equipment--------------------------------------------
     public function addEquipment(Request $request){
         // fetching input data
         $input = $request->all();
@@ -215,9 +221,30 @@ class AdminController extends Controller
         // inserting validated data
         Equipment::create($input);
 
-        return redirect('dashboard');
 
     }
-    // add station--------------------------------------------
+    public function addSpecificEquipment(Request $request, $SN){
+        // fetching input data
+        $input = $request->all();
+
+        
+        
+        // validating input data
+        $request->validate([
+            'type' => 'required|max:20',
+            'name' => 'required|max:20',
+            'SN' => 'required|max:20|unique:station',
+            'supplier' => 'required|max:20',
+            'ipAddr' => ['required', 'max:15', 'regex:/^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/i'],
+            'port' => 'required|max:20',
+            'station' => 'required|max:20',
+            'description' => 'max:500',
+        ]);
+        
+        // inserting validated data
+        Equipment::create($input);
+        return redirect('stationInfo/'.$SN);
+    }
+    // add equipment--------------------------------------------
 
 }

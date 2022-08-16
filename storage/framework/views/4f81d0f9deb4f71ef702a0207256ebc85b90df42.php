@@ -10,7 +10,7 @@
     <?php $__env->startSection('title', 'Layout | Injection layout'); ?>
     <link rel="stylesheet" href="/css/draggable.css">
     
-    <div class="container w-full h-screen border-2 border-current mx-1 p-3 flex overflow-auto">
+    <div class="container w-full min-h-screen border-2 border-current mx-1 p-3 flex overflow-auto">
         
         <?php $__currentLoopData = $stations; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $station): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
         <div
@@ -35,8 +35,9 @@
             </div>
             <h1><?php echo e($station->mainIpAddr); ?></h1>
             <?php
-                $index = $type->where('name', '=', $station->type)->keys()[0];
-                $stType = $type->where('name', '=', $station->type)[$index];
+                $typereq =  $type->where('name', '=', $station->type);
+                $index = $typereq->keys()[0];
+                $stType = $typereq[$index];
             ?>
             <img src="/assets/images/machines/<?php echo e($stType->icon); ?>" alt="<?php echo e($station->name); ?>" class="m-auto p-0 object-fit h-3/4">
             <span
