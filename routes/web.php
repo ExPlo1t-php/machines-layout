@@ -15,6 +15,7 @@ use App\Models\Coordinates;
 use App\Models\Line;
 use App\Models\Station;
 use App\Models\StationType;
+use Illuminate\Contracts\Pagination\Paginator;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,8 +42,8 @@ Route::get('/home', function () {
 })->name('home');
 // ---------------------test-----------------------
 Route::get('/test', function () {
-    $coo = Station::get();
-    return view('test', ['coo'=>$coo]);
+    $stations= Station::where('description')->paginate(7);
+    return view('test', ['stations'=>$stations]);
 })->name('test');
 Route::post('/stationPos/{SN}', [StationsController::class, 'stationPos'])->name('stationPos');
 Route::post('/linePos/{id}', [StationsController::class, 'linePos'])->name('linePos');

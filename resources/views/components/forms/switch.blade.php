@@ -116,7 +116,7 @@ $('#search').on('keyup',function(){
       <tbody>
         @php
             use App\Models\CabinetSwitch;
-            $switchs = CabinetSwitch::get();
+            $switchs = CabinetSwitch::paginate(7);
         @endphp
           @foreach ($switchs as $switch)
           <tr class="border-b dark:bg-gray-800 dark:border-gray-700 odd:bg-white even:bg-gray-50 odd:dark:bg-gray-800 even:dark:bg-gray-700">
@@ -138,9 +138,9 @@ $('#search').on('keyup',function(){
             </td>
           </tr>
           @endforeach
-          
         </tbody>
       </table>
+      {{$switchs->links('vendor/pagination/tailwind')}}
 </div>
 
 @endsection

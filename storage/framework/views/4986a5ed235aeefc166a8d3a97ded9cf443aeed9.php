@@ -339,9 +339,9 @@
       <tbody>
         <?php
             use App\Models\Station;
-            $stations = Station::get();
+            $stations = Station::paginate(7);
         ?>
-          <?php $__currentLoopData = $stations->paginate(7); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $station): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+          <?php $__currentLoopData = $stations; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $station): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
           <tr class="border-b dark:bg-gray-800 dark:border-gray-700 odd:bg-white even:bg-gray-50 odd:dark:bg-gray-800 even:dark:bg-gray-700">
             <th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
               <?php echo e($station['name']); ?>
@@ -389,9 +389,10 @@
             </td>
           </tr>
           <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-          
         </tbody>
       </table>
+      <?php echo e($stations->links('vendor/pagination/tailwind')); ?>
+
 </div>
 
 <?php $__env->stopSection(); ?>

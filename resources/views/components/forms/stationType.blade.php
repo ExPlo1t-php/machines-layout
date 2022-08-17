@@ -125,7 +125,7 @@
       <tbody>
         @php
             use App\Models\StationType;
-            $types = StationType::get();
+            $types = StationType::paginate(7);
         @endphp
           @foreach ($types as $type)
           <tr class="border-b dark:bg-gray-800 dark:border-gray-700 odd:bg-white even:bg-gray-50 odd:dark:bg-gray-800 even:dark:bg-gray-700">
@@ -147,9 +147,9 @@
             </td>
           </tr>
           @endforeach
-          
         </tbody>
       </table>
+      {{$types->links('vendor/pagination/tailwind')}}
 </div>
 
 @endsection

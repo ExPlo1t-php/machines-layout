@@ -82,7 +82,7 @@
       <tbody>
         @php
             use App\Models\Line;
-            $lines = Line::get();
+            $lines = Line::paginate(7);
         @endphp
           @foreach ($lines as $line)
           <tr class="border-b dark:bg-gray-800 dark:border-gray-700 odd:bg-white even:bg-gray-50 odd:dark:bg-gray-800 even:dark:bg-gray-700">
@@ -101,9 +101,9 @@
             </td>
           </tr>
           @endforeach
-          
         </tbody>
       </table>
+      {{$lines->links('vendor/pagination/tailwind')}}
 </div>
 
 @endsection

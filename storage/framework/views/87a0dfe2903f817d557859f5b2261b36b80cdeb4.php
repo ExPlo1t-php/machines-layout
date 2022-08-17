@@ -82,7 +82,7 @@
       <tbody>
         <?php
             use App\Models\Line;
-            $lines = Line::get();
+            $lines = Line::paginate(7);
         ?>
           <?php $__currentLoopData = $lines; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $line): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
           <tr class="border-b dark:bg-gray-800 dark:border-gray-700 odd:bg-white even:bg-gray-50 odd:dark:bg-gray-800 even:dark:bg-gray-700">
@@ -103,9 +103,10 @@
             </td>
           </tr>
           <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-          
         </tbody>
       </table>
+      <?php echo e($lines->links('vendor/pagination/tailwind')); ?>
+
 </div>
 
 <?php $__env->stopSection(); ?>
