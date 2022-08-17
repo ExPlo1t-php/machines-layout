@@ -2,7 +2,7 @@
 @extends('dashboard')
 
 @section('component')
-<form class="w-full max-w-lg flex-col self-center" method="POST" action="/updateSwitch/{{$switch[$index]->switchId}}">
+<form class="w-full max-w-lg flex-col self-center" method="POST" action="/updateSwitch/{{$switch[$index]->id}}">
     @csrf
       <div class="flex flex-wrap -mx-3 mb-6">
         <div class="w-full px-3">

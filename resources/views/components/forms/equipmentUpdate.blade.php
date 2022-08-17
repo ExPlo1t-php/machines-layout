@@ -2,7 +2,7 @@
 @extends('dashboard')
 
 @section('component')
-<form class="w-full max-w-2xl flex-col self-center" method="POST" action="/updateEquipment/{{$equipment[$index]->name}}" enctype="multipart/form-data">
+<form class="w-full max-w-2xl flex-col self-center" method="POST" action="/updateEquipment/{{$equipment[$index]->SN}}" enctype="multipart/form-data">
     @csrf
 
     <div class="flex justify-between">

@@ -3,7 +3,7 @@
 
 <?php $__env->startSection('component'); ?>
 <?php
-$url = urlencode($station[$index]->name);   
+$url = urlencode($station[$index]->SN);   
 ?>
 <form class="w-full max-w-2xl flex-col self-center" method="POST" action="/updateStation/<?php echo e($url); ?>" enctype="multipart/form-data">
     <?php echo csrf_field(); ?>
@@ -155,7 +155,7 @@ $url = urlencode($station[$index]->name);
                 $switches = CabinetSwitch::get();
             ?>
             <?php $__currentLoopData = $switches; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $switch): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-            <option value="<?php echo e($switch['switchId']); ?>"> <?php echo e($switch['cabName']); ?> - <?php echo e($switch['switchId']); ?></option>
+            <option value="<?php echo e($switch['id']); ?>"> <?php echo e($switch['cabName']); ?> - <?php echo e($switch['id']); ?></option>
             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
   
             <option class="add" value="switch">&#x2b; Add a new switch</option>

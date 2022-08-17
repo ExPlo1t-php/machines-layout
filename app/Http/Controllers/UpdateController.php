@@ -9,6 +9,7 @@ use App\Models\Line;
 use App\Models\NetworkCabinet;
 use App\Models\Station;
 use App\Models\StationType;
+use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -19,78 +20,78 @@ class UpdateController extends Controller
     public function showCabinet($name){
         $url = urldecode($name);
         // echo $url;
-        $cabinet = NetworkCabinet::get()->where('name', '=', $url);
+        $cabinet = NetworkCabinet::get()->where('id', '=', $url);
         // getting the goddamned index value 😠
         $index = $cabinet->keys()[0];
 
         return view('components.forms.cabinetUpdate', ['cabinet'=> $cabinet, 'index'=>$index]);
         
     }
-    public function updateCabinet(Request $request, $name){
-        $url = urldecode($name);
+    public function updateCabinet(Request $request, $id){
+        $url = urldecode($id);
          // fetching input data
          $input = $request->except('_token', 'update');
          // validating input data
          $request->validate([
-            'name' => 'required|max:20|',
+            'name' => ['required','max:20',Rule::unique('network_cabinet')->ignore($url)],
             'zone' => 'required|max:20',
             'description' => 'max:500',
          ]);
          // inserting validated data
-         NetworkCabinet::where('name',$url)->update($input);
+         NetworkCabinet::where('id',$url)->update($input);
  
          return redirect('cabinet')->with('success','item changed successfully!');
     }
     // network cabinet update ------------------------------------------
 
     // cabinet switch update ------------------------------------------
-    public function showSwitch($switchId){
-        $url = urldecode($switchId);
+    public function showSwitch($id){
+        $url = urldecode($id);
         // echo $url;
-        $switch = CabinetSwitch::get()->where('switchId', '=', $url);
+        $switch = CabinetSwitch::get()->where('id', '=', $url);
         // getting the goddamned index value 😠
         $index = $switch->keys()[0];
 
         return view('components.forms.switchUpdate', ['switch'=> $switch, 'index'=>$index]);
         
     }
-    public function updateSwitch(Request $request, $switchId){
+    public function updateSwitch(Request $request, $id){
          // fetching input data
          $input = $request->except('_token', 'update');
          // validating input data
          $request->validate([
-            'cabName' => 'required|max:20',
-            'ipAddr' => ['required', 'max:15', 'regex:/^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/i'],
+            'cabName' => ['required','max:20'],
+            'ipAddr' => ['required', 'max:15', 'regex:/^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/i', Rule::unique('switch')->ignore($id)],
             'portsNum' => 'required|max:2'
          ]);
          // inserting validated data
-         CabinetSwitch::where('switchId',$switchId)->update($input);
+         CabinetSwitch::where('id',$id)->update($input);
  
          return redirect('switch')->with('success','item changed successfully!');
     }
     // cabinet switch update ------------------------------------------
 
     // assembly line update ------------------------------------------
-    public function showLine($name){
-        $url = urldecode($name);
+    public function showLine($id){
+        $url = urldecode($id);
         // echo $url;
-        $line = Line::get()->where('name', '=', $url);
+        $line = Line::get()->where('id', '=', $url);
         // getting the goddamned index value 😠
         $index = $line->keys()[0];
         return view('components.forms.lineUpdate', ['line'=> $line, 'index'=>$index]);
         
     }
-    public function updateLine(Request $request, $name){
-        $url = urldecode($name);
+    public function updateLine(Request $request, $id){
+        $url = urldecode($id);
          // fetching input data
          $input = $request->except('_token', 'update');
          // validating input data
          $request->validate([
-            'name' => 'required|max:20',
+            'name' => ['required','max:20', Rule::unique('line')->ignore($id)],
             'description' => 'max:500',
          ]);
          // inserting validated data
-         Line::where('name',$url)->update($input);
+         Line::where('id',$url)->update($input);
  
          return redirect('lines')->with('success','item changed successfully!');;
     }
@@ -106,26 +107,26 @@ class UpdateController extends Controller
         return view('components.forms.stationUpdate', ['station'=> $station, 'index'=>$index]);
         
     }
-    public function updateStation(Request $request, $name){
-        $url = urldecode($name);
+    public function updateStation(Request $request, $SN){
+        $url = urldecode($SN);
          // fetching input data
          $input = $request->except('_token', 'update');
          // validating input data
          $request->validate([
             'type' => 'required|max:20',
-            'name' => 'required|max:20',
+            'name' => ['required','max:20',Rule::unique('station')->ignore($SN, 'SN')],
             'supplier' => 'required|max:20',
-            'mainIpAddr' => ['required', 'max:15', 'regex:/^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/i'],
-            'ipAddr1' => ['max:15', 'regex:/^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/i'],
-            'ipAddr2' => ['max:15', 'regex:/^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/i'],
-            'ipAddr3' => ['max:15', 'regex:/^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/i'],
+            'mainIpAddr' => ['required', 'max:15', 'regex:/^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/i', Rule::unique('station')->ignore($url)],
+            'ipAddr1' => ['max:15', 'regex:/^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/i', Rule::unique('station')->ignore($url)],
+            'ipAddr2' => ['max:15', 'regex:/^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/i', Rule::unique('station')->ignore($url)],
+            'ipAddr3' => ['max:15', 'regex:/^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/i', Rule::unique('station')->ignore($url)],
             'switch' => 'required|max:20',
             'port' => 'required|max:20',
             'line' => 'max:20',
             'description' => 'max:500',
          ]);
          // inserting validated data
-         Station::where('name',$url)->update($input);
+         Station::where('SN',$url)->update($input);
  
          return redirect('station')->with('success','item changed successfully!');;
     }
@@ -141,8 +142,8 @@ class UpdateController extends Controller
         return view('components.forms.stationTypeUpdate', ['type'=> $type, 'index'=>$index]);
         
     }
-    public function updateStationType(Request $request, $name){
-        $url = urldecode($name);
+    public function updateStationType(Request $request, $id){
+        $url = urldecode($id);
          // fetching input data
          $input = $request->except('_token', 'update');
          // validating input data
@@ -150,7 +151,7 @@ class UpdateController extends Controller
         
          // validating input data
          $request->validate([
-             'name' => 'required|max:20',
+             'name' => ['required','max:20',Rule::unique('station_type')->ignore($url)],
              'description' => 'max:500',
              'icon' => 'max:50',
          ]);
@@ -175,14 +176,14 @@ class UpdateController extends Controller
         return view('components.forms.equipmentUpdate', ['equipment'=> $equipment, 'index'=>$index]);
         
     }
-    public function updateEquipment(Request $request, $name){
-        $url = urldecode($name);
+    public function updateEquipment(Request $request, $SN){
+        $url = urldecode($SN);
          // fetching input data
          $input = $request->except('_token', 'update');
          // validating input data
          $request->validate([
             'type' => 'required|max:20',
-            'name' => 'required|max:20',
+            'name' => ['required','max:20',Rule::unique('equipment')->ignore($url, 'SN')],
             'supplier' => 'required|max:20',
             'ipAddr' => ['required', 'max:15', 'regex:/^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/i'],
             'station' => 'required|max:20',
@@ -190,7 +191,7 @@ class UpdateController extends Controller
             'description' => 'max:500',
          ]);
          // inserting validated data
-         Equipment::where('name',$url)->update($input);
+         Equipment::where('SN',$url)->update($input);
  
          return redirect('equipment')->with('success','item changed successfully!');;
     }
@@ -206,8 +207,8 @@ class UpdateController extends Controller
         return view('components.forms.equipmentTypeUpdate', ['type'=> $type, 'index'=>$index]);
         
     }
-    public function updateEquipmentType(Request $request, $name){
-        $url = urldecode($name);
+    public function updateEquipmentType(Request $request, $id){
+        $url = urldecode($id);
          // fetching input data
          $input = $request->except('_token', 'update');
          // validating input data
@@ -215,7 +216,7 @@ class UpdateController extends Controller
         
          // validating input data
          $request->validate([
-             'name' => 'required|max:20 ',
+             'name' => ['required','max:20', Rule::unique('equipment_type')->ignore($id)],
              'description' => 'max:500',
              'icon' => 'max:50',
          ]);
@@ -225,7 +226,7 @@ class UpdateController extends Controller
          $input['icon']-> move(public_path('Image'), $filename);
          $input['icon']= $filename;
          // inserting validated data
-         EquipmentType::where('name',$url)->update($input);
+         EquipmentType::where('id',$url)->update($input);
     
          return redirect('equipment-type')->with('success','item changed successfully!');;
     }

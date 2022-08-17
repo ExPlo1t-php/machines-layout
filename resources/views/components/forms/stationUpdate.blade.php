@@ -3,7 +3,7 @@
 
 @section('component')
 @php
-$url = urlencode($station[$index]->name);   
+$url = urlencode($station[$index]->SN);   
 @endphp
 <form class="w-full max-w-2xl flex-col self-center" method="POST" action="/updateStation/{{$url}}" enctype="multipart/form-data">
     @csrf
@@ -129,7 +129,7 @@ $url = urlencode($station[$index]->name);
                 $switches = CabinetSwitch::get();
             @endphp
             @foreach ($switches as $switch)
-            <option value="{{$switch['switchId']}}"> {{$switch['cabName']}} - {{ $switch['switchId']}}</option>
+            <option value="{{$switch['id']}}"> {{$switch['cabName']}} - {{ $switch['id']}}</option>
             @endforeach
   
             <option class="add" value="switch">&#x2b; Add a new switch</option>

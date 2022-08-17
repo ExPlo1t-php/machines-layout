@@ -27,7 +27,7 @@ return new class extends Migration
             $table->decimal('posLeft',  4, 0)->nullable();
             // foreign key
             $table->unsignedInteger('switch')->nullable();
-            $table->foreign('switch')->references('switchId')->on('switch')->onUpdate('cascade')->onDelete('set null');
+            $table->foreign('switch')->references('id')->on('switch')->onUpdate('cascade')->onDelete('set null');
             $table->string('line', 20)->nullable();
             $table->foreign('line')->references('name')->on('line')->onUpdate('cascade')->onDelete('set null');
             $table->string('type', 20)->nullable();

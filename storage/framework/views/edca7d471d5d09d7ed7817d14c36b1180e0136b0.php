@@ -5,7 +5,7 @@
 <?php if( Session::has('success') ): ?>
         <span id="successTxt" class="text-green-500 flex self-center"><?php echo e(Session::get('success')); ?></span>
 <?php endif; ?>  
-<form class="w-full max-w-lg flex-col self-center" method="POST" action="addEquipmentType" enctype="multipart/form-data">
+<form class="w-full max-w-lg flex-col self-center" method="POST" action="/addEquipmentType" enctype="multipart/form-data">
     <?php echo csrf_field(); ?>
       <div class="flex flex-wrap -mx-3 mb-6">
         <div class="w-full px-3">
@@ -140,7 +140,10 @@
                <img src="/assets/images/equipments/<?php echo e($type['icon']); ?>" alt="icon" class="w-1/7 h-1/7"> 
               </td>
               <td class="px-4 py-4 text-right flex">
-                <a data-id="<?php echo e($type['name']); ?>" data-method="get" href="<?php echo e(route('showEquipmentType', $type['name'])); ?>" id="edit" class="m-2 font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                <?php
+                $url = urlencode($type['name']);   
+               ?>
+                <a data-id="<?php echo e($type['name']); ?>" data-method="get" href="<?php echo e(route('showEquipmentType', $url)); ?>" id="edit" class="m-2 font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
                 <a data-id="<?php echo e($type['name']); ?>" data-method="DELETE" href="<?php echo e(route('deleteEquipmentType', $type['name'])); ?>" id="delete" class="m-2 font-medium text-red-600 dark:text-red-500 hover:underline">Delete</a>
             </td>
           </tr>

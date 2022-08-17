@@ -2,7 +2,7 @@
 
 
 <?php $__env->startSection('component'); ?>
-<form class="w-full max-w-lg flex-col self-center" method="POST" action="/updateStationType/<?php echo e($type[$index]->name); ?>" enctype="multipart/form-data">
+<form class="w-full max-w-lg flex-col self-center" method="POST" action="/updateStationType/<?php echo e($type[$index]->id); ?>" enctype="multipart/form-data">
     <?php echo csrf_field(); ?>
       <div class="flex flex-wrap -mx-3 mb-6">
         <div class="w-full px-3">

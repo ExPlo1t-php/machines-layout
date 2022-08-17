@@ -121,7 +121,7 @@ $('#search').on('keyup',function(){
           @foreach ($switchs as $switch)
           <tr class="border-b dark:bg-gray-800 dark:border-gray-700 odd:bg-white even:bg-gray-50 odd:dark:bg-gray-800 even:dark:bg-gray-700">
             <th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
-              {{$switch['switchId']}}
+              {{$switch['id']}}
             </th>
             <td class="px-6 py-4">
               {{$switch['ipAddr']}}
@@ -133,8 +133,8 @@ $('#search').on('keyup',function(){
                 {{$switch['cabName']}}
               </td>
               <td class="px-4 py-4 text-right flex">
-                <a data-id="{{$switch['switchId']}}" data-method="get" href="{{route('showSwitch', $switch['switchId'])}}" id="edit" class="m-2 font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                <a data-id="{{$switch['switchId']}}" data-method="DELETE" href="{{route('deleteSwitch', $switch['switchId'])}}" id="delete" class="m-2 font-medium text-red-600 dark:text-red-500 hover:underline">Delete</a>
+                <a data-id="{{$switch['id']}}" data-method="get" href="{{route('showSwitch', $switch['id'])}}" id="edit" class="m-2 font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                <a data-id="{{$switch['id']}}" data-method="DELETE" href="{{route('deleteSwitch', $switch['id'])}}" id="delete" class="m-2 font-medium text-red-600 dark:text-red-500 hover:underline">Delete</a>
             </td>
           </tr>
           @endforeach

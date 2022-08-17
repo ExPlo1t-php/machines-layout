@@ -2,7 +2,7 @@
 
 
 <?php $__env->startSection('component'); ?>
-<form class="w-full max-w-2xl flex-col self-center" method="POST" action="/updateEquipment/<?php echo e($equipment[$index]->name); ?>" enctype="multipart/form-data">
+<form class="w-full max-w-2xl flex-col self-center" method="POST" action="/updateEquipment/<?php echo e($equipment[$index]->SN); ?>" enctype="multipart/form-data">
     <?php echo csrf_field(); ?>
 
     <div class="flex justify-between">

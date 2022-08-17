@@ -5,7 +5,7 @@
 <?php if( Session::has('success') ): ?>
         <span id="successTxt" class="text-green-500 flex self-center"><?php echo e(Session::get('success')); ?></span>
 <?php endif; ?>
-<form class="w-full max-w-2xl flex-col self-center" method="POST" action="addStation" enctype="multipart/form-data">
+<form class="w-full max-w-2xl flex-col self-center" method="POST" action="/addStation" enctype="multipart/form-data">
     <?php echo csrf_field(); ?>
 
     <div class="flex justify-between">
@@ -187,7 +187,7 @@
           $switches = CabinetSwitch::get();
       ?>
       <?php $__currentLoopData = $switches; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $switch): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-      <option value="<?php echo e($switch['switchId']); ?>"> <?php echo e($switch['cabName']); ?> - <?php echo e($switch['switchId']); ?></option>
+      <option value="<?php echo e($switch['id']); ?>"> <?php echo e($switch['cabName']); ?> - <?php echo e($switch['id']); ?></option>
       <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
       <option class="add" value="switch">&#x2b; Add a new switch</option>
@@ -341,7 +341,7 @@
             use App\Models\Station;
             $stations = Station::get();
         ?>
-          <?php $__currentLoopData = $stations; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $station): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+          <?php $__currentLoopData = $stations->paginate(7); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $station): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
           <tr class="border-b dark:bg-gray-800 dark:border-gray-700 odd:bg-white even:bg-gray-50 odd:dark:bg-gray-800 even:dark:bg-gray-700">
             <th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
               <?php echo e($station['name']); ?>

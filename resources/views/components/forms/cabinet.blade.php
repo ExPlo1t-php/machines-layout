@@ -115,10 +115,10 @@
               </td>
               <td class="px-4 py-4 text-right flex">
                 @php
-                $url = urlencode($cabinet['name']);   
+                $url = urlencode($cabinet['id']);   
                @endphp
-                <a data-id="{{$cabinet['name']}}" data-method="get" href="{{route('showCabinet', $url)}}" id="edit" class="m-2 font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                <a data-id="{{$cabinet['name']}}" data-method="DELETE" href="{{route('deleteCabinet', $url)}}" id="delete" class="m-2 font-medium text-red-600 dark:text-red-500 hover:underline">Delete</a>
+                <a data-id="{{$cabinet['id']}}" data-method="get" href="{{route('showCabinet', $url)}}" id="edit" class="m-2 font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                <a data-id="{{$cabinet['id']}}" data-method="DELETE" href="{{route('deleteCabinet', $url)}}" id="delete" class="m-2 font-medium text-red-600 dark:text-red-500 hover:underline">Delete</a>
             </td>
           </tr>
           @endforeach

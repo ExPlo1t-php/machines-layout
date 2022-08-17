@@ -14,12 +14,12 @@ return new class extends Migration
     public function up()
     {
         Schema::create('switch', function (Blueprint $table) {
-            $table->increments('switchId');
+            $table->increments('id');
             $table->string('ipAddr');
             $table->integer('portsNum');
             
             // foreign key
-            $table->string('cabName', 20)->unique()->nullable();
+            $table->string('cabName', 20)->nullable();
             $table->foreign('cabName')->references('name')->on('network_cabinet')->onUpdate('cascade')->onDelete('set null');;
         });
         

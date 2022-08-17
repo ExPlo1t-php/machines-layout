@@ -5,7 +5,7 @@
 <?php if( Session::has('success') ): ?>
         <span id="successTxt" class="text-green-500 flex self-center"><?php echo e(Session::get('success')); ?></span>
 <?php endif; ?>
-<form class="w-full max-w-lg flex-col self-center" method="POST" action="addSwitch">
+<form class="w-full max-w-lg flex-col self-center" method="POST" action="/addSwitch">
     <?php echo csrf_field(); ?>
       <div class="flex flex-wrap -mx-3 mb-6">
         <div class="w-full px-3">
@@ -121,7 +121,7 @@ $('#search').on('keyup',function(){
           <?php $__currentLoopData = $switchs; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $switch): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
           <tr class="border-b dark:bg-gray-800 dark:border-gray-700 odd:bg-white even:bg-gray-50 odd:dark:bg-gray-800 even:dark:bg-gray-700">
             <th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
-              <?php echo e($switch['switchId']); ?>
+              <?php echo e($switch['id']); ?>
 
             </th>
             <td class="px-6 py-4">
@@ -137,8 +137,8 @@ $('#search').on('keyup',function(){
 
               </td>
               <td class="px-4 py-4 text-right flex">
-                <a data-id="<?php echo e($switch['switchId']); ?>" data-method="get" href="<?php echo e(route('showSwitch', $switch['switchId'])); ?>" id="edit" class="m-2 font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                <a data-id="<?php echo e($switch['switchId']); ?>" data-method="DELETE" href="<?php echo e(route('deleteSwitch', $switch['switchId'])); ?>" id="delete" class="m-2 font-medium text-red-600 dark:text-red-500 hover:underline">Delete</a>
+                <a data-id="<?php echo e($switch['id']); ?>" data-method="get" href="<?php echo e(route('showSwitch', $switch['id'])); ?>" id="edit" class="m-2 font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                <a data-id="<?php echo e($switch['id']); ?>" data-method="DELETE" href="<?php echo e(route('deleteSwitch', $switch['id'])); ?>" id="delete" class="m-2 font-medium text-red-600 dark:text-red-500 hover:underline">Delete</a>
             </td>
           </tr>
           <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
