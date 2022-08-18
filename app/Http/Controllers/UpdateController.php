@@ -7,6 +7,7 @@ use App\Models\Equipment;
 use App\Models\EquipmentType;
 use App\Models\Line;
 use App\Models\NetworkCabinet;
+use App\Models\Ports;
 use App\Models\Station;
 use App\Models\StationType;
 use Illuminate\Validation\Rule;
@@ -17,8 +18,8 @@ class UpdateController extends Controller
 {
 
     // network cabinet update ------------------------------------------
-    public function showCabinet($name){
-        $url = urldecode($name);
+    public function showCabinet($id){
+        $url = urldecode($id);
         // echo $url;
         $cabinet = NetworkCabinet::get()->where('id', '=', $url);
         // getting the goddamned index value 😠
@@ -33,7 +34,7 @@ class UpdateController extends Controller
          $input = $request->except('_token', 'update');
          // validating input data
          $request->validate([
-            'name' => ['required','max:20',Rule::unique('network_cabinet')->ignore($url)],
+            'name' => ['required','max:20', Rule::unique('network_cabinet')->ignore($id)],
             'zone' => 'required|max:20',
             'description' => 'max:500',
          ]);
@@ -56,11 +57,62 @@ class UpdateController extends Controller
         
     }
     public function updateSwitch(Request $request, $id){
+        $dboldports = CabinetSwitch::get()->where('id',$id);
+        $oldports = $dboldports[$dboldports->keys()[0]]->portsNum;
+        $newports = $request->portsNum;
+        $i = $oldports + 1;
+        
+        //check if the new value of ports is bigger than the old 
+        if($oldports <= $newports){
+            // if the array returns empty(which means the switch has no ports)
+            // check if the new value is equal or bigger
+            if(Ports::get()->where('switchId','=',$id)->isEmpty()){
+                // if its equal and the array empty he adds a number of ports , as long as the array is empty
+                if($oldports == $newports){
+                    // echo 'the array is empty+equality';
+                    for ($i=1; $i <= $newports ; $i++) { 
+                        Ports::insert([
+                            'portNum'=>$i, 'switchId'=>$id,
+                        ]);
+                    }
+                }else{
+                    // echo 'the array is empty';
+                    $i = 1;
+                    while($i <= $newports){
+                        Ports::insert([
+                            'portNum'=>$i, 'switchId'=>$id,
+                        ]);
+                        $i++;
+                    }
+                }
+            }else{
+                if($oldports < $newports){
+                    // echo 'the array is not empty and new >= old';
+                    echo $oldports;
+                    echo $newports;
+                    for ($i=$oldports+1; $i <= $newports; $i++){
+                            Ports::insert([
+                                    'portNum'=>$i, 'switchId'=>$id,
+                                ]);
+                    }
+                }
+            }
+        }elseif($oldports > $newports){
+            // $j =$oldports - $newports;
+            while($oldports>$newports){
+                $ports = Ports::where('portNum','=', $oldports);
+                $ports->delete();
+                echo 'success2';
+                $oldports--;
+            }
+
+        }
          // fetching input data
          $input = $request->except('_token', 'update');
          // validating input data
          $request->validate([
             'cabName' => ['required','max:20'],
+            'switchNumber'=>'required|max:5',
             'ipAddr' => ['required', 'max:15', 'regex:/^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/i', Rule::unique('switch')->ignore($id)],
             'portsNum' => 'required|max:2'
          ]);
@@ -116,10 +168,10 @@ class UpdateController extends Controller
             'type' => 'required|max:20',
             'name' => ['required','max:20',Rule::unique('station')->ignore($SN, 'SN')],
             'supplier' => 'required|max:20',
-            'mainIpAddr' => ['required', 'max:15', 'regex:/^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/i', Rule::unique('station')->ignore($url)],
-            'ipAddr1' => ['max:15', 'regex:/^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/i', Rule::unique('station')->ignore($url)],
-            'ipAddr2' => ['max:15', 'regex:/^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/i', Rule::unique('station')->ignore($url)],
-            'ipAddr3' => ['max:15', 'regex:/^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/i', Rule::unique('station')->ignore($url)],
+            'mainIpAddr' => ['required', 'max:15', 'regex:/^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/i', Rule::unique('station')->ignore($url, 'SN')],
+            'ipAddr1' => ['max:15', 'regex:/^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/i', Rule::unique('station')->ignore($url, 'SN')],
+            'ipAddr2' => ['max:15', 'regex:/^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/i', Rule::unique('station')->ignore($url, 'SN')],
+            'ipAddr3' => ['max:15', 'regex:/^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/i', Rule::unique('station')->ignore($url, 'SN')],
             'switch' => 'required|max:20',
             'port' => 'required|max:20',
             'line' => 'max:20',
@@ -128,15 +180,15 @@ class UpdateController extends Controller
          // inserting validated data
          Station::where('SN',$url)->update($input);
  
-         return redirect('station')->with('success','item changed successfully!');;
+         return redirect('station')->with('success','item changed successfully!');
     }
     // Station update ------------------------------------------
 
     // station type update ------------------------------------------
-    public function showStationType($name){
-        $url = urldecode($name);
+    public function showStationType($id){
+        $url = urldecode($id);
         // echo $url;
-        $type = StationType::get()->where('name', '=', $url);
+        $type = StationType::get()->where('id', '=', $url);
         // getting the goddamned index value 😠
         $index = $type->keys()[0];
         return view('components.forms.stationTypeUpdate', ['type'=> $type, 'index'=>$index]);
@@ -146,22 +198,22 @@ class UpdateController extends Controller
         $url = urldecode($id);
          // fetching input data
          $input = $request->except('_token', 'update');
-         // validating input data
-         $filename = $input['icon']->getClientOriginalName();
-        
+         
          // validating input data
          $request->validate([
              'name' => ['required','max:20',Rule::unique('station_type')->ignore($url)],
              'description' => 'max:500',
-             'icon' => 'max:50',
+             'icon' => 'required|max:50',
          ]);
+             // validating input data
+             $filename = $input['icon']->getClientOriginalName();
          
          // moving temporary image to the main folder and switching the request name
          // with the actual file name
          $input['icon']-> move(public_path('Image'), $filename);
          $input['icon']= $filename;
          // inserting validated data
-         StationType::where('name',$url)->update($input);
+         StationType::where('id',$url)->update($input);
          return redirect('station-type')->with('success','item changed successfully!');;
     }
     // Station type update ------------------------------------------
@@ -185,9 +237,9 @@ class UpdateController extends Controller
             'type' => 'required|max:20',
             'name' => ['required','max:20',Rule::unique('equipment')->ignore($url, 'SN')],
             'supplier' => 'required|max:20',
-            'ipAddr' => ['required', 'max:15', 'regex:/^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/i'],
+            'ipAddr' => ['max:15', 'regex:/^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/i', Rule::unique('equipment')->ignore($url, 'SN')],
             'station' => 'required|max:20',
-            'port' => 'required|max:20',
+            'port' => 'max:20',
             'description' => 'max:500',
          ]);
          // inserting validated data
@@ -211,16 +263,16 @@ class UpdateController extends Controller
         $url = urldecode($id);
          // fetching input data
          $input = $request->except('_token', 'update');
-         // validating input data
-         $filename = $input['icon']->getClientOriginalName();
-        
+         
          // validating input data
          $request->validate([
              'name' => ['required','max:20', Rule::unique('equipment_type')->ignore($id)],
              'description' => 'max:500',
-             'icon' => 'max:50',
-         ]);
-         
+             'icon' => 'required|max:50',
+            ]);
+            
+            // validating input data
+            $filename = $input['icon']->getClientOriginalName();
          // moving temporary image to the main folder and switching the request name
          // with the actual file name
          $input['icon']-> move(public_path('Image'), $filename);

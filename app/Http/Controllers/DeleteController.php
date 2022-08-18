@@ -7,6 +7,7 @@ use App\Models\Equipment;
 use App\Models\EquipmentType;
 use App\Models\Line;
 use App\Models\NetworkCabinet;
+use App\Models\Ports;
 use App\Models\Station;
 use App\Models\StationType;
 use Exception;
@@ -16,25 +17,27 @@ class DeleteController extends Controller
     // delete cabinet -----------------------------------
     // childrens : tbd
     // parents: tbd
-    public function deleteCabinet($name){
-        $equipment = NetworkCabinet::where('name','=',$name);
+    public function deleteCabinet($id){
+        $equipment = NetworkCabinet::where('id','=',$id);
         $equipment->delete();
     }
 
     // delete switch -----------------------------------
     // childrens : tbd
     // parents: tbd
-    public function deleteSwitch($switchId){
-        $equipment = CabinetSwitch::where('switchId','=',$switchId);
+    public function deleteSwitch($id){
+        $ports = Ports::where('switchId','=', $id);
+        $ports->delete();
+        $equipment = CabinetSwitch::where('id','=',$id);
         $equipment->delete();
     }
 
     // delete line -----------------------------------
     // childrens : tbd
     // parents: tbd
-    public function deleteLine($name){
-        $equipment = Line::where('name','=',$name);
-        $equipment->delete();
+    public function deleteLine($id){
+        $line = Line::where('id','=',$id);
+        $line->delete();
     }
 
     // delete equipment -----------------------------------
@@ -48,8 +51,8 @@ class DeleteController extends Controller
     // delete equipment type -----------------------------------
     // childrens : equipment
     // parents: none
-    public function deleteEquipmentType($name){
-        $equipmenttype = EquipmentType::where('name','=',$name);
+    public function deleteEquipmentType($id){
+        $equipmenttype = EquipmentType::where('id','=',$id);
         $equipmenttype->delete();
     }
     
@@ -63,10 +66,9 @@ class DeleteController extends Controller
     // delete station type -----------------------------------
     // childrens :  station - #equipment# - #equipment type#
     // 1️parents: none
-    public function deleteStationType($name){
-            $stationtype = StationType::where('name','=',$name);
+    public function deleteStationType($id){
+            $stationtype = StationType::where('id','=',$id);
             $stationtype->delete();
-            // return view('station')->with('stat','you can\'t delete this type because it\'s being used by another element');
  
 
                 // try{    //here trying to update email and phone in db which are unique values

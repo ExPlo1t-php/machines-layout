@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('name', 20)->unique();
             $table->string('zone', 20);
             $table->longText('description')->nullable();
+            $table->decimal('posTop',  4, 0)->nullable();
+            $table->decimal('posLeft',  4, 0)->nullable();
         });
     }
 

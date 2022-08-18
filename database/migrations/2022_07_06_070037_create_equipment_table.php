@@ -17,8 +17,8 @@ return new class extends Migration
             $table->string('name');
             $table->string('SN')->unique()->primary();
             $table->string('supplier');
-            $table->string('IpAddr', 15)->unique();
-            $table->integer('port');
+            $table->string('IpAddr', 15)->nullable()->unique();
+            $table->integer('port')->nullable();
             $table->longText('description')->nullable();
             // foreign key
             $table->string('type')->nullable();

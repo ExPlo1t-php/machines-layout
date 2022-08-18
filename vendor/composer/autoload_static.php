@@ -128,6 +128,10 @@ class ComposerStaticInit6d10485b6f4cc4e6a3c9364e7c1e8054
             'Laravel\\Sail\\' => 13,
             'Laravel\\Breeze\\' => 15,
         ),
+        'K' => 
+        array (
+            'Kyslik\\ColumnSortable\\' => 22,
+        ),
         'I' => 
         array (
             'Illuminate\\Support\\' => 19,
@@ -421,6 +425,10 @@ class ComposerStaticInit6d10485b6f4cc4e6a3c9364e7c1e8054
         array (
             0 => __DIR__ . '/..' . '/laravel/breeze/src',
         ),
+        'Kyslik\\ColumnSortable\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kyslik/column-sortable/src/ColumnSortable',
+        ),
         'Illuminate\\Support\\' => 
         array (
             0 => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Macroable',
@@ -627,6 +635,7 @@ class ComposerStaticInit6d10485b6f4cc4e6a3c9364e7c1e8054
         'App\\Models\\EquipmentType' => __DIR__ . '/../..' . '/app/Models/EquipmentType.php',
         'App\\Models\\Line' => __DIR__ . '/../..' . '/app/Models/Line.php',
         'App\\Models\\NetworkCabinet' => __DIR__ . '/../..' . '/app/Models/NetworkCabinet.php',
+        'App\\Models\\Ports' => __DIR__ . '/../..' . '/app/Models/Ports.php',
         'App\\Models\\Station' => __DIR__ . '/../..' . '/app/Models/Station.php',
         'App\\Models\\StationType' => __DIR__ . '/../..' . '/app/Models/StationType.php',
         'App\\Models\\User' => __DIR__ . '/../..' . '/app/Models/User.php',
@@ -2724,6 +2733,10 @@ class ComposerStaticInit6d10485b6f4cc4e6a3c9364e7c1e8054
         'Illuminate\\View\\ViewFinderInterface' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/View/ViewFinderInterface.php',
         'Illuminate\\View\\ViewName' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/View/ViewName.php',
         'Illuminate\\View\\ViewServiceProvider' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/View/ViewServiceProvider.php',
+        'Kyslik\\ColumnSortable\\ColumnSortableServiceProvider' => __DIR__ . '/..' . '/kyslik/column-sortable/src/ColumnSortable/ColumnSortableServiceProvider.php',
+        'Kyslik\\ColumnSortable\\Exceptions\\ColumnSortableException' => __DIR__ . '/..' . '/kyslik/column-sortable/src/ColumnSortable/Exceptions/ColumnSortableException.php',
+        'Kyslik\\ColumnSortable\\Sortable' => __DIR__ . '/..' . '/kyslik/column-sortable/src/ColumnSortable/Sortable.php',
+        'Kyslik\\ColumnSortable\\SortableLink' => __DIR__ . '/..' . '/kyslik/column-sortable/src/ColumnSortable/SortableLink.php',
         'Laravel\\Breeze\\BreezeServiceProvider' => __DIR__ . '/..' . '/laravel/breeze/src/BreezeServiceProvider.php',
         'Laravel\\Breeze\\Console\\InstallCommand' => __DIR__ . '/..' . '/laravel/breeze/src/Console/InstallCommand.php',
         'Laravel\\Breeze\\Console\\InstallsApiStack' => __DIR__ . '/..' . '/laravel/breeze/src/Console/InstallsApiStack.php',

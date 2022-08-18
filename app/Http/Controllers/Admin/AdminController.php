@@ -10,6 +10,7 @@ use App\Models\Equipment;
 use App\Models\EquipmentType;
 use App\Models\Line;
 use App\Models\NetworkCabinet;
+use App\Models\Ports;
 use App\Models\StationType;
 use App\Models\Station;
 // data models
@@ -84,12 +85,20 @@ class AdminController extends Controller
         // validating input data
         $request->validate([
            'cabName' => 'required|max:20',
-            'ipAddr' => ['required', 'max:15', 'regex:/^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/i', 'unique:station'],
+           'switchNumber'=>'required|max:5',
+            'ipAddr' => ['required', 'max:15', 'regex:/^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/i', 'unique:switch'],
             'portsNum' => 'required|max:2'
         ]);
         // inserting validated data
         CabinetSwitch::create($input);
-
+        $switchId = CabinetSwitch::get()->where('ipAddr','=',$request->ipAddr);
+        $i = 1;
+        while($i<=$request->portsNum){
+            Ports::insert([
+                'portNum'=>$i, 'switchId'=>$switchId[$switchId->keys()[0]]->id,
+            ]);
+            $i++;
+        }
         return redirect('switch');
 
     }
@@ -117,16 +126,16 @@ class AdminController extends Controller
         // fetching input data
         $input = $request->all();
 
-        $filename = $input['icon']->getClientOriginalName();
         
         
         // validating input data
         $request->validate([
             'name' => 'required|max:20|unique:station_type',
             'description' => 'max:500',
-            'icon' => 'max:50',
+            'icon' => 'required|max:50',
         ]);
         
+        $filename = $input['icon']->getClientOriginalName();
         // moving temporary image to the main folder and switching the request name
         // with the actual file name
         $input['icon']-> move(public_path('/assets/images/machines/'), $filename);
@@ -144,16 +153,16 @@ class AdminController extends Controller
         // fetching input data
         $input = $request->all();
 
-        $filename = $input['icon']->getClientOriginalName();
         
         
         // validating input data
         $request->validate([
             'name' => 'required|max:20|unique:equipment_type',
             'description' => 'max:500',
-            'icon' => 'max:50',
+            'icon' => 'required|max:50',
         ]);
         
+        $filename = $input['icon']->getClientOriginalName();
         // moving temporary image to the main folder and switching the request name
         // with the actual file name
         $input['icon']-> move(public_path('assets/images/equipments/'), $filename);
@@ -207,10 +216,10 @@ class AdminController extends Controller
         // validating input data
         $request->validate([
             'type' => 'required|max:20',
-            'name' => 'required|max:20',
-            'SN' => 'required|max:20|unique:station',
+            'name' => 'required|max:20|unique:equipment',
+            'SN' => 'required|max:20|unique:equipment',
             'supplier' => 'required|max:20',
-            'ipAddr' => ['required', 'max:15', 'regex:/^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/i'],
+            'ipAddr' => ['required', 'max:15', 'regex:/^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/i', 'unique:equipment'],
             'port' => 'required|max:20',
             'station' => 'required|max:20',
             'description' => 'max:500',
@@ -218,8 +227,9 @@ class AdminController extends Controller
         
         // inserting validated data
         Equipment::create($input);
-
-
+        
+        
+        return redirect('equipment');
     }
     public function addSpecificEquipment(Request $request, $SN){
         // fetching input data
@@ -233,8 +243,8 @@ class AdminController extends Controller
             'name' => 'required|max:20',
             'SN' => 'required|max:20|unique:station',
             'supplier' => 'required|max:20',
-            'ipAddr' => ['required', 'max:15', 'regex:/^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/i'],
-            'port' => 'required|max:20',
+            'ipAddr' => ['max:15', 'regex:/^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/i'],
+            'port' => 'max:20',
             'station' => 'required|max:20',
             'description' => 'max:500',
         ]);

@@ -7,23 +7,21 @@
 @endif  
 <form class="w-full max-w-lg flex-col self-center" method="POST" action="/addEquipmentType" enctype="multipart/form-data">
     @csrf
-      <div class="flex flex-wrap -mx-3 mb-6">
-        <div class="w-full px-3">
+        <x-formInput>
           <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
             Equipment type name
           </label>
           <input name="name" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="text" placeholder="equipment type">
-        </div>
-      </div>
+        </x-formInput>
 
-  <div class="flex flex-wrap -mx-3 mb-6">
-    <div class="w-full px-3">
+
+      <x-formInput>
       <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
         Description
       </label>
       <textarea name="description"  cols="53" rows="10" placeholder="Write a description of this Type of this equipment (optional)" style="resize: none" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"></textarea>
-    </div>
-  </div>
+    </x-formInput>
+
 
 
 
@@ -102,7 +100,7 @@
       $.ajaxSetup({ headers: { 'csrftoken' : '{{ csrf_token() }}' } });
       </script>  
       {{-- live search to station table --}}
-    
+      <script src="/js/sort.js"></script>
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
   <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400 ">
       <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -139,10 +137,10 @@
               </td>
               <td class="px-4 py-4 text-right flex">
                 @php
-                $url = urlencode($type['name']);   
+                $url = urlencode($type['id']);   
                @endphp
-                <a data-id="{{$type['name']}}" data-method="get" href="{{route('showEquipmentType', $url)}}" id="edit" class="m-2 font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                <a data-id="{{$type['name']}}" data-method="DELETE" href="{{route('deleteEquipmentType', $type['name'])}}" id="delete" class="m-2 font-medium text-red-600 dark:text-red-500 hover:underline">Delete</a>
+                <a data-id="{{$type['id']}}" data-method="get" href="{{route('showEquipmentType', $url)}}" id="edit" class="m-2 font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                <a data-id="{{$type['id']}}" data-method="DELETE" href="{{route('deleteEquipmentType', $type['id'])}}" id="delete" class="m-2 font-medium text-red-600 dark:text-red-500 hover:underline">Delete</a>
             </td>
           </tr>
           @endforeach

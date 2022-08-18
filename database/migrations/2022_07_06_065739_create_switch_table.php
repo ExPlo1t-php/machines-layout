@@ -15,12 +15,16 @@ return new class extends Migration
     {
         Schema::create('switch', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('ipAddr');
+            $table->integer('switchNumber');
+            $table->string('ipAddr')->unique();
             $table->integer('portsNum');
             
             // foreign key
             $table->string('cabName', 20)->nullable();
-            $table->foreign('cabName')->references('name')->on('network_cabinet')->onUpdate('cascade')->onDelete('set null');;
+            $table->foreign('cabName')->references('name')
+            ->on('network_cabinet')
+            ->onUpdate('cascade')
+            ->onDelete('set null');
         });
         
         

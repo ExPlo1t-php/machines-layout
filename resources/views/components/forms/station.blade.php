@@ -96,18 +96,12 @@
     <input name="mainIpAddr" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="text" placeholder="Main ip address format(xxx.xxx.xxx.xxx)">
   </x-formInput>
 
-  <x-formInput>
+  
+  <div class="flex flex-wrap w-full">
+    <div class="w-full">
       <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
-        port
+        switch name
       </label>
-      <input name="port" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="text" placeholder="station port number">
-    </x-formInput>
-
- <div class="flex flex-wrap mb-6 w-full">
-  <div class="w-full">
-    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
-      switch name
-    </label>
     <select name="switch"
     onchange="let add = document.querySelector('.add');
     if(this.options[this.selectedIndex] == add){
@@ -124,13 +118,19 @@
       @foreach ($switches as $switch)
       <option value="{{$switch['id']}}"> {{$switch['cabName']}} - {{ $switch['id']}}</option>
       @endforeach
-
+      
       <option class="add" value="switch">&#x2b; Add a new switch</option>
     </select>
   </div>
+  <x-formInput>
+      <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
+        port
+      </label>
+      <input name="port" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="text" placeholder="station port number">
+    </x-formInput>
 </div>
 
-  <div class="flex flex-wrap  mb-6 w-full">
+<div class="flex flex-wrap  mb-6 w-full">
     <div class="w-full">
       <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
         Assembly line name
@@ -221,39 +221,39 @@
 
   </script>  
   {{-- live search to station table --}}
-
+  <script src="/js/sort.js"></script>
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
   <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400 ">
       <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
         <tr>
-          <th scope="col" class="px-6 py-3">
+          <th scope="col" class="px-6 py-3 cursor-pointer">
                 Station name
             </th>
-            <th scope="col" class="px-6 py-3">
+            <th scope="col" class="px-6 py-3 cursor-pointer">
                 Station serial number
             </th>
-            <th scope="col" class="px-6 py-3">
+            <th scope="col" class="px-6 py-3 cursor-pointer">
                 Station supplier
             </th>
-            <th scope="col" class="px-6 py-3">
+            <th scope="col" class="px-6 py-3 cursor-pointer">
                 Station's main ip address
             </th>
-            <th scope="col" class="px-6 py-3">
+            <th scope="col" class="px-6 py-3 cursor-pointer">
+              Station's occupied switch 
+            </th>
+            <th scope="col" class="px-6 py-3 cursor-pointer">
                 Station's occupied port
             </th>
-            <th scope="col" class="px-6 py-3">
-                Station's occupied switch 
-            </th>
-            <th scope="col" class="px-6 py-3">
+            <th scope="col" class="px-6 py-3 cursor-pointer">
                 Station line
             </th>
-            <th scope="col" class="px-6 py-3">
+            <th scope="col" class="px-6 py-3 cursor-pointer">
                 Station type
             </th>
-            <th scope="col" class="px-6 py-3">
+            <th scope="col" class="px-6 py-3 cursor-pointer">
                 Station description
             </th>
-            <th scope="col" class="px-6 py-3">
+            <th scope="col" class="px-6 py-3 cursor-pointer">
               tools
             </th>
           </tr>
@@ -265,9 +265,9 @@
         @endphp
           @foreach ($stations as $station)
           <tr class="border-b dark:bg-gray-800 dark:border-gray-700 odd:bg-white even:bg-gray-50 odd:dark:bg-gray-800 even:dark:bg-gray-700">
-            <th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
+            <td scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
               {{$station['name']}}
-            </th>
+            </td>
             <td class="px-6 py-4">
               {{$station['SN']}}
             </td>
@@ -277,12 +277,12 @@
             <td class="px-6 py-4">
                 {{$station['mainIpAddr']}}
               </td>
-            <td class="px-6 py-4">
-                {{$station['port']}}
-              </td>
-            <td class="px-6 py-4">
+              <td class="px-6 py-4">
                 {{$station['switch']}}
               </td>
+              <td class="px-6 py-4">
+                  {{$station['port']}}
+                </td>
             <td class="px-6 py-4">
                 {{$station['line']}}
               </td>

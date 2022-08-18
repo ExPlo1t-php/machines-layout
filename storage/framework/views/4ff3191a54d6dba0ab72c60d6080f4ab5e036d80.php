@@ -4,24 +4,46 @@
 <?php $__env->startSection('component'); ?>
 <form class="w-full max-w-lg flex-col self-center" method="POST" action="/updateStationType/<?php echo e($type[$index]->id); ?>" enctype="multipart/form-data">
     <?php echo csrf_field(); ?>
-      <div class="flex flex-wrap -mx-3 mb-6">
-        <div class="w-full px-3">
+    <?php if (isset($component)) { $__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4 = $component; } ?>
+<?php $component = $__env->getContainer()->make(Illuminate\View\AnonymousComponent::class, ['view' => 'components.formInput','data' => []] + (isset($attributes) ? (array) $attributes->getIterator() : [])); ?>
+<?php $component->withName('formInput'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $constructor = (new ReflectionClass(Illuminate\View\AnonymousComponent::class))->getConstructor()): ?>
+<?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
+<?php endif; ?>
+<?php $component->withAttributes([]); ?>
           <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
             Station type name
           </label>
           <input value="<?php echo e($type[$index]->name); ?>" name="name" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="text" placeholder="Station type">
-        </div>
-      </div>
+         <?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4)): ?>
+<?php $component = $__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4; ?>
+<?php unset($__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4); ?>
+<?php endif; ?>
 
-  <div class="flex flex-wrap -mx-3 mb-6">
-    <div class="w-full px-3">
+    <?php if (isset($component)) { $__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4 = $component; } ?>
+<?php $component = $__env->getContainer()->make(Illuminate\View\AnonymousComponent::class, ['view' => 'components.formInput','data' => []] + (isset($attributes) ? (array) $attributes->getIterator() : [])); ?>
+<?php $component->withName('formInput'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $constructor = (new ReflectionClass(Illuminate\View\AnonymousComponent::class))->getConstructor()): ?>
+<?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
+<?php endif; ?>
+<?php $component->withAttributes([]); ?>
       <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
         Description
       </label>
       <textarea name="description"  cols="53" rows="10" placeholder="Write a description of this Type of station (optional)" style="resize: none" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
 <?php echo e($type[$index]->description); ?></textarea>
-    </div>
-  </div>
+       <?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4)): ?>
+<?php $component = $__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4; ?>
+<?php unset($__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4); ?>
+<?php endif; ?>
 
 
 
@@ -58,6 +80,7 @@
         </template>
     </div>
 </div>
+
 
   <div class="flex justify-center">
     <input class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow" type="submit" value="update">

@@ -12,7 +12,7 @@
             class="{{$station->SN}} bg-white  shadow-md m-1 border border-gray-200 rounded-lg max-w-sm dark:bg-gray-800 dark:border-gray-700 cursor-move">
                 <div class="p-10 ">
                     @php
-                    $url = urlencode($station->name);   
+                    $url = urlencode($station->SN);   
                     @endphp
                     <a href="/stationInfo/{{$url}}">
                     <h5 class="text-gray-900 hover:bg-gray-300 rounded text-center font-bold text-xl tracking-tight mb-2 dark:text-white">{{$station->name}}</h5>

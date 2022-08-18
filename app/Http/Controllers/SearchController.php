@@ -213,7 +213,7 @@ class SearchController extends Controller
     $output="";
     // search criteria
     $switch= DB::table('switch')
-    ->where('switchId','LIKE','%'.$request->search."%")
+    ->where('id','LIKE','%'.$request->search."%")
     ->orWhere('ipAddr','LIKE','%'.$request->search."%")
     ->orWhere('portsNum','LIKE','%'.$request->search."%")
     ->orWhere('cabName','LIKE','%'.$request->search."%")
@@ -224,13 +224,13 @@ class SearchController extends Controller
     {
     foreach ($switch as $key => $switch) {
     $output.='<tr class="border-b dark:bg-gray-800 dark:border-gray-700 odd:bg-white even:bg-gray-50 odd:dark:bg-gray-800 even:dark:bg-gray-700">'.
-    $attr.$switch->switchId.'</td>'.
+    $attr.$switch->id.'</td>'.
     $attr.$switch->ipAddr.'</td>'.
     $attr.$switch->portsNum.'</td>'.
     $attr.$switch->cabName.'</td>'.
     '<td class="px-4 py-4 text-right flex">'
     .'<a href="#" class="m-2 font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>'
-    .'<a data-id="'.$switch->switchId.'" data-method="DELETE" href="'.route('deleteSwitch', $switch->switchId).'" id="delete" class="m-2 font-medium text-red-600 dark:text-red-500 hover:underline">Delete</a>'
+    .'<a data-id="'.$switch->id.'" data-method="DELETE" href="'.route('deleteSwitch', $switch->id).'" id="delete" class="m-2 font-medium text-red-600 dark:text-red-500 hover:underline">Delete</a>'
     .'</td>'.
     '</tr>';
 }

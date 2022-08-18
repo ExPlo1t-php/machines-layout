@@ -148,6 +148,32 @@
 <?php unset($__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4); ?>
 <?php endif; ?>
 
+  
+  <div class="flex flex-wrap w-full">
+    <div class="w-full">
+      <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
+        switch name
+      </label>
+    <select name="switch"
+    onchange="let add = document.querySelector('.add');
+    if(this.options[this.selectedIndex] == add){
+    window.location = add.value;
+    }"
+    
+    class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password">
+      <option value="null" selected disabled hidden >- select a the switch connected to this station -</option>
+      
+      <?php
+          use App\Models\CabinetSwitch;
+          $switches = CabinetSwitch::get();
+      ?>
+      <?php $__currentLoopData = $switches; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $switch): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+      <option value="<?php echo e($switch['id']); ?>"> <?php echo e($switch['cabName']); ?> - <?php echo e($switch['id']); ?></option>
+      <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+      
+      <option class="add" value="switch">&#x2b; Add a new switch</option>
+    </select>
+  </div>
   <?php if (isset($component)) { $__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4 = $component; } ?>
 <?php $component = $__env->getContainer()->make(Illuminate\View\AnonymousComponent::class, ['view' => 'components.formInput','data' => []] + (isset($attributes) ? (array) $attributes->getIterator() : [])); ?>
 <?php $component->withName('formInput'); ?>
@@ -167,35 +193,9 @@
 <?php $component = $__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4; ?>
 <?php unset($__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4); ?>
 <?php endif; ?>
-
- <div class="flex flex-wrap mb-6 w-full">
-  <div class="w-full">
-    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
-      switch name
-    </label>
-    <select name="switch"
-    onchange="let add = document.querySelector('.add');
-    if(this.options[this.selectedIndex] == add){
-    window.location = add.value;
-    }"
-    
-    class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password">
-      <option value="null" selected disabled hidden >- select a the switch connected to this station -</option>
-      
-      <?php
-          use App\Models\CabinetSwitch;
-          $switches = CabinetSwitch::get();
-      ?>
-      <?php $__currentLoopData = $switches; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $switch): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-      <option value="<?php echo e($switch['id']); ?>"> <?php echo e($switch['cabName']); ?> - <?php echo e($switch['id']); ?></option>
-      <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-
-      <option class="add" value="switch">&#x2b; Add a new switch</option>
-    </select>
-  </div>
 </div>
 
-  <div class="flex flex-wrap  mb-6 w-full">
+<div class="flex flex-wrap  mb-6 w-full">
     <div class="w-full">
       <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
         Assembly line name
@@ -299,39 +299,39 @@
 
   </script>  
   
-
+  <script src="/js/sort.js"></script>
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
   <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400 ">
       <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
         <tr>
-          <th scope="col" class="px-6 py-3">
+          <th scope="col" class="px-6 py-3 cursor-pointer">
                 Station name
             </th>
-            <th scope="col" class="px-6 py-3">
+            <th scope="col" class="px-6 py-3 cursor-pointer">
                 Station serial number
             </th>
-            <th scope="col" class="px-6 py-3">
+            <th scope="col" class="px-6 py-3 cursor-pointer">
                 Station supplier
             </th>
-            <th scope="col" class="px-6 py-3">
+            <th scope="col" class="px-6 py-3 cursor-pointer">
                 Station's main ip address
             </th>
-            <th scope="col" class="px-6 py-3">
+            <th scope="col" class="px-6 py-3 cursor-pointer">
+              Station's occupied switch 
+            </th>
+            <th scope="col" class="px-6 py-3 cursor-pointer">
                 Station's occupied port
             </th>
-            <th scope="col" class="px-6 py-3">
-                Station's occupied switch 
-            </th>
-            <th scope="col" class="px-6 py-3">
+            <th scope="col" class="px-6 py-3 cursor-pointer">
                 Station line
             </th>
-            <th scope="col" class="px-6 py-3">
+            <th scope="col" class="px-6 py-3 cursor-pointer">
                 Station type
             </th>
-            <th scope="col" class="px-6 py-3">
+            <th scope="col" class="px-6 py-3 cursor-pointer">
                 Station description
             </th>
-            <th scope="col" class="px-6 py-3">
+            <th scope="col" class="px-6 py-3 cursor-pointer">
               tools
             </th>
           </tr>
@@ -343,10 +343,10 @@
         ?>
           <?php $__currentLoopData = $stations; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $station): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
           <tr class="border-b dark:bg-gray-800 dark:border-gray-700 odd:bg-white even:bg-gray-50 odd:dark:bg-gray-800 even:dark:bg-gray-700">
-            <th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
+            <td scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
               <?php echo e($station['name']); ?>
 
-            </th>
+            </td>
             <td class="px-6 py-4">
               <?php echo e($station['SN']); ?>
 
@@ -359,14 +359,14 @@
                 <?php echo e($station['mainIpAddr']); ?>
 
               </td>
-            <td class="px-6 py-4">
-                <?php echo e($station['port']); ?>
-
-              </td>
-            <td class="px-6 py-4">
+              <td class="px-6 py-4">
                 <?php echo e($station['switch']); ?>
 
               </td>
+              <td class="px-6 py-4">
+                  <?php echo e($station['port']); ?>
+
+                </td>
             <td class="px-6 py-4">
                 <?php echo e($station['line']); ?>
 

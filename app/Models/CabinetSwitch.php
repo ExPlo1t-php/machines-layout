@@ -12,6 +12,7 @@ class CabinetSwitch extends Model
     protected $table = 'switch';
     protected $fillable = [
         'cabName',
+        'switchNumber',
         'ipAddr',
         'portsNum',
 

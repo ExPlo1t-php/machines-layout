@@ -14,15 +14,15 @@ use App\Models\StationType;
 
 class StationsController extends Controller
 {
-    public function stationInfo($name){
-        $url = urldecode($name);
-        $station = Station::get()->where('name', '=', $url);
+    public function stationInfo($SN){
+        $url = urldecode($SN);
+        $station = Station::get()->where('SN', '=', $url);
         $index = $station->keys()[0];
         if(!is_null($station[$index]->switch)){
-            $switch = CabinetSwitch::get()->where('switchId', '=', $station[$index]->switch);
+            $switch = CabinetSwitch::get()->where('id', '=', $station[$index]->switch);
             $cabinet = NetworkCabinet::get()->where('name', '=', $switch[$switch->keys()[0]]->cabName);
         }
-        $equipments = Equipment::get()->where('station', '=', $url);
+        $equipments = Equipment::get()->where('station', '=', $station[$index]->name);
             $eqtype = EquipmentType::get();
             $stType = StationType::get();
             if(isset($switch) && isset($cabinet)){
@@ -47,5 +47,14 @@ class StationsController extends Controller
            $input = $request->all();
            Line::where('id',$id)->update($input);
              }
+            }
+
+    public function cabinetPos(Request $request, $id) {
+        if($request->ajax())
+        {
+           $input = $request->all();
+           NetworkCabinet::where('id',$id)->update($input);
+             }
         }
-}
+
+    }

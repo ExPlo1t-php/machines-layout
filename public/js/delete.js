@@ -41,13 +41,6 @@ $(document).ready(function () {
 
 
 
-
-
-
-
-
-
-
     // edit in the same page
     $(document).ready(function () {
       $("body").on("click","#edit",function(e){

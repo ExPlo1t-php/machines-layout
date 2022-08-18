@@ -56,9 +56,9 @@ $url = urlencode($station[$index]->SN);
 
 
       <script>
-  // adding 3 inputs of ip if type == bnb
+  // adding 3 inputs of ip if type == bmb
       $('#type').on('change', function() {
-    if(this.value == 'bnb'){
+    if(this.value == 'bmb'){
       console.log(this.value);
       var i = 3;
       for (i; i >= 1 ; i--) {
@@ -83,7 +83,7 @@ $url = urlencode($station[$index]->SN);
         </div>
       </div>
 
-      @if ($station[$index]->type == 'bnb')
+      @if ($station[$index]->type == 'bmb')
       <div class="flex flex-wrap -mx-3 mb-6" id="ipAddr1">
         <div class="w-full px-3">
           <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">

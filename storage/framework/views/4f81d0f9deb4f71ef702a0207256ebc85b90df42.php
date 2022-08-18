@@ -10,7 +10,7 @@
     <?php $__env->startSection('title', 'Layout | Injection layout'); ?>
     <link rel="stylesheet" href="/css/draggable.css">
     
-    <div class="container w-full min-h-screen border-2 border-current mx-1 p-3 flex overflow-auto">
+    <div class="container w-full min-h-screen h-full border-2 border-current mx-1 p-3 flex overflow-auto">
         
         <?php $__currentLoopData = $stations; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $station): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
         <div
@@ -41,7 +41,7 @@
             ?>
             <img src="/assets/images/machines/<?php echo e($stType->icon); ?>" alt="<?php echo e($station->name); ?>" class="m-auto p-0 object-fit h-3/4">
             <span
-            onclick="location.href='/stationInfo/<?php echo e($station->name); ?>'" 
+            onclick="location.href='/stationInfo/<?php echo e($station->SN); ?>'" 
             class="bg-black w-full p-2 rounded-md sm:text-2xs md:text-2xs hover:hover:bg-black/10 cursor-pointer ease-in-out"
             >Go to details</span>
         </div>

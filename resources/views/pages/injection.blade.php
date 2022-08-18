@@ -33,7 +33,7 @@
             @endphp
             <img src="/assets/images/machines/{{$stType->icon}}" alt="{{$station->name}}" class="m-auto p-0 object-fit h-3/4">
             <span
-            onclick="location.href='/stationInfo/{{$station->name}}'" 
+            onclick="location.href='/stationInfo/{{$station->SN}}'" 
             class="bg-black w-full p-2 rounded-md sm:text-2xs md:text-2xs hover:hover:bg-black/10 cursor-pointer ease-in-out"
             >Go to details</span>
         </div>
