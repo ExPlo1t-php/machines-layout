@@ -13,15 +13,18 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
   public function injection(){
     $stations = Station::get()->whereNull('line');
-    $cabinets = NetworkCabinet::get()->where('zone', '=','line');
+    $cabinets = NetworkCabinet::get()->where('zone', '=','injection');
     $type = StationType::get();
-    return view('pages.injection', ['stations'=>$stations, 'type'=>$type, 'cabinets'=>$cabinets]);
+    $switch = CabinetSwitch::get();
+    $port = Ports::get();
+    return view('pages.injection', ['stations'=>$stations, 'type'=>$type, 'cabinets'=>$cabinets, 'switch'=>$switch, 'port'=>$port]);
   }
   
   public function assembly(){
@@ -31,10 +34,32 @@ class Controller extends BaseController
     $port = Ports::get();
     return view('pages.assembly', ['lines'=>$lines, 'cabinets'=>$cabinets, 'switch'=>$switch, 'port'=>$port]);
   }
-
+  
   public function test(){
-    $stations= Station::where('description')->paginate(7);
-    return view('test', ['stations'=>$stations]);
+    $lines = Line::get();
+    $cabinets = NetworkCabinet::get()->where('zone', '=','assembly');
+    $switch = CabinetSwitch::all();
+    $port = Ports::get();
+    return view('test', ['lines'=>$lines, 'cabinets'=>$cabinets, 'switch'=>$switch, 'port'=>$port]);
+  }
+
+  public function fetchFreePorts(Request $request){
+    echo 'hi';
+    if($request->ajax())
+    {
+    $output="";
+    // search criteria
+    $ports= DB::table('ports')
+    ->where('switchId','=',$request->switch)
+    ->get();
+    if($ports)
+    {
+      foreach ($ports as $port) {
+      $output .= '<option value="'.$port->portNumber.'">'.$port->portNumber.'</option>';
+      }
+      return Response($output);
+       }
+       }
   }
 }
 

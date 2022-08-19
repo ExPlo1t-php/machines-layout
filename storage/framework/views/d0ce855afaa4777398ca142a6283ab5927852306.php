@@ -40,7 +40,14 @@ hide();
           <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
             Zone
           </label>
-          <input value="<?php echo e($cabinet[$index]->zone); ?>" name="zone" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="text" placeholder="Cabinet Zone (location)">
+          <select name="zone"
+          class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password">
+          <option value="<?php echo e($cabinet[$index]->zone); ?>" selected hidden > <?php echo e($cabinet[$index]->zone); ?></option>
+           <option value="injection">Injection</option>
+           <option value="assembly">Assembly</option>
+         </select>
+         <?php echo e($cabinet[$index]->zone); ?>
+
          <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4)): ?>

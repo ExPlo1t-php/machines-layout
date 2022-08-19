@@ -125,7 +125,7 @@ $('#search').on('keyup',function(){
           @foreach ($switchs as $switch)
           <tr class="border-b dark:bg-gray-800 dark:border-gray-700 odd:bg-white even:bg-gray-50 odd:dark:bg-gray-800 even:dark:bg-gray-700">
             <th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
-              {{$switch['id']}}
+              {{$switch['switchNumber']}}
             </th>
             <td class="px-6 py-4">
               {{$switch['ipAddr']}}

@@ -73,7 +73,7 @@
                     </script>
             </div>
             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-            
+         
             <?php if(isset($cabinets)): ?>
             <?php $__currentLoopData = $cabinets; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $cabinet): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
             <div 
@@ -180,7 +180,7 @@
                                 
                                 <?php $__currentLoopData = $switches; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $switch): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <div class="flex items-center m-3">
-                                    <span class="text-black"><?php echo e($switch->id); ?></span>
+                                    <span class="text-black"><?php echo e($switch->switchNumber); ?></span>
                                     <img src="/assets/images/network/switch.png" alt="switch" class="w-1/2 h-1/2">
                                     <span
                                     class="bg-black w-full h-fit m-1 p-1 rounded-md hover:hover:bg-black/10 cursor-pointer ease-in-out md:text-sm sm:text-2xs"
@@ -195,7 +195,7 @@
                                             <!-- Modal header -->
                                             <div class="flex justify-between items-start p-4 rounded-t border-b dark:border-gray-600">
                                                 <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                                                    Switch: <?php echo e($switch->cabName . $switch->id); ?>
+                                                    Switch: <?php echo e($switch->cabName . $switch->switchNumber); ?>
 
                                                 </h3>
                                                 <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="switch<?php echo e($switch->id .$switch->cabName); ?>">
@@ -318,31 +318,30 @@
                                                 </ul>
                                                 <div class="flex-col w-1/2 content-center text-black">
                                                     <span>Available ports</span>
-                                                    <?php if(isset($port)): ?>
                                                     <?php
                                                     // specifying the collected ports
-                                                    $ports = $port->where('switchId','=',$switch->id);
+                                                    $ports = $port->where('switchId','=',$switch->switchNumber);
+                                                    
                                                     ?>
                                                     <ul class="text-black ">
-                                                        <?php $__currentLoopData = $ports; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $port): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                        <?php $__currentLoopData = $ports->keys(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                         <li
-                                                        <?php if($port->assigned !== null): ?>
+                                                        <?php if($port[$key]->assigned !== null): ?>
                                                         class="flex justify-center text-right border-b last:border-none border-gray-300"
                                                         <?php else: ?>
                                                         class="flex justify-center text-right border-b last:border-none border-gray-300"
                                                         <?php endif; ?>
                                                         >
-                                                        <?php echo e($port->portNum); ?>
+                                                        <?php echo e($port[$key]->portNum); ?>
 
-                                                        <?php if($port->assigned !== null): ?>
-                                                       <span class="bg-red-300 ml-3  border-gray-200 text-gray-500">     used</span>
+                                                        <?php if($port[$key]->assigned !== null): ?>
+                                                       <span class="bg-red-300 ml-3  border-gray-200 text-gray-500">used by <?php echo e($port[$key]->assignedTo); ?></span>
                                                        <?php else: ?>
-                                                       <span class="bg-green-300 ml-3 border-gray-200 text-gray-500 ">      free</span>
+                                                       <span class="bg-green-300 ml-3 border-gray-200 text-gray-500 ">free</span>
                                                         <?php endif; ?>
                                                         </li>
                                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                     </ul>
-                                                    <?php endif; ?>
                                                 </div>
                                             </div>
                                         </div>

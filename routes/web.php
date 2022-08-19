@@ -54,6 +54,7 @@ Route::get('/injection', [Controller::class, 'injection'])->name('injection');
 Route::post('/stationPos/{SN}', [StationsController::class, 'stationPos'])->name('stationPos');
 Route::post('/linePos/{id}', [StationsController::class, 'linePos'])->name('linePos');
 Route::post('/cabinetPos/{id}', [StationsController::class, 'cabinetPos'])->name('cabinetPos');
+Route::get('/fetchFreePorts', [Controller::class, 'fetchFreePorts'])->name('fetchFreePorts');
 
 // admin routes ------------------------------------------------------------------------------------------------------------------
 // data showing routes

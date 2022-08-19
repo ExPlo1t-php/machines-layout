@@ -24,7 +24,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::3rqTHD1HyMxL6iPj',
+            '_route' => 'generated::IqOZv8Km3z69fCwN',
           ),
           1 => NULL,
           2 => 
@@ -102,7 +102,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::c0U0ArEiIXKZg5lQ',
+            '_route' => 'generated::7Xsw2dErNJp2LzFe',
           ),
           1 => NULL,
           2 => 
@@ -159,7 +159,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::Y8tPdPQCVnkHXl4M',
+            '_route' => 'generated::FqbrJfaVyLQlg53c',
           ),
           1 => NULL,
           2 => 
@@ -195,7 +195,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::CUnZN9Y72zZYAD5t',
+            '_route' => 'generated::3iAFltskdt3asvf4',
           ),
           1 => NULL,
           2 => 
@@ -325,7 +325,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::ngrjnJT4lf8a0LnQ',
+            '_route' => 'generated::n2Xq5dkzBJtPIsqG',
           ),
           1 => NULL,
           2 => 
@@ -363,7 +363,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::NfubO6CUyL3dkwxc',
+            '_route' => 'generated::ylj5VpQKAasJ14aW',
           ),
           1 => NULL,
           2 => 
@@ -444,6 +444,26 @@ app('router')->setCompiledRoutes(
           0 => 
           array (
             '_route' => 'injection',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/fetchFreePorts' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'fetchFreePorts',
           ),
           1 => NULL,
           2 => 
@@ -1565,7 +1585,7 @@ app('router')->setCompiledRoutes(
   ),
   'attributes' => 
   array (
-    'generated::3rqTHD1HyMxL6iPj' => 
+    'generated::IqOZv8Km3z69fCwN' => 
     array (
       'methods' => 
       array (
@@ -1586,7 +1606,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 'web',
         ),
-        'as' => 'generated::3rqTHD1HyMxL6iPj',
+        'as' => 'generated::IqOZv8Km3z69fCwN',
       ),
       'fallback' => false,
       'defaults' => 
@@ -1711,7 +1731,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::c0U0ArEiIXKZg5lQ' => 
+    'generated::7Xsw2dErNJp2LzFe' => 
     array (
       'methods' => 
       array (
@@ -1734,7 +1754,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::c0U0ArEiIXKZg5lQ',
+        'as' => 'generated::7Xsw2dErNJp2LzFe',
       ),
       'fallback' => false,
       'defaults' => 
@@ -1827,7 +1847,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::Y8tPdPQCVnkHXl4M' => 
+    'generated::FqbrJfaVyLQlg53c' => 
     array (
       'methods' => 
       array (
@@ -1848,7 +1868,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::Y8tPdPQCVnkHXl4M',
+        'as' => 'generated::FqbrJfaVyLQlg53c',
       ),
       'fallback' => false,
       'defaults' => 
@@ -1902,7 +1922,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::CUnZN9Y72zZYAD5t' => 
+    'generated::3iAFltskdt3asvf4' => 
     array (
       'methods' => 
       array (
@@ -1923,7 +1943,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::CUnZN9Y72zZYAD5t',
+        'as' => 'generated::3iAFltskdt3asvf4',
       ),
       'fallback' => false,
       'defaults' => 
@@ -2243,7 +2263,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::ngrjnJT4lf8a0LnQ' => 
+    'generated::n2Xq5dkzBJtPIsqG' => 
     array (
       'methods' => 
       array (
@@ -2264,7 +2284,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::ngrjnJT4lf8a0LnQ',
+        'as' => 'generated::n2Xq5dkzBJtPIsqG',
       ),
       'fallback' => false,
       'defaults' => 
@@ -2317,7 +2337,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::NfubO6CUyL3dkwxc' => 
+    'generated::ylj5VpQKAasJ14aW' => 
     array (
       'methods' => 
       array (
@@ -2339,7 +2359,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::NfubO6CUyL3dkwxc',
+        'as' => 'generated::ylj5VpQKAasJ14aW',
       ),
       'fallback' => false,
       'defaults' => 
@@ -2597,6 +2617,43 @@ app('router')->setCompiledRoutes(
         array (
         ),
         'as' => 'cabinetPos',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'fetchFreePorts' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'fetchFreePorts',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Controller@fetchFreePorts',
+        'controller' => 'App\\Http\\Controllers\\Controller@fetchFreePorts',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'fetchFreePorts',
       ),
       'fallback' => false,
       'defaults' => 

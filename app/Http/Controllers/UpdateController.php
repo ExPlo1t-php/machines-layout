@@ -57,22 +57,25 @@ class UpdateController extends Controller
         
     }
     public function updateSwitch(Request $request, $id){
+        // ______________________________________⚠️DO NOT TOUCH THIS IT IS PERFECTLY WORKING⚠️_____________________________________________________________
         $dboldports = CabinetSwitch::get()->where('id',$id);
         $oldports = $dboldports[$dboldports->keys()[0]]->portsNum;
         $newports = $request->portsNum;
         $i = $oldports + 1;
+        $switchId = $dboldports[$dboldports->keys()[0]]->switchNumber;
         
+        // ports function start------------------------------------------------------------------------------------------------
         //check if the new value of ports is bigger than the old 
         if($oldports <= $newports){
             // if the array returns empty(which means the switch has no ports)
             // check if the new value is equal or bigger
-            if(Ports::get()->where('switchId','=',$id)->isEmpty()){
+            if(Ports::get()->where('switchId','=',$switchId)->isEmpty()){
                 // if its equal and the array empty he adds a number of ports , as long as the array is empty
                 if($oldports == $newports){
                     // echo 'the array is empty+equality';
                     for ($i=1; $i <= $newports ; $i++) { 
                         Ports::insert([
-                            'portNum'=>$i, 'switchId'=>$id,
+                            'portNum'=>$i, 'switchId'=>$switchId,
                         ]);
                     }
                 }else{
@@ -80,7 +83,7 @@ class UpdateController extends Controller
                     $i = 1;
                     while($i <= $newports){
                         Ports::insert([
-                            'portNum'=>$i, 'switchId'=>$id,
+                            'portNum'=>$i, 'switchId'=>$switchId,
                         ]);
                         $i++;
                     }
@@ -92,7 +95,7 @@ class UpdateController extends Controller
                     echo $newports;
                     for ($i=$oldports+1; $i <= $newports; $i++){
                             Ports::insert([
-                                    'portNum'=>$i, 'switchId'=>$id,
+                                    'portNum'=>$i, 'switchId'=>$switchId,
                                 ]);
                     }
                 }
@@ -105,8 +108,8 @@ class UpdateController extends Controller
                 echo 'success2';
                 $oldports--;
             }
-
         }
+        // ______________________________________⚠️DO NOT TOUCH THIS IT IS PERFECTLY WORKING⚠️_____________________________________________________________
          // fetching input data
          $input = $request->except('_token', 'update');
          // validating input data
@@ -177,6 +180,13 @@ class UpdateController extends Controller
             'line' => 'max:20',
             'description' => 'max:500',
          ]);
+                // alter the ports:assigned and ports:assignedTo values
+                Ports::where('portNum', $request->port)->where('switchId', $request->switch)
+                ->update([
+                       'assigned' => 1,
+                       'assignedTo' => $request->name,
+                ]);
+                // alter the ports:assigned and ports:assignedTo values
          // inserting validated data
          Station::where('SN',$url)->update($input);
  

@@ -129,7 +129,7 @@ $url = urlencode($station[$index]->SN);
                 $switches = CabinetSwitch::get();
             @endphp
             @foreach ($switches as $switch)
-            <option value="{{$switch['id']}}"> {{$switch['cabName']}} - {{ $switch['id']}}</option>
+            <option value="{{$switch['switchNumber']}}"> {{$switch['cabName']}} - {{ $switch['switchNumber']}}</option>
             @endforeach
   
             <option class="add" value="switch">&#x2b; Add a new switch</option>

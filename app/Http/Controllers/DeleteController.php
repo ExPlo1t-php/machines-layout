@@ -61,7 +61,14 @@ class DeleteController extends Controller
     // parents: station type - switch - #network cabinet#
     public function deleteStation($SN){
         $station = Station::where('SN','=',$SN);
+        $stations = $station->get()[0];
+        Ports::where('portNum', $stations->port)->where('switchId', $stations->switch)
+        ->update([
+               'assigned' => NULL,
+               'assignedTo' =>NULL,
+        ]);
         $station->delete();
+        
     }
     // delete station type -----------------------------------
     // childrens :  station - #equipment# - #equipment type#
@@ -69,17 +76,5 @@ class DeleteController extends Controller
     public function deleteStationType($id){
             $stationtype = StationType::where('id','=',$id);
             $stationtype->delete();
- 
-
-                // try{    //here trying to update email and phone in db which are unique values
-                //     DB::table('users')
-                //         ->where('role_id',1)
-                //         ->update($edit);
-                //     return redirect("admin/update_profile")
-                //            ->with('update','update');
-                //         }catch(Exception $e){
-                //          //if email or phone exist before in db redirect with error messages
-                //             return redirect()->back()->with('phone_email','phone_email_exist before');
-                //         }
     }
 }

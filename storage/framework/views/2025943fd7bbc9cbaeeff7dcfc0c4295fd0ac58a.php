@@ -82,9 +82,9 @@ $url = urlencode($station[$index]->SN);
 
 
       <script>
-  // adding 3 inputs of ip if type == bnb
+  // adding 3 inputs of ip if type == bmb
       $('#type').on('change', function() {
-    if(this.value == 'bnb'){
+    if(this.value == 'bmb'){
       console.log(this.value);
       var i = 3;
       for (i; i >= 1 ; i--) {
@@ -109,7 +109,7 @@ $url = urlencode($station[$index]->SN);
         </div>
       </div>
 
-      <?php if($station[$index]->type == 'bnb'): ?>
+      <?php if($station[$index]->type == 'bmb'): ?>
       <div class="flex flex-wrap -mx-3 mb-6" id="ipAddr1">
         <div class="w-full px-3">
           <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
@@ -155,7 +155,7 @@ $url = urlencode($station[$index]->SN);
                 $switches = CabinetSwitch::get();
             ?>
             <?php $__currentLoopData = $switches; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $switch): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-            <option value="<?php echo e($switch['id']); ?>"> <?php echo e($switch['cabName']); ?> - <?php echo e($switch['id']); ?></option>
+            <option value="<?php echo e($switch['switchNumber']); ?>"> <?php echo e($switch['cabName']); ?> - <?php echo e($switch['switchNumber']); ?></option>
             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
   
             <option class="add" value="switch">&#x2b; Add a new switch</option>

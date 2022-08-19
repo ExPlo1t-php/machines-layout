@@ -116,18 +116,22 @@
           $switches = CabinetSwitch::get();
       @endphp
       @foreach ($switches as $switch)
-      <option value="{{$switch['id']}}"> {{$switch['cabName']}} - {{ $switch['id']}}</option>
+      <option value="{{$switch['switchNumber']}}"> {{$switch['cabName']}} - {{ $switch['switchNumber']}}</option>
       @endforeach
       
       <option class="add" value="switch">&#x2b; Add a new switch</option>
     </select>
   </div>
-  <x-formInput>
+
+  
+  <div class="flex flex-wrap mb-6 w-full">
+    <div class="w-full">
       <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
         port
       </label>
       <input name="port" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="text" placeholder="station port number">
-    </x-formInput>
+    </div>
+    </div>
 </div>
 
 <div class="flex flex-wrap  mb-6 w-full">
@@ -208,6 +212,7 @@
   }
   });
   })
+
   $.ajaxSetup({ headers: { 'csrftoken' : '{{ csrf_token() }}' } });
   // adding 3 inputs of ip if type == bnb
   if($('#type').value=='bnb'){
@@ -218,9 +223,11 @@
        $(elem).insertAfter( "#ip" );
       }
   }
-
   </script>  
   {{-- live search to station table --}}
+      <script type="text/javascript">
+    $.ajaxSetup({ headers: { 'csrftoken' : '{{ csrf_token() }}' } });
+    </script>  
   <script src="/js/sort.js"></script>
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
   <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400 ">

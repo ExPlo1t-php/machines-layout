@@ -95,7 +95,7 @@ class AdminController extends Controller
         $i = 1;
         while($i<=$request->portsNum){
             Ports::insert([
-                'portNum'=>$i, 'switchId'=>$switchId[$switchId->keys()[0]]->id,
+                'portNum'=>$i, 'switchId'=>$switchId[$switchId->keys()[0]]->switchNumber,
             ]);
             $i++;
         }
@@ -197,7 +197,13 @@ class AdminController extends Controller
             'line' => 'max:20',
             'description' => 'max:500',
         ]);
-        
+                // alter the ports:assigned and ports:assignedTo values
+                Ports::where('portNum', $request->port)->where('switchId', $request->switch)
+                ->update([
+                       'assigned' => 1,
+                       'assignedTo' => $request->name,
+                ]);
+                // alter the ports:assigned and ports:assignedTo values
         // inserting validated data
         Station::create($input);
 
@@ -248,7 +254,13 @@ class AdminController extends Controller
             'station' => 'required|max:20',
             'description' => 'max:500',
         ]);
-        
+        // // alter the ports:assigned and ports:assignedTo values
+        // Ports::where('portNum', $request->port)->where('switchId', $portNum)
+        // ->update([
+        //        'assigned' => 1,
+        //        'assignedTo' => $request->name,
+        // ]);
+        // // alter the ports:assigned and ports:assignedTo values
         // inserting validated data
         Equipment::create($input);
         return redirect('stationInfo/'.$SN);
