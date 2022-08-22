@@ -141,24 +141,29 @@ $url = urlencode($station[$index]->SN);
           <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
             switch name
           </label>
-          <select name="switch"
-          onchange="let add = document.querySelector('.add');
+          <select name="switch" id="switch"
+          onchange="let add = document.querySelector('.add1');
           if(this.options[this.selectedIndex] == add){
           window.location = add.value;
           }"
           
           class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password">
-            <option value="<?php echo e($station[$index]->switch); ?>" selected hidden ><?php echo e($station[$index]->switch); ?></option>
-            
             <?php
                 use App\Models\CabinetSwitch;
                 $switches = CabinetSwitch::get();
+                $switchesName = $switches->where('switchNumber','=',$station[$index]->switch);
             ?>
+            <?php if(!$switchesName->isEmpty()): ?>
+            <option value="<?php echo e($station[$index]->switch); ?>" selected hidden ><?php echo e($switchesName[$switchesName->keys()[0]]->cabName); ?> - <?php echo e($station[$index]->switch); ?></option>
+            <?php else: ?>
+            <option hidden selected disabled>missing switch</option>
+            <?php endif; ?>
+            
             <?php $__currentLoopData = $switches; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $switch): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-            <option value="<?php echo e($switch['switchNumber']); ?>"> <?php echo e($switch['cabName']); ?> - <?php echo e($switch['switchNumber']); ?></option>
+            <option value="<?php echo e($switch['id']); ?>"> <?php echo e($switch['cabName']); ?> - <?php echo e($switch['switchNumber']); ?></option>
             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
   
-            <option class="add" value="switch">&#x2b; Add a new switch</option>
+            <option class="add1" value="/switch">&#x2b; Add a new switch</option>
           </select>
         </div>
       </div>
@@ -168,7 +173,26 @@ $url = urlencode($station[$index]->SN);
           <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
             port
           </label>
-          <input value="<?php echo e($station[$index]->port); ?>" name="port" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="text" placeholder="station port number">
+          <select name="port" id="port"
+          class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password">
+            <option value="null" selected disabled hidden >- select the station's port number -</option>
+          </select>
+          <script>
+            // using the select:switch value to fetch unused ports
+            $('#switch').on('change',function(){
+              $value=$(this).val();
+              $.ajax({
+                type : 'get',
+                url : '<?php echo e(URL::to('fetchFreePorts')); ?>',
+                data:{'switch':$value},
+                success:function(data){
+                  console.log(data);
+                  $('#port').html(data);
+                }
+              });
+              })
+              $.ajaxSetup({ headers: { 'csrftoken' : '<?php echo e(csrf_token()); ?>' } });
+              </script>
         </div>
       </div>
 
@@ -178,7 +202,7 @@ $url = urlencode($station[$index]->SN);
            Assembly line name
           </label>
           <select name="line"
-          onchange="let add = document.querySelector('.add');
+          onchange="let add = document.querySelector('.add2');
           if(this.options[this.selectedIndex] == add){
           window.location = add.value;
           }"
@@ -194,7 +218,7 @@ $url = urlencode($station[$index]->SN);
             <option value="<?php echo e($line['name']); ?>"> <?php echo e($line['name']); ?></option>
             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
   
-            <option class="add" value="line">&#x2b; Add a new assembly line</option>
+            <option class="add2" value="/lines">&#x2b; Add a new assembly line</option>
           </select>
         </div>
       </div>

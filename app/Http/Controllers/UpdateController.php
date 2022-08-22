@@ -22,7 +22,6 @@ class UpdateController extends Controller
         $url = urldecode($id);
         // echo $url;
         $cabinet = NetworkCabinet::get()->where('id', '=', $url);
-        // getting the goddamned index value 😠
         $index = $cabinet->keys()[0];
 
         return view('components.forms.cabinetUpdate', ['cabinet'=> $cabinet, 'index'=>$index]);
@@ -50,7 +49,6 @@ class UpdateController extends Controller
         $url = urldecode($id);
         // echo $url;
         $switch = CabinetSwitch::get()->where('id', '=', $url);
-        // getting the goddamned index value 😠
         $index = $switch->keys()[0];
 
         return view('components.forms.switchUpdate', ['switch'=> $switch, 'index'=>$index]);
@@ -62,20 +60,20 @@ class UpdateController extends Controller
         $oldports = $dboldports[$dboldports->keys()[0]]->portsNum;
         $newports = $request->portsNum;
         $i = $oldports + 1;
-        $switchId = $dboldports[$dboldports->keys()[0]]->switchNumber;
+        // $switchId = $dboldports[$dboldports->keys()[0]]->switchNumber;
         
         // ports function start------------------------------------------------------------------------------------------------
         //check if the new value of ports is bigger than the old 
         if($oldports <= $newports){
             // if the array returns empty(which means the switch has no ports)
             // check if the new value is equal or bigger
-            if(Ports::get()->where('switchId','=',$switchId)->isEmpty()){
+            if(Ports::get()->where('switchId','=',$id)->isEmpty()){
                 // if its equal and the array empty he adds a number of ports , as long as the array is empty
                 if($oldports == $newports){
                     // echo 'the array is empty+equality';
                     for ($i=1; $i <= $newports ; $i++) { 
                         Ports::insert([
-                            'portNum'=>$i, 'switchId'=>$switchId,
+                            'portNum'=>$i, 'switchId'=>$id,
                         ]);
                     }
                 }else{
@@ -83,7 +81,7 @@ class UpdateController extends Controller
                     $i = 1;
                     while($i <= $newports){
                         Ports::insert([
-                            'portNum'=>$i, 'switchId'=>$switchId,
+                            'portNum'=>$i, 'switchId'=>$id,
                         ]);
                         $i++;
                     }
@@ -95,7 +93,7 @@ class UpdateController extends Controller
                     echo $newports;
                     for ($i=$oldports+1; $i <= $newports; $i++){
                             Ports::insert([
-                                    'portNum'=>$i, 'switchId'=>$switchId,
+                                    'portNum'=>$i, 'switchId'=>$id,
                                 ]);
                     }
                 }
@@ -131,7 +129,6 @@ class UpdateController extends Controller
         $url = urldecode($id);
         // echo $url;
         $line = Line::get()->where('id', '=', $url);
-        // getting the goddamned index value 😠
         $index = $line->keys()[0];
         return view('components.forms.lineUpdate', ['line'=> $line, 'index'=>$index]);
         
@@ -157,7 +154,6 @@ class UpdateController extends Controller
         $url = urldecode($name);
         // echo $url;
         $station = Station::get()->where('name', '=', $url);
-        // getting the goddamned index value 😠
         $index = $station->keys()[0];
         return view('components.forms.stationUpdate', ['station'=> $station, 'index'=>$index]);
         
@@ -199,7 +195,6 @@ class UpdateController extends Controller
         $url = urldecode($id);
         // echo $url;
         $type = StationType::get()->where('id', '=', $url);
-        // getting the goddamned index value 😠
         $index = $type->keys()[0];
         return view('components.forms.stationTypeUpdate', ['type'=> $type, 'index'=>$index]);
         
@@ -233,7 +228,6 @@ class UpdateController extends Controller
         $url = urldecode($name);
         // echo $url;
         $equipment = Equipment::get()->where('name', '=', $url);
-        // getting the goddamned index value 😠
         $index = $equipment->keys()[0];
         return view('components.forms.equipmentUpdate', ['equipment'=> $equipment, 'index'=>$index]);
         
@@ -252,6 +246,12 @@ class UpdateController extends Controller
             'port' => 'max:20',
             'description' => 'max:500',
          ]);
+            // alter the ports:assigned and ports:assignedTo values
+            Ports::where('portNum', $request->port)->where('switchId', $request->switch)
+            ->update([
+                'assigned' => 1,
+                'assignedTo' => $request->name,
+            ]);
          // inserting validated data
          Equipment::where('SN',$url)->update($input);
  
@@ -264,7 +264,6 @@ class UpdateController extends Controller
         $url = urldecode($name);
         // echo $url;
         $type = EquipmentType::get()->where('name', '=', $url);
-        // getting the goddamned index value 😠
         $index = $type->keys()[0];
         return view('components.forms.equipmentTypeUpdate', ['type'=> $type, 'index'=>$index]);
         

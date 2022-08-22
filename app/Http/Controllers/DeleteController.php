@@ -45,6 +45,12 @@ class DeleteController extends Controller
     // parents: station - equipment type
     public function deleteEquipment($SN){
         $equipment = Equipment::where('SN','=',$SN);
+        $equipments = Equipment::where('SN','=',$SN)->get()[0];
+        Ports::where('portNum', $equipments->port)->where('switchId', $equipments->switch)
+        ->update([
+               'assigned' => NULL,
+               'assignedTo' =>NULL,
+        ]);
         $equipment->delete();
     }
     

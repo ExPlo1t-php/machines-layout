@@ -63,18 +63,9 @@
 </div>
 
       <script>
-      //   console.log($('#type').val())
-      //   if($('#type').val()=='bnb'){
-      //   var i = 3;
-      //   for (i; i >= 1 ; i--) {
-      //       var elem =  "<div id='ipAddr"+[i]+"' class='flex flex-wrap  mb-6'><div class='w-full'><label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='grid-password'>ip address "+[i]+"</label><input name='ipAddr"+[i]+"' class='appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500' id='grid-password' type='text' placeholder='ip address "+[i]+"'></div></div>";
-      //       // console.log(i);
-      //      $(elem).insertAfter( "#ip" );
-      //     }
-      // }
-      // adding 3 inputs of ip if type == bnb
+      // adding 3 inputs of ip if type == bmb
       $('#type').on('change', function() {
-    if(this.value == 'bnb'){
+    if(this.value == 'bmb'){
       var i = 3;
       for (i; i >= 1 ; i--) {
           var elem =  "<div id='ipAddr"+[i]+"' class='flex flex-wrap  mb-6'><div class='w-full'><label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='grid-password'>ip address "+[i]+"</label><input name='ipAddr"+[i]+"' class='appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500' id='grid-password' type='text' placeholder='ip address "+[i]+"'></div></div>";
@@ -102,8 +93,8 @@
       <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
         switch name
       </label>
-    <select name="switch"
-    onchange="let add = document.querySelector('.add');
+    <select name="switch" id="switch"
+    onchange="let add = document.querySelector('.add2');
     if(this.options[this.selectedIndex] == add){
     window.location = add.value;
     }"
@@ -116,10 +107,10 @@
           $switches = CabinetSwitch::get();
       @endphp
       @foreach ($switches as $switch)
-      <option value="{{$switch['switchNumber']}}"> {{$switch['cabName']}} - {{ $switch['switchNumber']}}</option>
+      <option value="{{$switch['id']}}"> {{$switch['cabName']}} - {{ $switch['switchNumber']}}</option>
       @endforeach
       
-      <option class="add" value="switch">&#x2b; Add a new switch</option>
+      <option class="add2" value="/switch">&#x2b; Add a new switch</option>
     </select>
   </div>
 
@@ -129,7 +120,26 @@
       <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
         port
       </label>
-      <input name="port" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="text" placeholder="station port number">
+      <select name="port" id="port"
+      class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password">
+        <option value="null" selected disabled hidden >- select the station's port number -</option>
+      </select>
+      <script>
+        // using the select:switch value to fetch unused ports
+        $('#switch').on('change',function(){
+          $value=$(this).val();
+          $.ajax({
+            type : 'get',
+            url : '{{URL::to('fetchFreePorts')}}',
+            data:{'switch':$value},
+            success:function(data){
+              console.log(data);
+              $('#port').html(data);
+            }
+          });
+          })
+          $.ajaxSetup({ headers: { 'csrftoken' : '{{ csrf_token() }}' } });
+          </script>
     </div>
     </div>
 </div>
@@ -140,7 +150,7 @@
         Assembly line name
       </label>
       <select name="line"
-      onchange="let add = document.querySelector('.add');
+      onchange="let add = document.querySelector('.add1');
       if(this.options[this.selectedIndex] == add){
       window.location = add.value;
       }"
@@ -156,7 +166,7 @@
         <option value="{{$line['name']}}"> {{$line['name']}}</option>
         @endforeach
 
-        <option class="add" value="line">&#x2b; Add a new assembly line</option>
+        <option class="add1" value="/lines">&#x2b; Add a new assembly line</option>
       </select>
       {{-- notice --}}
       <div class="bg-orange-100 border-l-4 border-orange-400 text-orange-700 p-2" role="alert">
@@ -214,8 +224,8 @@
   })
 
   $.ajaxSetup({ headers: { 'csrftoken' : '{{ csrf_token() }}' } });
-  // adding 3 inputs of ip if type == bnb
-  if($('#type').value=='bnb'){
+  // adding 3 inputs of ip if type == bmb
+  if($('#type').value=='bmb'){
     var i = 3;
     for (i; i >= 1 ; i--) {
         var elem =  "<div id='ipAddr"+[i]+"' class='flex flex-wrap  mb-6'><div class='w-full'><label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='grid-password'>ip address "+[i]+"</label><input name='ipAddr"+[i]+"' class='appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500' id='grid-password' type='text' placeholder='ip address "+[i]+"'></div></div>";
@@ -231,12 +241,12 @@
   <script src="/js/sort.js"></script>
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
   <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400 ">
-      <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+      <thead class="text-xs text-gray-700 uppercase bg-gray-50  dark:bg-gray-700 dark:text-gray-400">
         <tr>
-          <th scope="col" class="px-6 py-3 cursor-pointer">
+          <th scope="col" class="px-6 py-3 cursor-pointer hover:bg-gray-400">
                 Station name
             </th>
-            <th scope="col" class="px-6 py-3 cursor-pointer">
+            <th scope="col" class="px-6 py-3 cursor-pointer ">
                 Station serial number
             </th>
             <th scope="col" class="px-6 py-3 cursor-pointer">
@@ -285,7 +295,11 @@
                 {{$station['mainIpAddr']}}
               </td>
               <td class="px-6 py-4">
-                {{$station['switch']}}
+                @if (!$switches->where('id','=',$station['switch'])->isEmpty())
+                {{$switches->where('id','=',$station['switch'])[$switches->where('id','=',$station['switch'])->keys()[0]]->switchNumber}}
+                @else
+                missing switch
+                @endif
               </td>
               <td class="px-6 py-4">
                   {{$station['port']}}

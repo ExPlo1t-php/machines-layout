@@ -123,25 +123,61 @@
 <?php endif; ?>
 
 
-        <?php if (isset($component)) { $__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4 = $component; } ?>
-<?php $component = $__env->getContainer()->make(Illuminate\View\AnonymousComponent::class, ['view' => 'components.formInput','data' => []] + (isset($attributes) ? (array) $attributes->getIterator() : [])); ?>
-<?php $component->withName('formInput'); ?>
-<?php if ($component->shouldRender()): ?>
-<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
-<?php if (isset($attributes) && $constructor = (new ReflectionClass(Illuminate\View\AnonymousComponent::class))->getConstructor()): ?>
-<?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
-<?php endif; ?>
-<?php $component->withAttributes([]); ?>
-          <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
-            port
-          </label>
-          <input name="port" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="text" placeholder="equipment port number">
-         <?php echo $__env->renderComponent(); ?>
-<?php endif; ?>
-<?php if (isset($__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4)): ?>
-<?php $component = $__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4; ?>
-<?php unset($__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4); ?>
-<?php endif; ?>
+        <div class="flex flex-wrap w-full">
+          <div class="w-full">
+            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
+              switch name
+            </label>
+          <select name="switch" id="switch"
+          onchange="let add = document.querySelector('.add2');
+          if(this.options[this.selectedIndex] == add){
+          window.location = add.value;
+          }"
+          
+          class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password">
+            <option value="null" selected disabled hidden >- select a the switch connected to this station -</option>
+            
+            <?php
+                use App\Models\CabinetSwitch;
+                $switches = CabinetSwitch::get();
+            ?>
+            <?php $__currentLoopData = $switches; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $switch): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+            <option value="<?php echo e($switch['id']); ?>"> <?php echo e($switch['cabName']); ?> - <?php echo e($switch['switchNumber']); ?></option>
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+            
+            <option class="add2" value="/switch">&#x2b; Add a new switch</option>
+          </select>
+        </div>
+      
+        
+        <div class="flex flex-wrap mb-6 w-full">
+          <div class="w-full">
+            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
+              port
+            </label>
+            <select name="port" id="port"
+            class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password">
+              <option value="null" selected disabled hidden >- select the station's port number -</option>
+            </select>
+            <script>
+              // using the select:switch value to fetch unused ports
+              $('#switch').on('change',function(){
+                $value=$(this).val();
+                $.ajax({
+                  type : 'get',
+                  url : '<?php echo e(URL::to('fetchFreePorts')); ?>',
+                  data:{'switch':$value},
+                  success:function(data){
+                    console.log(data);
+                    $('#port').html(data);
+                  }
+                });
+                })
+                $.ajaxSetup({ headers: { 'csrftoken' : '<?php echo e(csrf_token()); ?>' } });
+                </script>
+          </div>
+          </div>
+        </div>
 
 
       <div class="flex flex-wrap -mx-3 mb-6">
@@ -150,7 +186,7 @@
            station name
           </label>
           <select name="station"
-          onchange="let add = document.querySelector('.add');
+          onchange="let add = document.querySelector('.add1');
           if(this.options[this.selectedIndex] == add){
           window.location = add.value;
           }"
@@ -170,7 +206,7 @@
             <option value="<?php echo e($station['name']); ?>"> <?php echo e($station['name']); ?></option>
             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
   
-            <option class="add" value="line">&#x2b; Add a new equipment</option>
+            <option class="add1" value="/lines">&#x2b; Add a new equipment</option>
           </select>
         </div>
       </div>
@@ -243,32 +279,35 @@
   <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400 ">
       <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
           <tr>
-            <th scope="col" class="px-6 py-3">
+            <th scope="col" class="px-6 py-3 cursor-pointer">
                 equipment name
             </th>
-            <th scope="col" class="px-6 py-3">
+            <th scope="col" class="px-6 py-3 cursor-pointer">
                 equipment serial number
             </th>
-            <th scope="col" class="px-6 py-3">
+            <th scope="col" class="px-6 py-3 cursor-pointer">
                 equipment supplier
             </th>
-            <th scope="col" class="px-6 py-3">
+            <th scope="col" class="px-6 py-3 cursor-pointer">
                 equipment's ip address
             </th>
-            <th scope="col" class="px-6 py-3">
+            <th scope="col" class="px-6 py-3 cursor-pointer">
+                equipment's used switch
+            </th>
+            <th scope="col" class="px-6 py-3 cursor-pointer">
                 equipment's occupied port
             </th>
-            <th scope="col" class="px-6 py-3">
+            <th scope="col" class="px-6 py-3 cursor-pointer">
                 equipment type 
             </th>
-            <th scope="col" class="px-6 py-3">
+            <th scope="col" class="px-6 py-3 cursor-pointer">
                 Equipment station
             </th>
  
-            <th scope="col" class="px-6 py-3">
+            <th scope="col" class="px-6 py-3 cursor-pointer">
                 equipment description
             </th>
-            <th scope="col" class="px-6 py-3">
+            <th scope="col" class="px-6 py-3 cursor-pointer">
               tools
             </th>
           </tr>
@@ -280,10 +319,10 @@
         ?>
           <?php $__currentLoopData = $equipments; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $equipment): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
           <tr class="border-b dark:bg-gray-800 dark:border-gray-700 odd:bg-white even:bg-gray-50 odd:dark:bg-gray-800 even:dark:bg-gray-700">
-            <th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
+            <td scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
               <?php echo e($equipment['name']); ?>
 
-            </th>
+            </td>
             <td class="px-6 py-4">
               <?php echo e($equipment['SN']); ?>
 
@@ -294,6 +333,10 @@
               </td>
             <td class="px-6 py-4">
                 <?php echo e($equipment['IpAddr']); ?>
+
+              </td>
+            <td class="px-6 py-4">
+                <?php echo e($equipment['switch']); ?>
 
               </td>
             <td class="px-6 py-4">

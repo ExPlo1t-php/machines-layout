@@ -44,21 +44,21 @@ class Controller extends BaseController
   }
 
   public function fetchFreePorts(Request $request){
-    echo 'hi';
     if($request->ajax())
     {
     $output="";
     // search criteria
-    $ports= DB::table('ports')
+    $ports= Ports::get()
     ->where('switchId','=',$request->switch)
-    ->get();
+    ->whereNull('assigned')
+    ->whereNull('assignedTo');
     if($ports)
     {
       foreach ($ports as $port) {
-      $output .= '<option value="'.$port->portNumber.'">'.$port->portNumber.'</option>';
-      }
-      return Response($output);
-       }
+      $output .= '<option value="'.$port->portNum.'">'.$port->portNum.'</option>';
+    }
+    return Response($output);
+  }
        }
   }
 }

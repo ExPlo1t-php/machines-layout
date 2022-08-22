@@ -14,11 +14,12 @@ return new class extends Migration
     public function up()
     {
         Schema::create('ports', function (Blueprint $table) {
-            $table->integer('switchId')->nullable();
+            $table->unsignedInteger('switchId');
             $table->integer('portNum');
-            $table->primary(['portNum','switchId']);
+            $table->foreign('switchId')->references('id')->on('switch')->onUpdate('cascade')->onDelete('cascade');
             $table->boolean('assigned')->nullable();
             $table->string('assignedTo')->nullable();
+            $table->primary(['portNum','switchId']);
         });
     }
 

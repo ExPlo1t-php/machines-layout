@@ -100,19 +100,19 @@ $('#search').on('keyup',function(){
   <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400 ">
       <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
           <tr>
-            <th scope="col" class="px-6 py-3">
+             <th scope="col" class="px-6 py-3 cursor-pointer">
                 Switch Id
             </th>
-            <th scope="col" class="px-6 py-3">
+             <th scope="col" class="px-6 py-3 cursor-pointer">
                 Ip address
             </th>
-            <th scope="col" class="px-6 py-3">
+             <th scope="col" class="px-6 py-3 cursor-pointer">
                 Number of ports
             </th>
-            <th scope="col" class="px-6 py-3">
+             <th scope="col" class="px-6 py-3 cursor-pointer">
                 Cabinet name
             </th>
-            <th scope="col" class="px-6 py-3">
+             <th scope="col" class="px-6 py-3 cursor-pointer">
               tools
             </th>
           </tr>

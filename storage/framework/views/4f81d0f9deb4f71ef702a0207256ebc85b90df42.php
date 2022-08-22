@@ -10,8 +10,6 @@
     <?php $__env->startSection('title', 'Layout | Injection layout'); ?>
     <link rel="stylesheet" href="/css/draggable.css">
     
-    <div class="container w-full min-h-screen h-full border-2 border-current mx-1 p-3 flex overflow-auto">
-        
         <?php $__currentLoopData = $stations; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $station): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
         <div
         style="top:<?php echo e($station->posTop); ?>px; left:<?php echo e($station->posLeft); ?>px;"
@@ -57,11 +55,11 @@
             revert: true,
             <?php endif; ?>
             //container aka walls
-            containment: '.container',  
+            // containment: '.container',  
             // container grid
             grid: [ 6, 6 ],
             scroll: true,
-            scrollSensitivity: 100,
+            scrollSensitivity: 50,
             // execute a function on stop drag
             <?php if(session()->get('username')): ?>
             stop: function(event,ui){
@@ -347,7 +345,7 @@
                                                     <span>Available ports</span>
                                                     <?php
                                                     // specifying the collected ports
-                                                    $ports = $port->where('switchId','=',$switch->switchNumber);
+                                                    $ports = $port->where('switchId','=',$switch->id);
                                                     
                                                     ?>
                                                     <ul class="text-black ">
@@ -395,9 +393,9 @@
                         revert: true,
                     <?php endif; ?>
                     //container aka walls
-                    containment: 'main',
+                    // containment: 'main',
                     // scroll
-                    scroll: true, scrollSensitivity: 100,
+                    scroll: true, scrollSensitivity: 50,
                     // container grid
                     grid: [ 6, 6 ],
                     // execute a function on stop drag
@@ -440,7 +438,6 @@
             </div>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 <?php endif; ?>
-    </div>
  <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__componentOriginal8e2ce59650f81721f93fef32250174d77c3531da)): ?>

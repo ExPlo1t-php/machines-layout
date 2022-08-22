@@ -16,6 +16,7 @@ class Equipment extends Model
         'SN',
         'supplier',
         'ipAddr',
+        'switch',
         'port',
         'decription',
         'station',

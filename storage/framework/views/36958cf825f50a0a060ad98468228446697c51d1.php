@@ -320,7 +320,7 @@
                                                     <span>Available ports</span>
                                                     <?php
                                                     // specifying the collected ports
-                                                    $ports = $port->where('switchId','=',$switch->switchNumber);
+                                                    $ports = $port->where('switchId','=',$switch->id);
                                                     
                                                     ?>
                                                     <ul class="text-black ">

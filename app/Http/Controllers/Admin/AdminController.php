@@ -95,7 +95,7 @@ class AdminController extends Controller
         $i = 1;
         while($i<=$request->portsNum){
             Ports::insert([
-                'portNum'=>$i, 'switchId'=>$switchId[$switchId->keys()[0]]->switchNumber,
+                'portNum'=>$i, 'switchId'=>$switchId[$switchId->keys()[0]]->id,
             ]);
             $i++;
         }
@@ -230,7 +230,12 @@ class AdminController extends Controller
             'station' => 'required|max:20',
             'description' => 'max:500',
         ]);
-        
+        // alter the ports:assigned and ports:assignedTo values
+        Ports::where('portNum', $request->port)->where('switchId', $request->switch)
+        ->update([
+                'assigned' => 1,
+                'assignedTo' => $request->name,
+        ]);
         // inserting validated data
         Equipment::create($input);
         
@@ -249,7 +254,7 @@ class AdminController extends Controller
             'name' => 'required|max:20',
             'SN' => 'required|max:20|unique:station',
             'supplier' => 'required|max:20',
-            'ipAddr' => ['max:15', 'regex:/^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/i'],
+            'ipAddr' => ['max:15', 'regex:/^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/i', 'unique:equipment'],
             'port' => 'max:20',
             'station' => 'required|max:20',
             'description' => 'max:500',

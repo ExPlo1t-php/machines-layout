@@ -176,7 +176,7 @@
                                                     <span>Available ports</span>
                                                     @php
                                                     // specifying the collected ports
-                                                    $ports = $port->where('switchId','=',$switch->switchNumber);
+                                                    $ports = $port->where('switchId','=',$switch->id);
                                                     
                                                     @endphp
                                                     <ul class="text-black ">
@@ -223,9 +223,9 @@
                         revert: true,
                     @endif
                     //container aka walls
-                    containment: 'main',
+                    // containment: 'main',
                     // scroll
-                    scroll: true, scrollSensitivity: 100,
+                    scroll: true, scrollSensitivity: 50,
                     // container grid
                     grid: [ 6, 6 ],
                     // execute a function on stop drag

@@ -60,19 +60,69 @@
       <div class="flex flex-wrap -mx-3 mb-6">
         <div class="w-full px-3">
           <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
-            port
+            switch name
           </label>
-          <input value="{{$equipment[$index]->port}}" name="port" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="text" placeholder="equipment port number">
+          <select name="switch" id="switch"
+          onchange="let add = document.querySelector('.add1');
+          if(this.options[this.selectedIndex] == add){
+          window.location = add.value;
+          }"
+          {{-- select option -> add button --}}
+          class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password">
+            @php
+                use App\Models\CabinetSwitch;
+                $switches = CabinetSwitch::get();
+                $switchesName = $switches->where('switchNumber','=',$equipment[$index]->switch);
+            @endphp
+            @if (!$switchesName->isEmpty())
+            <option value="{{$equipment[$index]->switch}}" selected hidden >{{$switchesName[$switchesName->keys()[0]]->cabName}} - {{$equipment[$index]->switch}}</option>
+            @else
+            <option hidden selected disabled>Missing switch</option>
+            @endif
+            {{-- fetching cabinet data to load in select menu --}}
+            @foreach ($switches as $switch)
+            <option value="{{$switch['id']}}"> {{$switch['cabName']}} - {{ $switch['switchNumber']}}</option>
+            @endforeach
+  
+            <option class="add1" value="/switch">&#x2b; Add a new switch</option>
+          </select>
         </div>
       </div>
 
       <div class="flex flex-wrap -mx-3 mb-6">
         <div class="w-full px-3">
           <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
+            port
+          </label>
+          <select name="port" id="port"
+          class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password">
+            <option value="null" selected disabled hidden >- select the station's port number -</option>
+          </select>
+          <script>
+            // using the select:switch value to fetch unused ports
+            $('#switch').on('change',function(){
+              $value=$(this).val();
+              $.ajax({
+                type : 'get',
+                url : '{{URL::to('fetchFreePorts')}}',
+                data:{'switch':$value},
+                success:function(data){
+                  console.log(data);
+                  $('#port').html(data);
+                }
+              });
+              })
+              $.ajaxSetup({ headers: { 'csrftoken' : '{{ csrf_token() }}' } });
+              </script>
+        </div>
+      </div>
+      <div class="flex flex-wrap -mx-3 mb-6">
+        <div class="w-full px-3">
+          <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
            station name
           </label>
           <select name="station"
-          onchange="let add = document.querySelector('.add');
+          onchange="let add = document.querySelector('.add1');
           if(this.options[this.selectedIndex] == add){
           window.location = add.value;
           }"
@@ -82,13 +132,13 @@
             {{-- fetching cabinet data to load in select menu --}}
             @php
                 use App\Models\Station;
-                $stations = Station::get();
+                $equipments = Station::get();
             @endphp
-            @foreach ($stations as $station)
-            <option value="{{$station['name']}}"> {{$station['name']}}</option>
+            @foreach ($equipments as $equipment)
+            <option value="{{$equipment['name']}}"> {{$equipment['name']}}</option>
             @endforeach
   
-            <option class="add" value="line">&#x2b; Add a new station</option>
+            <option class="add1" value="/lines">&#x2b; Add a new station</option>
           </select>
         </div>
       </div>

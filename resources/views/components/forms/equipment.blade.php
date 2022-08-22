@@ -71,12 +71,61 @@
         </x-formInput>
 
 
-        <x-formInput>
-          <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
-            port
-          </label>
-          <input name="port" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="text" placeholder="equipment port number">
-        </x-formInput>
+        <div class="flex flex-wrap w-full">
+          <div class="w-full">
+            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
+              switch name
+            </label>
+          <select name="switch" id="switch"
+          onchange="let add = document.querySelector('.add2');
+          if(this.options[this.selectedIndex] == add){
+          window.location = add.value;
+          }"
+          {{-- select option -> add button --}}
+          class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password">
+            <option value="null" selected disabled hidden >- select a the switch connected to this station -</option>
+            {{-- fetching cabinet data to load in select menu --}}
+            @php
+                use App\Models\CabinetSwitch;
+                $switches = CabinetSwitch::get();
+            @endphp
+            @foreach ($switches as $switch)
+            <option value="{{$switch['id']}}"> {{$switch['cabName']}} - {{ $switch['switchNumber']}}</option>
+            @endforeach
+            
+            <option class="add2" value="/switch">&#x2b; Add a new switch</option>
+          </select>
+        </div>
+      
+        
+        <div class="flex flex-wrap mb-6 w-full">
+          <div class="w-full">
+            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
+              port
+            </label>
+            <select name="port" id="port"
+            class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password">
+              <option value="null" selected disabled hidden >- select the station's port number -</option>
+            </select>
+            <script>
+              // using the select:switch value to fetch unused ports
+              $('#switch').on('change',function(){
+                $value=$(this).val();
+                $.ajax({
+                  type : 'get',
+                  url : '{{URL::to('fetchFreePorts')}}',
+                  data:{'switch':$value},
+                  success:function(data){
+                    console.log(data);
+                    $('#port').html(data);
+                  }
+                });
+                })
+                $.ajaxSetup({ headers: { 'csrftoken' : '{{ csrf_token() }}' } });
+                </script>
+          </div>
+          </div>
+        </div>
 
 
       <div class="flex flex-wrap -mx-3 mb-6">
@@ -85,7 +134,7 @@
            station name
           </label>
           <select name="station"
-          onchange="let add = document.querySelector('.add');
+          onchange="let add = document.querySelector('.add1');
           if(this.options[this.selectedIndex] == add){
           window.location = add.value;
           }"
@@ -105,7 +154,7 @@
             <option value="{{$station['name']}}"> {{$station['name']}}</option>
             @endforeach
   
-            <option class="add" value="line">&#x2b; Add a new equipment</option>
+            <option class="add1" value="/lines">&#x2b; Add a new equipment</option>
           </select>
         </div>
       </div>
@@ -165,32 +214,35 @@
   <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400 ">
       <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
           <tr>
-            <th scope="col" class="px-6 py-3">
+            <th scope="col" class="px-6 py-3 cursor-pointer">
                 equipment name
             </th>
-            <th scope="col" class="px-6 py-3">
+            <th scope="col" class="px-6 py-3 cursor-pointer">
                 equipment serial number
             </th>
-            <th scope="col" class="px-6 py-3">
+            <th scope="col" class="px-6 py-3 cursor-pointer">
                 equipment supplier
             </th>
-            <th scope="col" class="px-6 py-3">
+            <th scope="col" class="px-6 py-3 cursor-pointer">
                 equipment's ip address
             </th>
-            <th scope="col" class="px-6 py-3">
+            <th scope="col" class="px-6 py-3 cursor-pointer">
+                equipment's used switch
+            </th>
+            <th scope="col" class="px-6 py-3 cursor-pointer">
                 equipment's occupied port
             </th>
-            <th scope="col" class="px-6 py-3">
+            <th scope="col" class="px-6 py-3 cursor-pointer">
                 equipment type 
             </th>
-            <th scope="col" class="px-6 py-3">
+            <th scope="col" class="px-6 py-3 cursor-pointer">
                 Equipment station
             </th>
  
-            <th scope="col" class="px-6 py-3">
+            <th scope="col" class="px-6 py-3 cursor-pointer">
                 equipment description
             </th>
-            <th scope="col" class="px-6 py-3">
+            <th scope="col" class="px-6 py-3 cursor-pointer">
               tools
             </th>
           </tr>
@@ -202,9 +254,9 @@
         @endphp
           @foreach ($equipments as $equipment)
           <tr class="border-b dark:bg-gray-800 dark:border-gray-700 odd:bg-white even:bg-gray-50 odd:dark:bg-gray-800 even:dark:bg-gray-700">
-            <th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
+            <td scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
               {{$equipment['name']}}
-            </th>
+            </td>
             <td class="px-6 py-4">
               {{$equipment['SN']}}
             </td>
@@ -213,6 +265,9 @@
               </td>
             <td class="px-6 py-4">
                 {{$equipment['IpAddr']}}
+              </td>
+            <td class="px-6 py-4">
+                {{$equipment['switch']}}
               </td>
             <td class="px-6 py-4">
                 {{$equipment['port']}}

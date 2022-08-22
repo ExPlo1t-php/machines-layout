@@ -21,6 +21,8 @@ return new class extends Migration
             $table->integer('port')->nullable();
             $table->longText('description')->nullable();
             // foreign key
+            $table->unsignedInteger('switch')->nullable();
+            $table->foreign('switch')->references('id')->on('switch')->onUpdate('cascade')->onDelete('set null');
             $table->string('type')->nullable();
             $table->foreign('type')->references('name')->on('equipment_type')->onUpdate('cascade')->onDelete('set null');
             $table->string('station')->nullable();

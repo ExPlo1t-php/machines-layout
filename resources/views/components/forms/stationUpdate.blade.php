@@ -115,24 +115,29 @@ $url = urlencode($station[$index]->SN);
           <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
             switch name
           </label>
-          <select name="switch"
-          onchange="let add = document.querySelector('.add');
+          <select name="switch" id="switch"
+          onchange="let add = document.querySelector('.add1');
           if(this.options[this.selectedIndex] == add){
           window.location = add.value;
           }"
           {{-- select option -> add button --}}
           class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password">
-            <option value="{{$station[$index]->switch}}" selected hidden >{{$station[$index]->switch}}</option>
-            {{-- fetching cabinet data to load in select menu --}}
             @php
                 use App\Models\CabinetSwitch;
                 $switches = CabinetSwitch::get();
+                $switchesName = $switches->where('switchNumber','=',$station[$index]->switch);
             @endphp
+            @if (!$switchesName->isEmpty())
+            <option value="{{$station[$index]->switch}}" selected hidden >{{$switchesName[$switchesName->keys()[0]]->cabName}} - {{$station[$index]->switch}}</option>
+            @else
+            <option hidden selected disabled>Missing switch</option>
+            @endif
+            {{-- fetching cabinet data to load in select menu --}}
             @foreach ($switches as $switch)
-            <option value="{{$switch['switchNumber']}}"> {{$switch['cabName']}} - {{ $switch['switchNumber']}}</option>
+            <option value="{{$switch['id']}}"> {{$switch['cabName']}} - {{ $switch['switchNumber']}}</option>
             @endforeach
   
-            <option class="add" value="switch">&#x2b; Add a new switch</option>
+            <option class="add1" value="/switch">&#x2b; Add a new switch</option>
           </select>
         </div>
       </div>
@@ -142,7 +147,26 @@ $url = urlencode($station[$index]->SN);
           <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
             port
           </label>
-          <input value="{{$station[$index]->port}}" name="port" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="text" placeholder="station port number">
+          <select name="port" id="port"
+          class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password">
+            <option value="null" selected disabled hidden >- select the station's port number -</option>
+          </select>
+          <script>
+            // using the select:switch value to fetch unused ports
+            $('#switch').on('change',function(){
+              $value=$(this).val();
+              $.ajax({
+                type : 'get',
+                url : '{{URL::to('fetchFreePorts')}}',
+                data:{'switch':$value},
+                success:function(data){
+                  console.log(data);
+                  $('#port').html(data);
+                }
+              });
+              })
+              $.ajaxSetup({ headers: { 'csrftoken' : '{{ csrf_token() }}' } });
+              </script>
         </div>
       </div>
 
@@ -152,7 +176,7 @@ $url = urlencode($station[$index]->SN);
            Assembly line name
           </label>
           <select name="line"
-          onchange="let add = document.querySelector('.add');
+          onchange="let add = document.querySelector('.add2');
           if(this.options[this.selectedIndex] == add){
           window.location = add.value;
           }"
@@ -168,7 +192,7 @@ $url = urlencode($station[$index]->SN);
             <option value="{{$line['name']}}"> {{$line['name']}}</option>
             @endforeach
   
-            <option class="add" value="line">&#x2b; Add a new assembly line</option>
+            <option class="add2" value="/lines">&#x2b; Add a new assembly line</option>
           </select>
         </div>
       </div>

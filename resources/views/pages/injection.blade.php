@@ -1,9 +1,7 @@
 <x-app-layout>  
     @section('title', 'Layout | Injection layout')
     <link rel="stylesheet" href="/css/draggable.css">
-    {{-- -----------------------------top section--------------------------- --}}
-    <div class="container w-full min-h-screen h-full border-2 border-current mx-1 p-3 flex overflow-auto">
-        {{-- <div class="container flex p-5 h-screen w-full overflow-auto"> --}}
+    
         @foreach ($stations as $station)
         <div
         style="top:{{$station->posTop}}px; left:{{$station->posLeft}}px;"
@@ -48,12 +46,12 @@
             @if (!session()->get('username'))
             revert: true,
             @endif
-            //container aka walls
-            containment: '.container',  
-            // container grid
+            //container 
+            // containment: '.container',  
+            //  grid
             grid: [ 6, 6 ],
             scroll: true,
-            scrollSensitivity: 100,
+            scrollSensitivity: 50,
             // execute a function on stop drag
             @if (session()->get('username'))
             stop: function(event,ui){
@@ -203,7 +201,7 @@
                                                     <span>Available ports</span>
                                                     @php
                                                     // specifying the collected ports
-                                                    $ports = $port->where('switchId','=',$switch->switchNumber);
+                                                    $ports = $port->where('switchId','=',$switch->id);
                                                     
                                                     @endphp
                                                     <ul class="text-black ">
@@ -249,11 +247,11 @@
                     @if (!session()->get('username'))
                         revert: true,
                     @endif
-                    //container aka walls
-                    containment: 'main',
+                    //container 
+                    // containment: 'main',
                     // scroll
-                    scroll: true, scrollSensitivity: 100,
-                    // container grid
+                    scroll: true, scrollSensitivity: 50,
+                    //  grid
                     grid: [ 6, 6 ],
                     // execute a function on stop drag
                     @if (session()->get('username'))
@@ -295,5 +293,4 @@
             </div>
                 @endforeach
                 @endif
-    </div>
 </x-app-layout>
