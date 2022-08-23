@@ -33,6 +33,7 @@
                        {{ __('Dashboard') }}
                    </x-dropdown-link>
                </form>
+               
                <form method="POST" action="{{ route('logout') }}">
                    @csrf
                    
@@ -43,6 +44,20 @@
                     </x-dropdown-link>
                 </form>
                 
+                <div class="text-md text-italic text-indigo-900 mt-6 ">Navigation</div>
+                  <div :class="{'block': open, 'lg:hidden': ! open}" class="lg:hidden>
+                        <div class="pt-2 pb-3 space-y-1">
+                    <x-responsive-nav-link :href="route('home')" :active="request()->routeIs('home')">
+                        {{ __('General Layout') }}
+                    </x-responsive-nav-link>
+                    <x-responsive-nav-link :href="route('injection')" :active="request()->routeIs('injection')">
+                        {{ __('Injection') }}
+                    </x-responsive-nav-link>
+                    <x-responsive-nav-link :href="route('assembly')" :active="request()->routeIs('assembly')">
+                        {{ __('Assembly') }}
+                    </x-responsive-nav-link>
+                </div>
+               </div>
                 <div class="text-md text-italic text-indigo-900 mt-6 ">Admin controls</div>
                 <ul class="flex flex-col pt-4 pb-1 border-t border-gray-200">
                     <x-dashboard-buttons :href="route('cabinet')" :active="request()->routeIs('cabinet')">
@@ -74,7 +89,7 @@
                     <x-dropdown-link :href="route('login')" class="text-xl"> {{ __('Login') }}</x-dropdown-link>
                     <p class="text-xs text-gray-400">There's no user connected <span class="text-indigo-500">Log In</span> to unlock admin controls</p>
                     </div>
-                    <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
+                    <div :class="{'block': open, 'lg:hidden': ! open}" class="lg:hidden>
                         <div class="pt-2 pb-3 space-y-1">
                     <x-responsive-nav-link :href="route('home')" :active="request()->routeIs('home')">
                         {{ __('General Layout') }}
@@ -85,6 +100,5 @@
                     <x-responsive-nav-link :href="route('assembly')" :active="request()->routeIs('assembly')">
                         {{ __('Assembly') }}
                     </x-responsive-nav-link>
+                </div>
                @endif
-
- </div>

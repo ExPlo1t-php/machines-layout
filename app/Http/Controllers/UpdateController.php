@@ -246,6 +246,7 @@ class UpdateController extends Controller
             'port' => 'max:20',
             'description' => 'max:500',
          ]);
+         
             // alter the ports:assigned and ports:assignedTo values
             Ports::where('portNum', $request->port)->where('switchId', $request->switch)
             ->update([

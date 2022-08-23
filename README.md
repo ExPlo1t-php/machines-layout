@@ -1,6 +1,7 @@
 <p align="center"><img src="public/assets/images/logo-white.png" width="400" style="background:#fff; border-radius:50% ;"></p>
 
 
+
 ## About VARROC
 
 Varroc Lighting Systems is a global automotive supplier providing custom design solutions and innovative product development for exterior vehicle lighting systems. Headquartered in Plymouth, Michigan, we manufacture world-class lighting created through our leading-edge global manufacturing capabilities.
