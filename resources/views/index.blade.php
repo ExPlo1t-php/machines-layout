@@ -2,6 +2,15 @@
 @extends('dashboard')
 
 @section('component')
+{{-- update messages --}}
+@if( Session::has('success') )
+        <span id="successTxt" class="text-green-500 flex self-center m-5">{{ Session::get('success') }}</span>
+@endif
+@if( Session::has('error') )
+        <span id="successTxt" class="text-red-500 flex self-center m-5">{{ Session::get('error') }}</span>
+@endif
+{{-- update messages --}}
+
 <form class="w-full max-w-lg flex-col self-center" method="POST" action="/addUser">
     @csrf
     <x-formInput>
@@ -54,12 +63,7 @@
 @endsection
 
 @section('table')
-@if( Session::has('success') )
-        <span id="successTxt" class="text-green-500 flex self-center m-5">{{ Session::get('success') }}</span>
-@endif
-@if( Session::has('error') )
-        <span id="successTxt" class="text-red-500 flex self-center m-5">{{ Session::get('error') }}</span>
-@endif
+
 
     <script src="/js/sort.js"></script>
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">

@@ -40,7 +40,7 @@ class UpdateController extends Controller
          // inserting validated data
          NetworkCabinet::where('id',$url)->update($input);
  
-         return redirect('cabinet')->with('success','item changed successfully!');
+         return redirect('cabinet')->with('success','Item changed successfully!');
     }
     // network cabinet update ------------------------------------------
 
@@ -120,7 +120,7 @@ class UpdateController extends Controller
          // inserting validated data
          CabinetSwitch::where('id',$id)->update($input);
  
-         return redirect('switch')->with('success','item changed successfully!');
+         return redirect('switch')->with('success','Item changed successfully!');
     }
     // cabinet switch update ------------------------------------------
 
@@ -145,7 +145,7 @@ class UpdateController extends Controller
          // inserting validated data
          Line::where('id',$url)->update($input);
  
-         return redirect('lines')->with('success','item changed successfully!');;
+         return redirect('lines')->with('success','Item changed successfully!');
     }
     // assembly line update ------------------------------------------
 
@@ -186,7 +186,7 @@ class UpdateController extends Controller
          // inserting validated data
          Station::where('SN',$url)->update($input);
  
-         return redirect('station')->with('success','item changed successfully!');
+         return redirect('station')->with('success','Item changed successfully!');
     }
     // Station update ------------------------------------------
 
@@ -219,7 +219,7 @@ class UpdateController extends Controller
          $input['icon']= $filename;
          // inserting validated data
          StationType::where('id',$url)->update($input);
-         return redirect('station-type')->with('success','item changed successfully!');;
+         return redirect('station-type')->with('success','Item changed successfully!');
     }
     // Station type update ------------------------------------------
     
@@ -256,7 +256,7 @@ class UpdateController extends Controller
          // inserting validated data
          Equipment::where('SN',$url)->update($input);
  
-         return redirect('equipment')->with('success','item changed successfully!');;
+         return redirect('equipment')->with('success','Item changed successfully!');
     }
     // equipment update ------------------------------------------
 
@@ -290,7 +290,7 @@ class UpdateController extends Controller
          // inserting validated data
          EquipmentType::where('id',$url)->update($input);
     
-         return redirect('equipment-type')->with('success','item changed successfully!');;
+         return redirect('equipment-type')->with('success','Item changed successfully!');
     }
     // Station type update ------------------------------------------
 }

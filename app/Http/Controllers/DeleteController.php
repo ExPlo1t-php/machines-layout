@@ -19,7 +19,7 @@ class DeleteController extends Controller
     // parents: none
     public function deleteCabinet($id){
         $equipment = NetworkCabinet::where('id','=',$id);
-        $equipment->delete();
+        $equipment->delete()->with('error','Item deleted successfully!')->with('error','Item deleted successfully!');
     }
 
     // delete switch -----------------------------------
@@ -29,7 +29,7 @@ class DeleteController extends Controller
         $ports = Ports::where('switchId','=', $id);
         $ports->delete();
         $equipment = CabinetSwitch::where('id','=',$id);
-        $equipment->delete();
+        $equipment->delete()->with('error','Item deleted successfully!');
     }
 
     // delete line -----------------------------------
@@ -37,7 +37,7 @@ class DeleteController extends Controller
     // parents: none
     public function deleteLine($id){
         $line = Line::where('id','=',$id);
-        $line->delete();
+        $line->delete()->with('error','Item deleted successfully!');
     }
 
     // delete equipment -----------------------------------
@@ -52,7 +52,7 @@ class DeleteController extends Controller
                'assigned' => NULL,
                'assignedTo' =>NULL,
         ]);
-        $equipment->delete();
+        $equipment->delete()->with('error','Item deleted successfully!');
     }
     
     // delete equipment type -----------------------------------
@@ -60,7 +60,7 @@ class DeleteController extends Controller
     // parents: none
     public function deleteEquipmentType($id){
         $equipmenttype = EquipmentType::where('id','=',$id);
-        $equipmenttype->delete();
+        $equipmenttype->delete()->with('error','Item deleted successfully!');
     }
     
     // delete station  -----------------------------------
@@ -75,7 +75,7 @@ class DeleteController extends Controller
                'assigned' => NULL,
                'assignedTo' =>NULL,
         ]);
-        $station->delete();
+        $station->delete()->with('error','Item deleted successfully!');
         
     }
     // delete station type -----------------------------------
@@ -83,6 +83,6 @@ class DeleteController extends Controller
     // parents: none
     public function deleteStationType($id){
             $stationtype = StationType::where('id','=',$id);
-            $stationtype->delete();
+            $stationtype->delete()->with('error','Item deleted successfully!');
     }
 }

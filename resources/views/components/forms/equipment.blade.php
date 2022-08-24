@@ -2,15 +2,23 @@
 @extends('dashboard')
 
 @section('component')
+{{-- update messages --}}
 @if( Session::has('success') )
-        <span id="successTxt" class="text-green-500 flex self-center">{{ Session::get('success') }}</span>
-        @endif  
-        @if(isset($st))
-        <form class="w-full max-w-2xl flex-col self-center" method="POST" action="/addEquipment/{{$st->SN}}" enctype="multipart/form-data">
-        @else
-        <form class="w-full max-w-2xl flex-col self-center" method="POST" action="/addEquipment" enctype="multipart/form-data">
-          @endif
-          @csrf
+        <span id="successTxt" class="text-green-500 flex self-center m-5">{{ Session::get('success') }}</span>
+@endif
+@if( Session::has('error') )
+        <span id="successTxt" class="text-red-500 flex self-center m-5">{{ Session::get('error') }}</span>
+@endif
+{{-- update messages --}}
+
+{{-- changing the form action depending on the requested url --}}
+    @if(isset($st))
+      <form class="w-full max-w-2xl flex-col self-center" method="POST" action="/addEquipment/{{$st->SN}}" enctype="multipart/form-data">
+    @else
+      <form class="w-full max-w-2xl flex-col self-center" method="POST" action="/addEquipment" enctype="multipart/form-data">
+    @endif
+    @csrf
+    {{-- changing the form action depending on the requested url --}}
 
     <div class="flex justify-between">
     <x-formInput class="pr-3 w-full">

@@ -2,9 +2,14 @@
 
 
 <?php $__env->startSection('component'); ?>
+
 <?php if( Session::has('success') ): ?>
-        <span id="successTxt" class="text-green-500 flex self-center"><?php echo e(Session::get('success')); ?></span>
+        <span id="successTxt" class="text-green-500 flex self-center m-5"><?php echo e(Session::get('success')); ?></span>
 <?php endif; ?>
+<?php if( Session::has('error') ): ?>
+        <span id="successTxt" class="text-red-500 flex self-center m-5"><?php echo e(Session::get('error')); ?></span>
+<?php endif; ?>
+
 
         
 
@@ -97,6 +102,7 @@
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('table'); ?>
+
 <script>
   $('#search').on('keyup',function(){
     $value=$(this).val();
@@ -113,6 +119,7 @@
     <script type="text/javascript">
     $.ajaxSetup({ headers: { 'csrftoken' : '<?php echo e(csrf_token()); ?>' } });
     </script>  
+    
     
     <script src="/js/sort.js"></script>
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">

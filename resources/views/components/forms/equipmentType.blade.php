@@ -2,9 +2,15 @@
 @extends('dashboard')
 
 @section('component')
+{{-- update messages --}}
 @if( Session::has('success') )
-        <span id="successTxt" class="text-green-500 flex self-center">{{ Session::get('success') }}</span>
-@endif  
+        <span id="successTxt" class="text-green-500 flex self-center m-5">{{ Session::get('success') }}</span>
+@endif
+@if( Session::has('error') )
+        <span id="successTxt" class="text-red-500 flex self-center m-5">{{ Session::get('error') }}</span>
+@endif
+{{-- update messages --}}
+ 
 <form class="w-full max-w-lg flex-col self-center" method="POST" action="/addEquipmentType" enctype="multipart/form-data">
     @csrf
         <x-formInput>
