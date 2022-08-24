@@ -3,11 +3,12 @@
 
 @section('component')
 @if( Session::has('success') )
-        <span id="successTxt" class="text-green-500 flex self-center">{{ Session::get('success') }}</span>
+        <span id="successTxt" class="text-green-500 flex self-center m-5">{{ Session::get('success') }}</span>
 @endif
-@if( Session::has('deletus') )
-        <span id="successTxt" class="text-red-500 flex self-center">{{ Session::get('success') }}</span>
-@endif  
+@if( Session::has('error') )
+        <span id="successTxt" class="text-red-500 flex self-center m-5">{{ Session::get('error') }}</span>
+@endif
+
 <form class="w-full max-w-lg flex-col self-center" method="POST" action="/addLine">
     @csrf
     <x-formInput>
@@ -46,8 +47,8 @@
 @endsection
 
 @section('table')
-<script type="text/javascript">
-  // {{-- live search to station table --}}
+    {{-- live search --}}
+    <script type="text/javascript">
       $('#search').on('keyup',function(){
       $value=$(this).val();
       $.ajax({
@@ -60,8 +61,8 @@
       });
       })
       $.ajaxSetup({ headers: { 'csrftoken' : '{{ csrf_token() }}' } });
-      // {{-- live search to station table --}}
       </script>  
+      {{-- live search --}}
       <script src="/js/sort.js"></script>
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
   <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400 ">

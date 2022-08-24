@@ -13,6 +13,7 @@ use Mockery\Undefined;
 
 class LineController extends Controller
 {
+    // fetch line info to view line inner layout
     public function lineInfo($type){
     $url = urldecode($type);
     $line = Line::get()->where('id', '=', $url);

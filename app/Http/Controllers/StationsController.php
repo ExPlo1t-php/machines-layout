@@ -15,10 +15,12 @@ use App\Models\StationType;
 class StationsController extends Controller
 {
     public function stationInfo($SN){
+        // fetch data for station info view
         $url = urldecode($SN);
         $station = Station::get()->where('SN', '=', $url);
         $index = $station->keys()[0];
         if(!is_null($station[$index]->switch)){
+            // check if the station has a switch assigned to it, to avoid missing data
             $switch = CabinetSwitch::get()->where('id', '=', $station[$index]->switch);
             $cabinet = NetworkCabinet::get()->where('name', '=', $switch[$switch->keys()[0]]->cabName);
         }
@@ -33,6 +35,7 @@ class StationsController extends Controller
             }
     }
 
+    // save station position on drag 
     public function stationPos (Request $request, $SN) {
         if($request->ajax())
         {
@@ -41,6 +44,7 @@ class StationsController extends Controller
            return redirect('test');
              }
         }
+    // save line position on drag
     public function linePos (Request $request, $id) {
         if($request->ajax())
         {
@@ -48,7 +52,7 @@ class StationsController extends Controller
            Line::where('id',$id)->update($input);
              }
             }
-
+    // save cabinet position on drag
     public function cabinetPos(Request $request, $id) {
         if($request->ajax())
         {

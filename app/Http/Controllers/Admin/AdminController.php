@@ -46,6 +46,7 @@ class AdminController extends Controller
     public function showEquipment(){
         return view('components.forms.equipment');
     }
+    // show a specific equipment(selected)
     public function showSpecificEquipment($SN){
         $url = urldecode($SN);
         $station = Station::get()->where('SN', '=', $url);

@@ -16,7 +16,13 @@ return new class extends Migration
         Schema::create('ports', function (Blueprint $table) {
             $table->unsignedInteger('switchId');
             $table->integer('portNum');
-            $table->foreign('switchId')->references('id')->on('switch')->onUpdate('cascade')->onDelete('cascade');
+            // foreign key
+            $table->foreign('switchId')
+            ->references('id')
+            ->on('switch')
+            ->onUpdate('cascade')
+            ->onDelete('cascade');
+            // foreign key
             $table->boolean('assigned')->nullable();
             $table->string('assignedTo')->nullable();
             $table->primary(['portNum','switchId']);

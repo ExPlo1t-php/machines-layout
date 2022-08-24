@@ -33,6 +33,15 @@
                        {{ __('Dashboard') }}
                    </x-dropdown-link>
                </form>
+               <form method="get" action="{{ route('users') }}">
+                   @csrf
+                   
+                   <x-dropdown-link :href="route('users')"
+                           onclick="event.preventDefault();
+                           this.closest('form').submit();">
+                       {{ __('Manage Users') }}
+                   </x-dropdown-link>
+               </form>
                
                <form method="POST" action="{{ route('logout') }}">
                    @csrf

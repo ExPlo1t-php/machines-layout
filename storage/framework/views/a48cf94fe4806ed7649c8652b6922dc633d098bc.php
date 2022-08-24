@@ -60,10 +60,8 @@
           const box = document.getElementById('box');
           // 👇️ removes element from DOM
           box.style.display = 'none';
-
         }, 3000); 
     </script>
-    
  <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__componentOriginal8e2ce59650f81721f93fef32250174d77c3531da)): ?>

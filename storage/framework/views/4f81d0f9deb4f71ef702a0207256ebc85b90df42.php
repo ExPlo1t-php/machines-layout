@@ -54,9 +54,9 @@
             <?php if(!session()->get('username')): ?>
             revert: true,
             <?php endif; ?>
-            //container aka walls
+            //container 
             // containment: '.container',  
-            // container grid
+            //  grid
             grid: [ 6, 6 ],
             scroll: true,
             scrollSensitivity: 50,
@@ -392,11 +392,11 @@
                     <?php if(!session()->get('username')): ?>
                         revert: true,
                     <?php endif; ?>
-                    //container aka walls
+                    //container 
                     // containment: 'main',
                     // scroll
                     scroll: true, scrollSensitivity: 50,
-                    // container grid
+                    //  grid
                     grid: [ 6, 6 ],
                     // execute a function on stop drag
                     <?php if(session()->get('username')): ?>

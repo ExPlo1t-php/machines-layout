@@ -10,6 +10,7 @@ use App\Http\Controllers\LineController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\StationsController;
 use App\Http\Controllers\UpdateController;
+use App\Http\Controllers\UserController;
 use App\Models\Equipment;
 use App\Models\Coordinates;
 use App\Models\Line;
@@ -33,20 +34,30 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
-require __DIR__.'/auth.php';
-Route::get('/', function () {
-    return view('pages.home');
-});
 Route::get('/home', function () {
     return view('pages.home');
 })->name('home');
+
+Route::get('/', function () {
+    return view('pages.home');
+});
+
+// auth routes
+require __DIR__.'/auth.php';
+// auth routes
+
 // ---------------------test-----------------------
 Route::get('/test', [Controller::class, 'test'])->name('test');
+Route::get('/users', [UserController::class, 'showUsers'])->name('users');
+Route::get('/user/{id}', [UserController::class, 'showUser'])->name('user');
+Route::post('/editUser/{id}', [UserController::class, 'editUser'])->name('editUser');
+Route::post('/addUser', [UserController::class, 'addUser'])->name('addUser');
+Route::delete('/deleteUse/{id}r', [UserController::class, 'deleteUser'])->name('deleteUser');
 // ---------------------test-----------------------
 // end of general
 
 
-// @everyone
+// @everyone -----------------------------------------------------------
 // pages router
 // ⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️
 Route::get('/assembly', [Controller::class, 'assembly'])->name('assembly');

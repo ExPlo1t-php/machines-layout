@@ -39,8 +39,6 @@
           const box = document.getElementById('box');
           // 👇️ removes element from DOM
           box.style.display = 'none';
-
         }, 3000); 
     </script>
-    
 </x-app-layout>

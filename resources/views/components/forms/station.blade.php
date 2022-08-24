@@ -208,8 +208,7 @@
 
 
 @section('table')
-
-    {{-- live search to station table --}}
+    {{-- live search --}}
     <script type="text/javascript">
   $('#search').on('keyup',function(){
   $value=$(this).val();
@@ -234,7 +233,7 @@
       }
   }
   </script>  
-  {{-- live search to station table --}}
+  {{-- live search --}}
       <script type="text/javascript">
     $.ajaxSetup({ headers: { 'csrftoken' : '{{ csrf_token() }}' } });
     </script>  

@@ -18,15 +18,17 @@ use Illuminate\Support\Facades\DB;
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
-  public function injection(){
-    $stations = Station::get()->whereNull('line');
-    $cabinets = NetworkCabinet::get()->where('zone', '=','injection');
+    // fetches all the data needed for the injection view
+    public function injection(){
+      $stations = Station::get()->whereNull('line');
+      $cabinets = NetworkCabinet::get()->where('zone', '=','injection');
     $type = StationType::get();
     $switch = CabinetSwitch::get();
     $port = Ports::get();
     return view('pages.injection', ['stations'=>$stations, 'type'=>$type, 'cabinets'=>$cabinets, 'switch'=>$switch, 'port'=>$port]);
   }
   
+  // fetches all the data needed for the assembly view
   public function assembly(){
     $lines = Line::get();
     $cabinets = NetworkCabinet::get()->where('zone', '=','assembly');
@@ -34,15 +36,8 @@ class Controller extends BaseController
     $port = Ports::get();
     return view('pages.assembly', ['lines'=>$lines, 'cabinets'=>$cabinets, 'switch'=>$switch, 'port'=>$port]);
   }
-  
-  public function test(){
-    $lines = Line::get();
-    $cabinets = NetworkCabinet::get()->where('zone', '=','assembly');
-    $switch = CabinetSwitch::all();
-    $port = Ports::get();
-    return view('test', ['lines'=>$lines, 'cabinets'=>$cabinets, 'switch'=>$switch, 'port'=>$port]);
-  }
 
+  // fetching the unused ports ([assigned col = null] and [assignedTo col = null])
   public function fetchFreePorts(Request $request){
     if($request->ajax())
     {
