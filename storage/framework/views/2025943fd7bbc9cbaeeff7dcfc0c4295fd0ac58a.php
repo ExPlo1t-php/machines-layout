@@ -84,7 +84,7 @@ $url = urlencode($station[$index]->SN);
       <script>
   // adding 3 inputs of ip if type == bmb
       $('#type').on('change', function() {
-    if(this.value == 'bmb'){
+    if(this.value.toLowerCase().trim() == 'bmb'){
       console.log(this.value);
       var i = 3;
       for (i; i >= 1 ; i--) {
@@ -151,16 +151,16 @@ $url = urlencode($station[$index]->SN);
             <?php
                 use App\Models\CabinetSwitch;
                 $switches = CabinetSwitch::get();
-                $switchesName = $switches->where('switchNumber','=',$station[$index]->switch);
+                $switchesName = $switches->where('switchName','=',$station[$index]->switch);
             ?>
             <?php if(!$switchesName->isEmpty()): ?>
             <option value="<?php echo e($station[$index]->switch); ?>" selected hidden ><?php echo e($switchesName[$switchesName->keys()[0]]->cabName); ?> - <?php echo e($station[$index]->switch); ?></option>
             <?php else: ?>
-            <option hidden selected disabled>missing switch</option>
+            <option hidden selected disabled>Missing switch</option>
             <?php endif; ?>
             
             <?php $__currentLoopData = $switches; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $switch): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-            <option value="<?php echo e($switch['id']); ?>"> <?php echo e($switch['cabName']); ?> - <?php echo e($switch['switchNumber']); ?></option>
+            <option value="<?php echo e($switch['id']); ?>"> <?php echo e($switch['cabName']); ?> - <?php echo e($switch['switchName']); ?></option>
             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
   
             <option class="add1" value="/switch">&#x2b; Add a new switch</option>
@@ -175,7 +175,7 @@ $url = urlencode($station[$index]->SN);
           </label>
           <select name="port" id="port"
           class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password">
-            <option value="null" selected disabled hidden >- select the station's port number -</option>
+            <option value="<?php echo e($station[$index]->port); ?>" selected hidden ><?php echo e($station[$index]->port); ?></option>
           </select>
           <script>
             // using the select:switch value to fetch unused ports
@@ -218,6 +218,7 @@ $url = urlencode($station[$index]->SN);
             <option value="<?php echo e($line['name']); ?>"> <?php echo e($line['name']); ?></option>
             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
   
+            <option value>No station (Injection)</option>
             <option class="add2" value="/lines">&#x2b; Add a new assembly line</option>
           </select>
         </div>

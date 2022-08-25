@@ -71,7 +71,7 @@
       <script>
       // adding 3 inputs of ip if type == bmb
       $('#type').on('change', function() {
-    if(this.value == 'bmb'){
+    if(this.value.toLowerCase().trim() == 'bmb'){
       var i = 3;
       for (i; i >= 1 ; i--) {
           var elem =  "<div id='ipAddr"+[i]+"' class='flex flex-wrap  mb-6'><div class='w-full'><label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='grid-password'>ip address "+[i]+"</label><input name='ipAddr"+[i]+"' class='appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500' id='grid-password' type='text' placeholder='ip address "+[i]+"'></div></div>";
@@ -113,7 +113,7 @@
           $switches = CabinetSwitch::get();
       @endphp
       @foreach ($switches as $switch)
-      <option value="{{$switch['id']}}"> {{$switch['cabName']}} - {{ $switch['switchNumber']}}</option>
+      <option value="{{$switch['id']}}"> {{$switch['cabName']}} - {{ $switch['switchName']}}</option>
       @endforeach
       
       <option class="add2" value="/switch">&#x2b; Add a new switch</option>
@@ -171,7 +171,7 @@
         @foreach ($lines as $line)
         <option value="{{$line['name']}}"> {{$line['name']}}</option>
         @endforeach
-
+        <option value>No station (Injection)</option>
         <option class="add1" value="/lines">&#x2b; Add a new assembly line</option>
       </select>
       {{-- notice --}}
@@ -301,7 +301,12 @@
               </td>
               <td class="px-6 py-4">
                 @if (!$switches->where('id','=',$station['switch'])->isEmpty())
-                {{$switches->where('id','=',$station['switch'])[$switches->where('id','=',$station['switch'])->keys()[0]]->switchNumber}}
+                @php
+                $switch = $switches->where('id', '=', $station['switch']);   
+               @endphp
+               @if (!$switch->isEmpty())
+               {{$switch[$switch->keys()[0]]->cabName}} - {{$switch[$switch->keys()[0]]->switchName}}
+               @endif
                 @else
                 missing switch
                 @endif
@@ -321,10 +326,10 @@
 
               <td class="px-4 py-4 text-right flex">
                 @php
-                 $url = urlencode($station['name']);   
+                 $url = rawurlencode($station['SN']);   
                 @endphp
-                <a data-id="{{$station['name']}}" data-method="get" href="{{route('showStation', $url)}}" id="edit" class="m-2 font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                <a data-id="{{$station['SN']}}" data-method="DELETE" href="{{route('deleteStation', $station['SN'])}}" id="delete" class="m-2 font-medium text-red-600 dark:text-red-500 hover:underline">Delete</a>
+                <a data-id="{{$station['SN']}}" data-method="get" href="{{route('showStation', $url)}}" id="edit" class="m-2 font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                <a data-id="{{$station['SN']}}" data-method="DELETE" href="{{route('deleteStation', $url)}}" id="delete" class="m-2 font-medium text-red-600 dark:text-red-500 hover:underline">Delete</a>
             </td>
           </tr>
           @endforeach

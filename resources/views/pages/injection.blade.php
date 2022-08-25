@@ -9,6 +9,8 @@
             <div class="flex items-center justify-center">
                 <h1>{{$station->name}}</h1>
                 @php
+                // ❗ if the target ping is offline it takes longer time
+                // try to reduce it, good luck
                     $ip = $station->mainIpAddr;
                     $ping = exec('ping -n 1 '.$ip, $output, $status);
                     if($status == 1){
@@ -32,7 +34,7 @@
             <img src="/assets/images/machines/{{$stType->icon}}" alt="{{$station->name}}" class="m-auto p-0 object-fit h-3/4">
             <span
             onclick="location.href='/stationInfo/{{$station->SN}}'" 
-            class="bg-black w-full p-2 rounded-md sm:text-2xs md:text-2xs hover:hover:bg-black/10 cursor-pointer ease-in-out"
+            class="bg-black w-full p-2 rounded-md sm:text-2xs md:text-2xs hover:bg-black/10 cursor-pointer ease-in-out"
             >Go to details</span>
         </div>
             <form action="/stationPos" method="POST">
@@ -100,7 +102,7 @@
             <img src="/assets/images/network/switchCabinet.png" alt="cabinet" class="rounded w-full">
             {{-- modal toggle --}}
             <span
-            class="bg-black w-full m-1 p-1 rounded-md hover:hover:bg-black/10 cursor-pointer ease-in-out md:text-sm sm:text-2xs"
+            class="bg-black w-full m-1 p-1 rounded-md hover:bg-black/10 cursor-pointer ease-in-out md:text-sm sm:text-2xs"
             data-modal-toggle="cabinet{{$cabinet->name}}"
             >Show details</span>
             {{-- modal --}}
@@ -145,12 +147,12 @@
                                     <span class="text-black">{{$switch->switchNumber}}</span>
                                     <img src="/assets/images/network/switch.png" alt="switch" class="w-1/2 h-1/2">
                                     <span
-                                    class="bg-black w-full h-fit m-1 p-1 rounded-md hover:hover:bg-black/10 cursor-pointer ease-in-out md:text-sm sm:text-2xs"
+                                    class="bg-black w-full h-fit m-1 p-1 rounded-md hover:bg-black/10 cursor-pointer ease-in-out md:text-sm sm:text-2xs"
                                     data-modal-toggle="switch{{$switch->id .$switch->cabName}}"
                                     >show more info</span>
                                 </div>
                                 {{-- switch modal --}}
-                                <div id="switch{{$switch->id .$switch->cabName}}" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full cursor-default" >
+                                <div id="switch{{$switch->id .$switch->cabName}}" tabindex="-1" aria-hidden="true" class="hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full cursor-default" >
                                     <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
                                         <!-- Modal content -->
                                         <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
@@ -204,7 +206,7 @@
                                                     $ports = $port->where('switchId','=',$switch->id);
                                                     
                                                     @endphp
-                                                    <ul class="text-black ">
+                                                    <ul class="text-black h-64 overflow-auto">
                                                         @foreach ($ports->keys() as $key)
                                                         <li
                                                         @if($port[$key]->assigned !== null)

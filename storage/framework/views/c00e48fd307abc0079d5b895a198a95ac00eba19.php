@@ -107,7 +107,7 @@
 <?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
 <?php endif; ?>
 <?php $component->withAttributes(['href' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(route('home')),'active' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(request()->routeIs('home'))]); ?>
-                        <?php echo e(__('General Layout')); ?>
+                        <?php echo e(__('Home')); ?>
 
                      <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>

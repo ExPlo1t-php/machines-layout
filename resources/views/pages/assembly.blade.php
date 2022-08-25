@@ -179,7 +179,7 @@
                                                     $ports = $port->where('switchId','=',$switch->id);
                                                     
                                                     @endphp
-                                                    <ul class="text-black ">
+                                                    <ul class="text-black h-64 overflow-auto">
                                                         @foreach ($ports->keys() as $key)
                                                         <li
                                                         @if($port[$key]->assigned !== null)

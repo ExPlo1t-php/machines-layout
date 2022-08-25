@@ -98,7 +98,7 @@
                 $switches = CabinetSwitch::get();
             @endphp
             @foreach ($switches as $switch)
-            <option value="{{$switch['id']}}"> {{$switch['cabName']}} - {{ $switch['switchNumber']}}</option>
+            <option value="{{$switch['id']}}"> {{$switch['cabName']}} - {{ $switch['switchName']}}</option>
             @endforeach
             
             <option class="add2" value="/switch">&#x2b; Add a new switch</option>
@@ -275,7 +275,12 @@
                 {{$equipment['IpAddr']}}
               </td>
             <td class="px-6 py-4">
-                {{$equipment['switch']}}
+              @php
+               $switch = $switches->where('id', '=', $equipment['switch']);   
+              @endphp
+                @if (!$switch->isEmpty())
+                {{$switch[$switch->keys()[0]]->cabName}} - {{$switch[$switch->keys()[0]]->switchName}}
+                @endif
               </td>
             <td class="px-6 py-4">
                 {{$equipment['port']}}
@@ -291,10 +296,10 @@
               </td>
               <td class="px-4 py-4 text-right flex">
                 @php
-                $url = urlencode($equipment['name']);   
+                $url = urlencode($equipment['SN']);   
                @endphp
-                <a data-id="{{$equipment['name']}}" data-method="get" href="{{route('showEquipment', $url)}}" id="edit" class="m-2 font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                <a data-id="{{$equipment['SN']}}" data-method="DELETE" href="{{route('deleteEquipment', $equipment['SN'])}}" id="delete" class="m-2 font-medium text-red-600 dark:text-red-500 hover:underline">Delete</a>
+                <a data-id="{{$equipment['SN']}}" data-method="get" href="{{route('showEquipment', $url)}}" id="edit" class="m-2 font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                <a data-id="{{$equipment['SN']}}" data-method="DELETE" href="{{route('deleteEquipment', $url)}}" id="delete" class="m-2 font-medium text-red-600 dark:text-red-500 hover:underline">Delete</a>
             </td>
           </tr>
           @endforeach

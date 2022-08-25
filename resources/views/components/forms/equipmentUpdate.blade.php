@@ -72,7 +72,7 @@
             @php
                 use App\Models\CabinetSwitch;
                 $switches = CabinetSwitch::get();
-                $switchesName = $switches->where('switchNumber','=',$equipment[$index]->switch);
+                $switchesName = $switches->where('switchName','=',$equipment[$index]->switch);
             @endphp
             @if (!$switchesName->isEmpty())
             <option value="{{$equipment[$index]->switch}}" selected hidden >{{$switchesName[$switchesName->keys()[0]]->cabName}} - {{$equipment[$index]->switch}}</option>
@@ -81,7 +81,7 @@
             @endif
             {{-- fetching cabinet data to load in select menu --}}
             @foreach ($switches as $switch)
-            <option value="{{$switch['id']}}"> {{$switch['cabName']}} - {{ $switch['switchNumber']}}</option>
+            <option value="{{$switch['id']}}"> {{$switch['cabName']}} - {{ $switch['switchName']}}</option>
             @endforeach
   
             <option class="add1" value="/switch">&#x2b; Add a new switch</option>

@@ -2,9 +2,14 @@
 
 
 <?php $__env->startSection('component'); ?>
+
 <?php if( Session::has('success') ): ?>
-        <span id="successTxt" class="text-green-500 flex self-center"><?php echo e(Session::get('success')); ?></span>
-<?php endif; ?>  
+        <span id="successTxt" class="text-green-500 flex self-center m-5"><?php echo e(Session::get('success')); ?></span>
+<?php endif; ?>
+<?php if( Session::has('error') ): ?>
+        <span id="successTxt" class="text-red-500 flex self-center m-5"><?php echo e(Session::get('error')); ?></span>
+<?php endif; ?>
+
 
 <form class="w-full max-w-lg flex-col self-center" method="POST" action="/addStationType" enctype="multipart/form-data">
     <?php echo csrf_field(); ?>
@@ -131,16 +136,16 @@
   <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400 ">
       <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
           <tr>
-            <th scope="col" class="px-6 py-3">
+            <th scope="col" class="px-6 py-3 cursor-pointer">
                 type name
             </th>
-            <th scope="col" class="px-6 py-3">
+             <th scope="col" class="px-6 py-3 cursor-pointer">
                 type description
             </th>
-            <th scope="col" class="px-6 py-3">
+             <th scope="col" class="px-6 py-3 cursor-pointer">
                 type icon
             </th>
-            <th scope="col" class="px-6 py-3">
+             <th scope="col" class="px-6 py-3 cursor-pointer">
               tools
             </th>
           </tr>

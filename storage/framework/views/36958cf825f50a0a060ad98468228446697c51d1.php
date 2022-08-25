@@ -323,7 +323,7 @@
                                                     $ports = $port->where('switchId','=',$switch->id);
                                                     
                                                     ?>
-                                                    <ul class="text-black ">
+                                                    <ul class="text-black h-64 overflow-auto">
                                                         <?php $__currentLoopData = $ports->keys(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                         <li
                                                         <?php if($port[$key]->assigned !== null): ?>

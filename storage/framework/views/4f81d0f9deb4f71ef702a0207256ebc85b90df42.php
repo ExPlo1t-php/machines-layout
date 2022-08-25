@@ -17,6 +17,8 @@
             <div class="flex items-center justify-center">
                 <h1><?php echo e($station->name); ?></h1>
                 <?php
+                // ❗ if the target ping is offline it takes longer time
+                // try to reduce it, good luck
                     $ip = $station->mainIpAddr;
                     $ping = exec('ping -n 1 '.$ip, $output, $status);
                     if($status == 1){
@@ -213,7 +215,7 @@
                                     >show more info</span>
                                 </div>
                                 
-                                <div id="switch<?php echo e($switch->id .$switch->cabName); ?>" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full cursor-default" >
+                                <div id="switch<?php echo e($switch->id .$switch->cabName); ?>" tabindex="-1" aria-hidden="true" class="hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full cursor-default" >
                                     <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
                                         <!-- Modal content -->
                                         <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
@@ -348,7 +350,7 @@
                                                     $ports = $port->where('switchId','=',$switch->id);
                                                     
                                                     ?>
-                                                    <ul class="text-black ">
+                                                    <ul class="text-black h-64 overflow-auto">
                                                         <?php $__currentLoopData = $ports->keys(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                         <li
                                                         <?php if($port[$key]->assigned !== null): ?>

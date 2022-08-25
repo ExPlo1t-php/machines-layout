@@ -100,6 +100,7 @@ class SearchController extends Controller
     $attr.$equipment->SN.'</td>'.
     $attr.$equipment->supplier.'</td>'.
     $attr.$equipment->IpAddr.'</td>'.
+    $attr.$equipment->switch.'</td>'.
     $attr.$equipment->port.'</td>'.
     $attr.$equipment->type.'</td>'.
     $attr.$equipment->station.'</td>'.

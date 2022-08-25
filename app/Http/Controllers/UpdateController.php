@@ -60,7 +60,6 @@ class UpdateController extends Controller
         $oldports = $dboldports[$dboldports->keys()[0]]->portsNum;
         $newports = $request->portsNum;
         $i = $oldports + 1;
-        // $switchId = $dboldports[$dboldports->keys()[0]]->switchNumber;
         
         // ports function start------------------------------------------------------------------------------------------------
         //check if the new value of ports is bigger than the old 
@@ -113,7 +112,7 @@ class UpdateController extends Controller
          // validating input data
          $request->validate([
             'cabName' => ['required','max:20'],
-            'switchNumber'=>'required|max:5',
+            'switchName'=>'required|max:5',
             'ipAddr' => ['required', 'max:15', 'regex:/^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/i', Rule::unique('switch')->ignore($id)],
             'portsNum' => 'required|max:2'
          ]);
@@ -150,10 +149,10 @@ class UpdateController extends Controller
     // assembly line update ------------------------------------------
 
     // station update ------------------------------------------
-    public function showStation($name){
-        $url = urldecode($name);
+    public function showStation($SN){
+        $url = rawurldecode($SN);
         // echo $url;
-        $station = Station::get()->where('name', '=', $url);
+        $station = Station::get()->where('SN', '=', $url);
         $index = $station->keys()[0];
         return view('components.forms.stationUpdate', ['station'=> $station, 'index'=>$index]);
         
@@ -176,6 +175,14 @@ class UpdateController extends Controller
             'line' => 'max:20',
             'description' => 'max:500',
          ]);
+                $station = Station::where('SN','=',$SN);
+                $stations = $station->get()[0];
+                // setting the assigned and assignedTo values to null on the port that was used by the station
+                Ports::where('portNum', $stations->port)->where('switchId', $stations->switch)
+                ->update([
+                        'assigned' => NULL,
+                        'assignedTo' =>NULL,
+                ]);
                 // alter the ports:assigned and ports:assignedTo values
                 Ports::where('portNum', $request->port)->where('switchId', $request->switch)
                 ->update([
@@ -208,15 +215,17 @@ class UpdateController extends Controller
          $request->validate([
              'name' => ['required','max:20',Rule::unique('station_type')->ignore($url)],
              'description' => 'max:500',
-             'icon' => 'required|max:50',
+             'icon' => 'max:50',
          ]);
-             // validating input data
-             $filename = $input['icon']->getClientOriginalName();
-         
+    if($request->icon){
+        // checking if there's an icon in the input   
+         // validating input data
+         $filename = $input['icon']->getClientOriginalName();
          // moving temporary image to the main folder and switching the request name
          // with the actual file name
-         $input['icon']-> move(public_path('Image'), $filename);
+         $input['icon']-> move(public_path('/assets/images/machines/'), $filename);
          $input['icon']= $filename;
+    }
          // inserting validated data
          StationType::where('id',$url)->update($input);
          return redirect('station-type')->with('success','Item changed successfully!');
@@ -224,10 +233,10 @@ class UpdateController extends Controller
     // Station type update ------------------------------------------
     
     // equipment update ------------------------------------------
-    public function showEquipment($name){
-        $url = urldecode($name);
+    public function showEquipment($SN){
+        $url = urldecode($SN);
         // echo $url;
-        $equipment = Equipment::get()->where('name', '=', $url);
+        $equipment = Equipment::get()->where('SN', '=', $url);
         $index = $equipment->keys()[0];
         return view('components.forms.equipmentUpdate', ['equipment'=> $equipment, 'index'=>$index]);
         
@@ -246,7 +255,13 @@ class UpdateController extends Controller
             'port' => 'max:20',
             'description' => 'max:500',
          ]);
-         
+            $equipments = Equipment::where('SN','=',$SN)->get()[0];
+            // setting the assigned and assignedTo values to null on the port that was used by the equipment
+            Ports::where('portNum', $equipments->port)->where('switchId', $equipments->switch)
+            ->update([
+                    'assigned' => NULL,
+                    'assignedTo' =>NULL,
+            ]);
             // alter the ports:assigned and ports:assignedTo values
             Ports::where('portNum', $request->port)->where('switchId', $request->switch)
             ->update([
@@ -278,15 +293,17 @@ class UpdateController extends Controller
          $request->validate([
              'name' => ['required','max:20', Rule::unique('equipment_type')->ignore($id)],
              'description' => 'max:500',
-             'icon' => 'required|max:50',
+             'icon' => 'max:50',
             ]);
-            
+        if($request->icon){
+            // checking if there's an icon in the input            
             // validating input data
             $filename = $input['icon']->getClientOriginalName();
-         // moving temporary image to the main folder and switching the request name
-         // with the actual file name
-         $input['icon']-> move(public_path('Image'), $filename);
-         $input['icon']= $filename;
+            // moving temporary image to the main folder and switching the request name
+            // with the actual file name
+            $input['icon']-> move(public_path('/assets/images/equipments/'), $filename);
+            $input['icon']= $filename;
+        }
          // inserting validated data
          EquipmentType::where('id',$url)->update($input);
     

@@ -33,9 +33,9 @@
 
       <x-formInput>
         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
-          Switch Number
+          Switch Name
         </label>
-        <input value="{{$switch[$index]->switchNumber}}" name="switchNumber" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" minlength="7" maxlength="15" size="15" id="grid-password" type="number" placeholder="switch number(id)" required>
+        <input value="{{$switch[$index]->switchName}}" name="switchName" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" minlength="7" maxlength="15" size="15" id="grid-password" type="number" placeholder="switch name" required>
       </x-formInput>
       
       <x-formInput>

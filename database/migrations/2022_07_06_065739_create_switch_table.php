@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('switch', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('switchNumber');
+            $table->string('switchName');
             $table->string('ipAddr')->unique();
             $table->integer('portsNum');
             

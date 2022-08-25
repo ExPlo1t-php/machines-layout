@@ -44,9 +44,9 @@
       
       <x-formInput>
           <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
-            Switch Number
+            Switch Name
           </label>
-          <input name="switchNumber" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" minlength="7" maxlength="15" size="15" id="grid-password" type="number" placeholder="switch number(id)" required>
+          <input name="switchName" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" minlength="7" maxlength="15" size="15" id="grid-password" type="number" placeholder="Switch name" required>
         </x-formInput>
 
       <x-formInput>
@@ -109,7 +109,7 @@ $('#search').on('keyup',function(){
       <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
           <tr>
              <th scope="col" class="px-6 py-3 cursor-pointer">
-                Switch Id
+                Switch Name
             </th>
              <th scope="col" class="px-6 py-3 cursor-pointer">
                 Ip address
@@ -133,7 +133,7 @@ $('#search').on('keyup',function(){
           @foreach ($switchs as $switch)
           <tr class="border-b dark:bg-gray-800 dark:border-gray-700 odd:bg-white even:bg-gray-50 odd:dark:bg-gray-800 even:dark:bg-gray-700">
             <th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
-              {{$switch['switchNumber']}}
+              {{$switch['switchName']}}
             </th>
             <td class="px-6 py-4">
               {{$switch['ipAddr']}}

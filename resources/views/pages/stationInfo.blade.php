@@ -7,14 +7,12 @@
   <div class="flex flex-wrap w-screen content-between items-center">
     <div class="w-10/12 md:w-6/12 mb-32 lg:w-4/12 px-12 md:px-4 mr-auto ml-auto -mt-78">
       <div class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg bg-gray-300">
-        @if (is_null($station->line))
         @php
         $typereq = $stType->where('name', '=', $station->type);
         $index = $typereq->keys()[0];
         $sttype = $typereq[$index];
         @endphp
-        <img alt="..." src="/assets/images/machines/{{$sttype->icon}}" class="w-1/4 align-middle rounded-t-lg rotate-90 align-center self-center">
-        @endif
+        <img alt="..." src="/assets/images/machines/{{$sttype->icon}}" class="w-1/4 align-middle rounded-t-lg align-center self-center">
         <h1 class="text-center font-semibold text-md">Station Details</h1>
         <ul class="border border-gray-200 rounded overflow-hidden shadow-md text-left">
             

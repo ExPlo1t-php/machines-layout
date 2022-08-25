@@ -2,15 +2,23 @@
 
 
 <?php $__env->startSection('component'); ?>
+
 <?php if( Session::has('success') ): ?>
-        <span id="successTxt" class="text-green-500 flex self-center"><?php echo e(Session::get('success')); ?></span>
-        <?php endif; ?>  
-        <?php if(isset($st)): ?>
-        <form class="w-full max-w-2xl flex-col self-center" method="POST" action="/addEquipment/<?php echo e($st->SN); ?>" enctype="multipart/form-data">
-        <?php else: ?>
-        <form class="w-full max-w-2xl flex-col self-center" method="POST" action="/addEquipment" enctype="multipart/form-data">
-          <?php endif; ?>
-          <?php echo csrf_field(); ?>
+        <span id="successTxt" class="text-green-500 flex self-center m-5"><?php echo e(Session::get('success')); ?></span>
+<?php endif; ?>
+<?php if( Session::has('error') ): ?>
+        <span id="successTxt" class="text-red-500 flex self-center m-5"><?php echo e(Session::get('error')); ?></span>
+<?php endif; ?>
+
+
+
+    <?php if(isset($st)): ?>
+      <form class="w-full max-w-2xl flex-col self-center" method="POST" action="/addEquipment/<?php echo e($st->SN); ?>" enctype="multipart/form-data">
+    <?php else: ?>
+      <form class="w-full max-w-2xl flex-col self-center" method="POST" action="/addEquipment" enctype="multipart/form-data">
+    <?php endif; ?>
+    <?php echo csrf_field(); ?>
+    
 
     <div class="flex justify-between">
     <?php if (isset($component)) { $__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4 = $component; } ?>
@@ -142,7 +150,7 @@
                 $switches = CabinetSwitch::get();
             ?>
             <?php $__currentLoopData = $switches; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $switch): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-            <option value="<?php echo e($switch['id']); ?>"> <?php echo e($switch['cabName']); ?> - <?php echo e($switch['switchNumber']); ?></option>
+            <option value="<?php echo e($switch['id']); ?>"> <?php echo e($switch['cabName']); ?> - <?php echo e($switch['switchName']); ?></option>
             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             
             <option class="add2" value="/switch">&#x2b; Add a new switch</option>
@@ -256,19 +264,19 @@
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('table'); ?>
-   
+    
    <script type="text/javascript">
-    $('#search').on('keyup',function(){
-    $value=$(this).val();
-    $.ajax({
-    type : 'get',
-    url : '<?php echo e(URL::to('searchEquipment')); ?>',
-    data:{'search':$value},
-    success:function(data){
-    $('tbody').html(data);
-    }
-    });
-    })
+      $('#search').on('keyup',function(){
+        $value=$(this).val();
+      $.ajax({
+          type : 'get',
+          url : '<?php echo e(URL::to('searchEquipment')); ?>',
+          data:{'search':$value},
+          success:function(data){
+          $('tbody').html(data);
+          }
+      });
+      })
     </script>
     <script type="text/javascript">
     $.ajaxSetup({ headers: { 'csrftoken' : '<?php echo e(csrf_token()); ?>' } });
@@ -336,8 +344,13 @@
 
               </td>
             <td class="px-6 py-4">
-                <?php echo e($equipment['switch']); ?>
+              <?php
+               $switch = $switches->where('id', '=', $equipment['switch']);   
+              ?>
+                <?php if(!$switch->isEmpty()): ?>
+                <?php echo e($switch[$switch->keys()[0]]->cabName); ?> - <?php echo e($switch[$switch->keys()[0]]->switchName); ?>
 
+                <?php endif; ?>
               </td>
             <td class="px-6 py-4">
                 <?php echo e($equipment['port']); ?>
@@ -357,10 +370,10 @@
               </td>
               <td class="px-4 py-4 text-right flex">
                 <?php
-                $url = urlencode($equipment['name']);   
+                $url = urlencode($equipment['SN']);   
                ?>
-                <a data-id="<?php echo e($equipment['name']); ?>" data-method="get" href="<?php echo e(route('showEquipment', $url)); ?>" id="edit" class="m-2 font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                <a data-id="<?php echo e($equipment['SN']); ?>" data-method="DELETE" href="<?php echo e(route('deleteEquipment', $equipment['SN'])); ?>" id="delete" class="m-2 font-medium text-red-600 dark:text-red-500 hover:underline">Delete</a>
+                <a data-id="<?php echo e($equipment['SN']); ?>" data-method="get" href="<?php echo e(route('showEquipment', $url)); ?>" id="edit" class="m-2 font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                <a data-id="<?php echo e($equipment['SN']); ?>" data-method="DELETE" href="<?php echo e(route('deleteEquipment', $url)); ?>" id="delete" class="m-2 font-medium text-red-600 dark:text-red-500 hover:underline">Delete</a>
             </td>
           </tr>
           <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>

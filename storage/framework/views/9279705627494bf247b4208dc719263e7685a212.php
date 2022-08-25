@@ -2,9 +2,16 @@
 
 
 <?php $__env->startSection('component'); ?>
+
 <?php if( Session::has('success') ): ?>
-        <span id="successTxt" class="text-green-500 flex self-center"><?php echo e(Session::get('success')); ?></span>
+        <span id="successTxt" class="text-green-500 flex self-center m-5"><?php echo e(Session::get('success')); ?></span>
 <?php endif; ?>
+<?php if( Session::has('error') ): ?>
+        <span id="successTxt" class="text-red-500 flex self-center m-5"><?php echo e(Session::get('error')); ?></span>
+<?php endif; ?>
+
+
+
 <form class="w-full max-w-lg flex-col self-center" method="POST" action="/addSwitch">
     <?php echo csrf_field(); ?>
       <div class="flex flex-wrap -mx-3 mb-6">
@@ -45,9 +52,9 @@
 <?php endif; ?>
 <?php $component->withAttributes([]); ?>
           <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
-            Switch Number
+            Switch Name
           </label>
-          <input name="switchNumber" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" minlength="7" maxlength="15" size="15" id="grid-password" type="number" placeholder="switch number(id)" required>
+          <input name="switchName" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" minlength="7" maxlength="15" size="15" id="grid-password" type="number" placeholder="Switch name" required>
          <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4)): ?>
@@ -117,6 +124,7 @@
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('table'); ?>
+
 <script>
 $('#search').on('keyup',function(){
   $value=$(this).val();
@@ -139,19 +147,19 @@ $('#search').on('keyup',function(){
   <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400 ">
       <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
           <tr>
-            <th scope="col" class="px-6 py-3">
-                Switch Id
+             <th scope="col" class="px-6 py-3 cursor-pointer">
+                Switch Name
             </th>
-            <th scope="col" class="px-6 py-3">
+             <th scope="col" class="px-6 py-3 cursor-pointer">
                 Ip address
             </th>
-            <th scope="col" class="px-6 py-3">
+             <th scope="col" class="px-6 py-3 cursor-pointer">
                 Number of ports
             </th>
-            <th scope="col" class="px-6 py-3">
+             <th scope="col" class="px-6 py-3 cursor-pointer">
                 Cabinet name
             </th>
-            <th scope="col" class="px-6 py-3">
+             <th scope="col" class="px-6 py-3 cursor-pointer">
               tools
             </th>
           </tr>
@@ -164,7 +172,7 @@ $('#search').on('keyup',function(){
           <?php $__currentLoopData = $switchs; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $switch): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
           <tr class="border-b dark:bg-gray-800 dark:border-gray-700 odd:bg-white even:bg-gray-50 odd:dark:bg-gray-800 even:dark:bg-gray-700">
             <th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
-              <?php echo e($switch['switchNumber']); ?>
+              <?php echo e($switch['switchName']); ?>
 
             </th>
             <td class="px-6 py-4">

@@ -3,7 +3,7 @@
   array (
     'name' => 'Laravel',
     'env' => 'local',
-    'debug' => false,
+    'debug' => true,
     'url' => 'http://localhost',
     'asset_url' => NULL,
     'timezone' => 'UTC',
@@ -840,7 +840,7 @@
     'ignored_solution_providers' => 
     array (
     ),
-    'enable_runnable_solutions' => false,
+    'enable_runnable_solutions' => true,
     'remote_sites_path' => 'C:\\xampp\\htdocs\\layout',
     'local_sites_path' => '',
     'housekeeping_endpoint_prefix' => '_ignition',

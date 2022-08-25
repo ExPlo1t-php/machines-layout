@@ -57,7 +57,7 @@
                   <div :class="{'block': open, 'lg:hidden': ! open}" class="lg:hidden>
                         <div class="pt-2 pb-3 space-y-1">
                     <x-responsive-nav-link :href="route('home')" :active="request()->routeIs('home')">
-                        {{ __('General Layout') }}
+                        {{ __('Home') }}
                     </x-responsive-nav-link>
                     <x-responsive-nav-link :href="route('injection')" :active="request()->routeIs('injection')">
                         {{ __('Injection') }}

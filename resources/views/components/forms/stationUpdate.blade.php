@@ -58,7 +58,7 @@ $url = urlencode($station[$index]->SN);
       <script>
   // adding 3 inputs of ip if type == bmb
       $('#type').on('change', function() {
-    if(this.value == 'bmb'){
+    if(this.value.toLowerCase().trim() == 'bmb'){
       console.log(this.value);
       var i = 3;
       for (i; i >= 1 ; i--) {
@@ -125,7 +125,7 @@ $url = urlencode($station[$index]->SN);
             @php
                 use App\Models\CabinetSwitch;
                 $switches = CabinetSwitch::get();
-                $switchesName = $switches->where('switchNumber','=',$station[$index]->switch);
+                $switchesName = $switches->where('switchName','=',$station[$index]->switch);
             @endphp
             @if (!$switchesName->isEmpty())
             <option value="{{$station[$index]->switch}}" selected hidden >{{$switchesName[$switchesName->keys()[0]]->cabName}} - {{$station[$index]->switch}}</option>
@@ -134,7 +134,7 @@ $url = urlencode($station[$index]->SN);
             @endif
             {{-- fetching cabinet data to load in select menu --}}
             @foreach ($switches as $switch)
-            <option value="{{$switch['id']}}"> {{$switch['cabName']}} - {{ $switch['switchNumber']}}</option>
+            <option value="{{$switch['id']}}"> {{$switch['cabName']}} - {{ $switch['switchName']}}</option>
             @endforeach
   
             <option class="add1" value="/switch">&#x2b; Add a new switch</option>
@@ -149,7 +149,7 @@ $url = urlencode($station[$index]->SN);
           </label>
           <select name="port" id="port"
           class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password">
-            <option value="null" selected disabled hidden >- select the station's port number -</option>
+            <option value="{{$station[$index]->port}}" selected hidden >{{$station[$index]->port}}</option>
           </select>
           <script>
             // using the select:switch value to fetch unused ports
@@ -192,6 +192,7 @@ $url = urlencode($station[$index]->SN);
             <option value="{{$line['name']}}"> {{$line['name']}}</option>
             @endforeach
   
+            <option value>No station (Injection)</option>
             <option class="add2" value="/lines">&#x2b; Add a new assembly line</option>
           </select>
         </div>
