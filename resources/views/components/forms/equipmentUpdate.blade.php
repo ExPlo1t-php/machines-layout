@@ -158,7 +158,7 @@
     </label>
     <input name="state"
     @if($equipment[$index]->state == 1)
-    value="$equipment[$index]->state"
+    value="{{$equipment[$index]->state}}"
     @checked(true)
     @endif
      type="checkbox" class="appearance-none block text-gray-700 border border-gray-300 rounded py-2 px-2 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
