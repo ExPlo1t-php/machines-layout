@@ -34,14 +34,14 @@
 <?php $component = $__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4; ?>
 <?php unset($__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4); ?>
 <?php endif; ?>
-      
-      
+
+
     <div class="flex flex-wrap mb-6 w-full">
       <div class="w-full">
         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
           Station type
         </label>
-        
+
         <select name="type" id="type"
         onchange="let add = document.querySelector('.add');
         if(this.options[this.selectedIndex] == add){
@@ -64,7 +64,7 @@
       </div>
     </div>
   </div>
-    
+
   <div class="flex justify-between">
     <?php if (isset($component)) { $__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4 = $component; } ?>
 <?php $component = $__env->getContainer()->make(Illuminate\View\AnonymousComponent::class, ['view' => 'components.formInput','data' => ['class' => 'w-full mr-3']] + (isset($attributes) ? (array) $attributes->getIterator() : [])); ?>
@@ -145,7 +145,7 @@
 <?php unset($__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4); ?>
 <?php endif; ?>
 
-  
+
   <div class="flex flex-wrap w-full">
     <div class="w-full">
       <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
@@ -167,12 +167,12 @@
       <?php $__currentLoopData = $switches; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $switch): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
       <option value="<?php echo e($switch['id']); ?>"> <?php echo e($switch['cabName']); ?> - <?php echo e($switch['switchName']); ?></option>
       <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-      
+
       <option class="add2" value="/switch">&#x2b; Add a new switch</option>
     </select>
   </div>
 
-  
+
   <div class="flex flex-wrap mb-6 w-full">
     <div class="w-full">
       <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
@@ -254,6 +254,31 @@
 <?php unset($__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4); ?>
 <?php endif; ?>
 
+    <?php if (isset($component)) { $__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4 = $component; } ?>
+<?php $component = $__env->getContainer()->make(Illuminate\View\AnonymousComponent::class, ['view' => 'components.formInput','data' => []] + (isset($attributes) ? (array) $attributes->getIterator() : [])); ?>
+<?php $component->withName('formInput'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $constructor = (new ReflectionClass(Illuminate\View\AnonymousComponent::class))->getConstructor()): ?>
+<?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
+<?php endif; ?>
+<?php $component->withAttributes([]); ?>
+      <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
+        disable ip pinging for this station
+      </label>
+      <input name="state" type="checkbox" class="appearance-none block text-gray-700 border border-gray-300 rounded py-2 px-2 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+      <script>
+   $('input[type="checkbox"]').change(function(){
+     this.value = (Number(this.checked));
+   });
+   </script>
+     <?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4)): ?>
+<?php $component = $__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4; ?>
+<?php unset($__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4); ?>
+<?php endif; ?>
+
   <div class="flex justify-center">
     <input class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow" type="submit" name="submit">
   </div>
@@ -274,7 +299,7 @@
         <?php endif; ?>
     
     </form>
-    
+
 <?php $__env->stopSection(); ?>
 
 
@@ -303,11 +328,11 @@
        $(elem).insertAfter( "#ip" );
       }
   }
-  </script>  
+  </script>
   
       <script type="text/javascript">
     $.ajaxSetup({ headers: { 'csrftoken' : '<?php echo e(csrf_token()); ?>' } });
-    </script>  
+    </script>
   <script src="/js/sort.js"></script>
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
   <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400 ">
@@ -326,7 +351,7 @@
                 Station's main ip address
             </th>
             <th scope="col" class="px-6 py-3 cursor-pointer">
-              Station's occupied switch 
+              Station's occupied switch
             </th>
             <th scope="col" class="px-6 py-3 cursor-pointer">
                 Station's occupied port
@@ -371,7 +396,7 @@
               <td class="px-6 py-4">
                 <?php if(!$switches->where('id','=',$station['switch'])->isEmpty()): ?>
                 <?php
-                $switch = $switches->where('id', '=', $station['switch']);   
+                $switch = $switches->where('id', '=', $station['switch']);
                ?>
                <?php if(!$switch->isEmpty()): ?>
                <?php echo e($switch[$switch->keys()[0]]->cabName); ?> - <?php echo e($switch[$switch->keys()[0]]->switchName); ?>
@@ -400,7 +425,7 @@
 
               <td class="px-4 py-4 text-right flex">
                 <?php
-                 $url = rawurlencode($station['SN']);   
+                 $url = rawurlencode($station['SN']);
                 ?>
                 <a data-id="<?php echo e($station['SN']); ?>" data-method="get" href="<?php echo e(route('showStation', $url)); ?>" id="edit" class="m-2 font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
                 <a data-id="<?php echo e($station['SN']); ?>" data-method="DELETE" href="<?php echo e(route('deleteStation', $url)); ?>" id="delete" class="m-2 font-medium text-red-600 dark:text-red-500 hover:underline">Delete</a>
@@ -430,4 +455,5 @@
 <?php unset($__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4); ?>
 <?php endif; ?>
 <?php $__env->stopSection(); ?>
+
 <?php echo $__env->make('dashboard', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\layout\resources\views/components/forms/station.blade.php ENDPATH**/ ?>

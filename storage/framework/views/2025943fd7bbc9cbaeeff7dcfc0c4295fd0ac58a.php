@@ -3,11 +3,11 @@
 
 <?php $__env->startSection('component'); ?>
 <?php
-$url = urlencode($station[$index]->SN);   
+$url = urlencode($station[$index]->SN);
 ?>
 <form class="w-full max-w-2xl flex-col self-center" method="POST" action="/updateStation/<?php echo e($url); ?>" enctype="multipart/form-data">
     <?php echo csrf_field(); ?>
-    
+
     <div class="flex justify-between">
       <?php if (isset($component)) { $__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4 = $component; } ?>
 <?php $component = $__env->getContainer()->make(Illuminate\View\AnonymousComponent::class, ['view' => 'components.formInput','data' => ['class' => 'w-full mr-3']] + (isset($attributes) ? (array) $attributes->getIterator() : [])); ?>
@@ -28,14 +28,14 @@ $url = urlencode($station[$index]->SN);
 <?php $component = $__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4; ?>
 <?php unset($__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4); ?>
 <?php endif; ?>
-      
-      
+
+
     <div class="flex flex-wrap mb-6 w-full">
       <div class="w-full">
         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
           Station type
         </label>
-        
+
         <select name="type" id="type"
         onchange="let add = document.querySelector('.add');
         if(this.options[this.selectedIndex] == add){
@@ -58,7 +58,7 @@ $url = urlencode($station[$index]->SN);
       </div>
     </div>
   </div>
-    
+
 
   <?php if (isset($component)) { $__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4 = $component; } ?>
 <?php $component = $__env->getContainer()->make(Illuminate\View\AnonymousComponent::class, ['view' => 'components.formInput','data' => []] + (isset($attributes) ? (array) $attributes->getIterator() : [])); ?>
@@ -151,9 +151,9 @@ $url = urlencode($station[$index]->SN);
             <?php
                 use App\Models\CabinetSwitch;
                 $switches = CabinetSwitch::get();
-                $switchesName = $switches->where('switchName','=',$station[$index]->switch);
+                $switchesName = $switches->where('id','=',$station[$index]->switch);
             ?>
-            <?php if(!$switchesName->isEmpty()): ?>
+            <?php if(!$switchesName->isEmpty() && isset($station[$index]->switch) ): ?>
             <option value="<?php echo e($station[$index]->switch); ?>" selected hidden ><?php echo e($switchesName[$switchesName->keys()[0]]->cabName); ?> - <?php echo e($station[$index]->switch); ?></option>
             <?php else: ?>
             <option hidden selected disabled>Missing switch</option>
@@ -162,7 +162,7 @@ $url = urlencode($station[$index]->SN);
             <?php $__currentLoopData = $switches; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $switch): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
             <option value="<?php echo e($switch['id']); ?>"> <?php echo e($switch['cabName']); ?> - <?php echo e($switch['switchName']); ?></option>
             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-  
+
             <option class="add1" value="/switch">&#x2b; Add a new switch</option>
           </select>
         </div>
@@ -217,7 +217,7 @@ $url = urlencode($station[$index]->SN);
             <?php $__currentLoopData = $lines; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $line): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
             <option value="<?php echo e($line['name']); ?>"> <?php echo e($line['name']); ?></option>
             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-  
+
             <option value>No station (Injection)</option>
             <option class="add2" value="/lines">&#x2b; Add a new assembly line</option>
           </select>
@@ -232,6 +232,36 @@ $url = urlencode($station[$index]->SN);
       <textarea name="description"  cols="53" rows="10" placeholder="Write a description of this Type of this equipment (optional)" style="resize: none" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"><?php echo e($station[$index]->description); ?></textarea>
     </div>
   </div>
+
+  <?php if (isset($component)) { $__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4 = $component; } ?>
+<?php $component = $__env->getContainer()->make(Illuminate\View\AnonymousComponent::class, ['view' => 'components.formInput','data' => []] + (isset($attributes) ? (array) $attributes->getIterator() : [])); ?>
+<?php $component->withName('formInput'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $constructor = (new ReflectionClass(Illuminate\View\AnonymousComponent::class))->getConstructor()): ?>
+<?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
+<?php endif; ?>
+<?php $component->withAttributes([]); ?>
+    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
+      disable ip pinging for this equipment
+    </label>
+    <input name="state"
+    <?php if($station[$index]->state == 1): ?>
+    value="$station[$index]->state"
+    <?php if(true): echo 'checked'; endif; ?>
+    <?php endif; ?>
+     type="checkbox" class="appearance-none block text-gray-700 border border-gray-300 rounded py-2 px-2 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+    <script>
+ $('input[type="checkbox"]').change(function(){
+   this.value = (Number(this.checked));
+ });
+ </script>
+   <?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4)): ?>
+<?php $component = $__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4; ?>
+<?php unset($__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4); ?>
+<?php endif; ?>
 
   <div class="flex justify-center">
     <input class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow" type="submit" value="update">
@@ -254,6 +284,5 @@ $url = urlencode($station[$index]->SN);
 
     </form>
 <?php $__env->stopSection(); ?>
-
 
 <?php echo $__env->make('dashboard', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\layout\resources\views/components/forms/stationUpdate.blade.php ENDPATH**/ ?>

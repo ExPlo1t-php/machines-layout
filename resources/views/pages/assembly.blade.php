@@ -3,7 +3,7 @@
     <link rel="stylesheet" href="/css/draggable.css">
         <div class="container flex p-5 h-screen w-full">
             @foreach ($lines as $line)
-            <div 
+            <div
                 style="top:{{$line->posTop}}px; left:{{$line->posLeft}}px;"
                  class="{{$line->id}} w-1/12 h-full flex flex-col items-center justify-center text-center md:text-md sm:text-sm text-white bg-black/40 cursor-move ">
                 <h1>{{$line->name}}</h1>
@@ -68,7 +68,7 @@
          {{-- network cabinet  --}}
             @if (isset($cabinets))
             @foreach ($cabinets as $cabinet)
-            <div 
+            <div
             style="top:{{$cabinet->posTop}}px; left:{{$cabinet->posLeft}}px;"
              class="cabinet{{$cabinet->id}} w-1/12 h-fit flex flex-col items-center justify-center text-center md:text-md sm:text-sm text-white bg-black/40 cursor-move ">
             <h1>{{$cabinet->name}}</h1>
@@ -95,7 +95,7 @@
                         </div>
                         <!-- Modal body -->
                         <div class="p-6 space-y-6 flex content-center">
-                            <ul class="rounded overflow-hidden shadow-md text-left w-1/2">         
+                            <ul class="rounded overflow-hidden shadow-md text-left w-1/2">
                                 <x-detailsitem>
                                   <x-detailsspan>
                                     Cabinet name:
@@ -114,10 +114,10 @@
                                 @php
                                     $switches = $switch->where('cabName', '=', $cabinet->name);
                                 @endphp
-                                
+
                                 @foreach ($switches as $switch)
                                 <div class="flex items-center m-3">
-                                    <span class="text-black">{{$switch->switchNumber}}</span>
+                                    <span class="text-black">{{$switch->switchName}}</span>
                                     <img src="/assets/images/network/switch.png" alt="switch" class="w-1/2 h-1/2">
                                     <span
                                     class="bg-black w-full h-fit m-1 p-1 rounded-md hover:hover:bg-black/10 cursor-pointer ease-in-out md:text-sm sm:text-2xs"
@@ -132,7 +132,7 @@
                                             <!-- Modal header -->
                                             <div class="flex justify-between items-start p-4 rounded-t border-b dark:border-gray-600">
                                                 <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                                                    Switch: {{$switch->cabName . $switch->switchNumber}}
+                                                    Switch: {{$switch->cabName}} - {{$switch->switchName}}
                                                 </h3>
                                                 <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="switch{{$switch->id .$switch->cabName}}">
                                                     <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
@@ -141,7 +141,7 @@
                                             </div>
                                             <!-- Modal body -->
                                             <div class="p-6 space-y-6 flex content-center ">
-                                                <ul class="rounded overflow-hidden shadow-md text-left w-1/2">         
+                                                <ul class="rounded overflow-hidden shadow-md text-left w-1/2">
                                                     <x-detailsitem>
                                                       <x-detailsspan>
                                                         Switch number of ports:
@@ -160,6 +160,7 @@
                                                         Status:
                                                       </x-detailsspan>
                                                       @php
+                                                      if($switch->state !== 1){
                                                       $ip = $switch->ipAddr;
                                                       $ping = exec('ping -n 1 '.$ip, $output, $status);
                                                       if($status == 1){
@@ -169,6 +170,7 @@
                                                       }else{
                                                         echo  '<i class="fa-solid fa-circle  w-2/12 text-xs text-orange-500 text-right">Error</i>';
                                                       }
+                                                    }
                                                       @endphp
                                                       </x-detailsitem>
                                                 </ul>
@@ -177,7 +179,7 @@
                                                     @php
                                                     // specifying the collected ports
                                                     $ports = $port->where('switchId','=',$switch->id);
-                                                    
+
                                                     @endphp
                                                     <ul class="text-black h-64 overflow-auto">
                                                         @foreach ($ports->keys() as $key)
@@ -262,7 +264,7 @@
                     }
                     @endif
                     });
-    
+
                     })
                     </script>
             </div>

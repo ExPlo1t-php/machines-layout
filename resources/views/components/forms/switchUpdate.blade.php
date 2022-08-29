@@ -35,21 +35,38 @@
         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
           Switch Name
         </label>
-        <input value="{{$switch[$index]->switchName}}" name="switchName" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" minlength="7" maxlength="15" size="15" id="grid-password" type="number" placeholder="switch name" required>
+        <input value="{{$switch[$index]->switchName}}" name="switchName" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="text" placeholder="switch name" required>
       </x-formInput>
-      
+
       <x-formInput>
           <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
             Ip Address
           </label>
           <input value="{{$switch[$index]->ipAddr}}" name="ipAddr" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" minlength="7" maxlength="15" size="15" id="grid-password" type="text" placeholder="Ip format (xxx.xxx.xxx.xxx)" required>
         </x-formInput>
-    
+
         <x-formInput>
             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
                 Number of ports
             </label>
             <input value="{{$switch[$index]->portsNum}}" name="portsNum" min="0" max="99" maxlength="2"  minlength="7" maxlength="15" size="15" id="grid-password" type="number" placeholder="Number of the switch's ports" required class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 appearance-none">
+          </x-formInput>
+
+          <x-formInput>
+            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
+              disable ip pinging for this switch
+            </label>
+            <input name="state"
+            @if($switch[$index]->state == 1)
+            value="$switch[$index]->state"
+            @checked(true)
+            @endif
+             type="checkbox" class="appearance-none block text-gray-700 border border-gray-300 rounded py-2 px-2 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+            <script>
+         $('input[type="checkbox"]').change(function(){
+           this.value = (Number(this.checked));
+         });
+         </script>
           </x-formInput>
 
   <div class="flex justify-center">

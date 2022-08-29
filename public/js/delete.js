@@ -2,19 +2,19 @@
 $(document).ready(function () {
 
   $("body").on("click","#delete",function(e){
-  
+
      if(!confirm("Do you really want to delete this element?")) {
         return false;
       }
-  
+
      e.preventDefault();
      var id = $(this).data("id");
      var token = $("meta[name='csrf-token']").attr("content");
      var url = e.target;
-  
+
      $.ajax(
          {
-           url: url.href, 
+           url: url.href,
            type: 'DELETE',
            data: {
              _token: token,
@@ -29,7 +29,7 @@ $(document).ready(function () {
          // do something here because of error
         }
       });
-      
+
       // refresh not reload 😃
       location.reload(true);
       return false;
@@ -47,15 +47,15 @@ $(document).ready(function () {
           var id = $(this).data("id");
           var token = $("meta[name='csrf-token']").attr("content");
           var url = e.target;
-      
+
           $.ajax(
               {
-                url: url.href, 
+                url: url.href,
                 data: {
                   _token: token,
                       id: id
               },
           });
-          
+
         });
       });

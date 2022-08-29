@@ -6,10 +6,10 @@
 <?php if (isset($attributes) && $constructor = (new ReflectionClass(App\View\Components\AppLayout::class))->getConstructor()): ?>
 <?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
 <?php endif; ?>
-<?php $component->withAttributes([]); ?>  
+<?php $component->withAttributes([]); ?>
     <?php $__env->startSection('title', 'Layout | Injection layout'); ?>
     <link rel="stylesheet" href="/css/draggable.css">
-    
+
         <?php $__currentLoopData = $stations; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $station): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
         <div
         style="top:<?php echo e($station->posTop); ?>px; left:<?php echo e($station->posLeft); ?>px;"
@@ -19,6 +19,7 @@
                 <?php
                 // ❗ if the target ping is offline it takes longer time
                 // try to reduce it, good luck
+                if($station->state !== 1){
                     $ip = $station->mainIpAddr;
                     $ping = exec('ping -n 1 '.$ip, $output, $status);
                     if($status == 1){
@@ -31,18 +32,23 @@
                         // error
                         echo  '<i class="fa-solid fa-circle w-1/12 text-xs text-orange-500"></i>';
                     }
+                }
                     ?>
             </div>
             <h1><?php echo e($station->mainIpAddr); ?></h1>
             <?php
                 $typereq =  $type->where('name', '=', $station->type);
+                if(!$typereq->isEmpty()){
                 $index = $typereq->keys()[0];
                 $stType = $typereq[$index];
+              }
             ?>
+            <?php if(isset($stType)): ?>
             <img src="/assets/images/machines/<?php echo e($stType->icon); ?>" alt="<?php echo e($station->name); ?>" class="m-auto p-0 object-fit h-3/4">
+            <?php endif; ?>
             <span
-            onclick="location.href='/stationInfo/<?php echo e($station->SN); ?>'" 
-            class="bg-black w-full p-2 rounded-md sm:text-2xs md:text-2xs hover:hover:bg-black/10 cursor-pointer ease-in-out"
+            onclick="location.href='/stationInfo/<?php echo e($station->SN); ?>'"
+            class="bg-black w-full p-2 rounded-md sm:text-2xs md:text-2xs hover:bg-black/10 cursor-pointer ease-in-out"
             >Go to details</span>
         </div>
             <form action="/stationPos" method="POST">
@@ -56,8 +62,8 @@
             <?php if(!session()->get('username')): ?>
             revert: true,
             <?php endif; ?>
-            //container 
-            // containment: '.container',  
+            //container
+            // containment: '.container',
             //  grid
             grid: [ 6, 6 ],
             scroll: true,
@@ -96,21 +102,21 @@
             }
             <?php endif; ?>
         });
-            
+
             })
             </script>
         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                     
             <?php if(isset($cabinets)): ?>
             <?php $__currentLoopData = $cabinets; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $cabinet): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-            <div 
+            <div
             style="top:<?php echo e($cabinet->posTop); ?>px; left:<?php echo e($cabinet->posLeft); ?>px;"
-             class="cabinet<?php echo e($cabinet->id); ?> w-1/12 h-fit flex flex-col items-center justify-center text-center md:text-md sm:text-sm text-white bg-black/40 cursor-move ">
+             class="cabinet<?php echo e($cabinet->id); ?> w-24 h-44 p-3 z-0 text-xs flex-col items-center justify-center text-center text-white bg-black/40  cursor-move draggable ui-widget-content">
             <h1><?php echo e($cabinet->name); ?></h1>
-            <img src="/assets/images/network/switchCabinet.png" alt="cabinet" class="rounded w-full">
+            <img src="/assets/images/network/switchCabinet.png" alt="cabinet" class="m-auto p-0 object-fit h-3/4">
             
             <span
-            class="bg-black w-full m-1 p-1 rounded-md hover:hover:bg-black/10 cursor-pointer ease-in-out md:text-sm sm:text-2xs"
+            class="bg-black w-full m-1 p-1 rounded-md hover:bg-black/10 cursor-pointer ease-in-out md:text-sm sm:text-2xs"
             data-modal-toggle="cabinet<?php echo e($cabinet->name); ?>"
             >Show details</span>
             
@@ -131,7 +137,7 @@
                         </div>
                         <!-- Modal body -->
                         <div class="p-6 space-y-6 flex content-center">
-                            <ul class="rounded overflow-hidden shadow-md text-left w-1/2">         
+                            <ul class="rounded overflow-hidden shadow-md text-left w-1/2">
                                 <?php if (isset($component)) { $__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4 = $component; } ?>
 <?php $component = $__env->getContainer()->make(Illuminate\View\AnonymousComponent::class, ['view' => 'components.detailsitem','data' => []] + (isset($attributes) ? (array) $attributes->getIterator() : [])); ?>
 <?php $component->withName('detailsitem'); ?>
@@ -204,13 +210,13 @@
                                 <?php
                                     $switches = $switch->where('cabName', '=', $cabinet->name);
                                 ?>
-                                
+
                                 <?php $__currentLoopData = $switches; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $switch): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <div class="flex items-center m-3">
                                     <span class="text-black"><?php echo e($switch->switchNumber); ?></span>
                                     <img src="/assets/images/network/switch.png" alt="switch" class="w-1/2 h-1/2">
                                     <span
-                                    class="bg-black w-full h-fit m-1 p-1 rounded-md hover:hover:bg-black/10 cursor-pointer ease-in-out md:text-sm sm:text-2xs"
+                                    class="bg-black w-full h-fit m-1 p-1 rounded-md hover:bg-black/10 cursor-pointer ease-in-out md:text-sm sm:text-2xs"
                                     data-modal-toggle="switch<?php echo e($switch->id .$switch->cabName); ?>"
                                     >show more info</span>
                                 </div>
@@ -232,7 +238,7 @@
                                             </div>
                                             <!-- Modal body -->
                                             <div class="p-6 space-y-6 flex content-center ">
-                                                <ul class="rounded overflow-hidden shadow-md text-left w-1/2">         
+                                                <ul class="rounded overflow-hidden shadow-md text-left w-1/2">
                                                     <?php if (isset($component)) { $__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4 = $component; } ?>
 <?php $component = $__env->getContainer()->make(Illuminate\View\AnonymousComponent::class, ['view' => 'components.detailsitem','data' => []] + (isset($attributes) ? (array) $attributes->getIterator() : [])); ?>
 <?php $component->withName('detailsitem'); ?>
@@ -326,6 +332,7 @@
 <?php unset($__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4); ?>
 <?php endif; ?>
                                                       <?php
+                                                      if($station->state !== 1){
                                                       $ip = $switch->ipAddr;
                                                       $ping = exec('ping -n 1 '.$ip, $output, $status);
                                                       if($status == 1){
@@ -335,6 +342,7 @@
                                                       }else{
                                                         echo  '<i class="fa-solid fa-circle  w-2/12 text-xs text-orange-500 text-right">Error</i>';
                                                       }
+                                                    }
                                                       ?>
                                                        <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
@@ -348,7 +356,7 @@
                                                     <?php
                                                     // specifying the collected ports
                                                     $ports = $port->where('switchId','=',$switch->id);
-                                                    
+
                                                     ?>
                                                     <ul class="text-black h-64 overflow-auto">
                                                         <?php $__currentLoopData = $ports->keys(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -394,7 +402,7 @@
                     <?php if(!session()->get('username')): ?>
                         revert: true,
                     <?php endif; ?>
-                    //container 
+                    //container
                     // containment: 'main',
                     // scroll
                     scroll: true, scrollSensitivity: 50,
@@ -434,7 +442,7 @@
                     }
                     <?php endif; ?>
                     });
-    
+
                     })
                     </script>
             </div>
@@ -445,4 +453,5 @@
 <?php if (isset($__componentOriginal8e2ce59650f81721f93fef32250174d77c3531da)): ?>
 <?php $component = $__componentOriginal8e2ce59650f81721f93fef32250174d77c3531da; ?>
 <?php unset($__componentOriginal8e2ce59650f81721f93fef32250174d77c3531da); ?>
-<?php endif; ?><?php /**PATH C:\xampp\htdocs\layout\resources\views/pages/injection.blade.php ENDPATH**/ ?>
+<?php endif; ?>
+<?php /**PATH C:\xampp\htdocs\layout\resources\views/pages/injection.blade.php ENDPATH**/ ?>

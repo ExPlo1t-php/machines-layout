@@ -7,28 +7,29 @@
 <?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
 <?php endif; ?>
 <?php $component->withAttributes([]); ?>
-        <div class="flex">
-            <?php $__currentLoopData = $cabinets; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $cabinet): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-            <?php
-            $switches = $switch->where('cabName', '=', $cabinet->name);
-            ?>
-        
-        <?php $__currentLoopData = $switches; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $switch): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-        <?php
-        $ports = $port->where('switchId','=',$switch->switchNumber);
-        ?>
-        <div>
-            <span class="text-red-800"><?php echo e($switch->switchNumber); ?></span>
-            <ul>
-          <?php $__currentLoopData = $ports->keys(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-          <?php echo e($ports[$key]->switchId); ?>
-
-          <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-            </ul>
-        </div>
-        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-    </div>
+  
+        <div class="flex flex-wrap -mx-3 mb-6">
+            <div class="w-full px-3">
+              <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
+                switch name
+              </label>
+              <select name="switch"
+              onchange="let add = document.querySelector('.add');
+              if(this.options[this.selectedIndex] == add){
+              window.location = add.value;
+              }"
+              
+              class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password">
+                <option value="<?php echo e($station[$index]->switch); ?>" selected hidden ><?php echo e($station[$index]->switch); ?></option>
+                
+                <?php $__currentLoopData = $switches; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $switch): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <option value="<?php echo e($switch['switchNumber']); ?>"> <?php echo e($switch['cabName']); ?> - <?php echo e($switch['switchNumber']); ?></option>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+      
+                <option class="add" value="switch">&#x2b; Add a new switch</option>
+              </select>
+            </div>
+          </div>
      <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__componentOriginal8e2ce59650f81721f93fef32250174d77c3531da)): ?>

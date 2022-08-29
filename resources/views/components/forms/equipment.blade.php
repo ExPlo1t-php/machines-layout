@@ -35,7 +35,7 @@
         <input name="SN" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="text" placeholder="serial number">
         </x-formInput>
       </div>
-        
+
 
       <div class="flex flex-wrap mb-6">
         <div class="w-full">
@@ -58,7 +58,7 @@
             @foreach ($types as $type)
             <option value="{{$type['name']}}"> {{$type['name']}}</option>
             @endforeach
-  
+
             <option class="add" value="equipment-type">&#x2b; Add a new equipment type</option>
           </select>
         </div>
@@ -100,12 +100,12 @@
             @foreach ($switches as $switch)
             <option value="{{$switch['id']}}"> {{$switch['cabName']}} - {{ $switch['switchName']}}</option>
             @endforeach
-            
+
             <option class="add2" value="/switch">&#x2b; Add a new switch</option>
           </select>
         </div>
-      
-        
+
+
         <div class="flex flex-wrap mb-6 w-full">
           <div class="w-full">
             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
@@ -161,7 +161,7 @@
             @foreach ($stations as $station)
             <option value="{{$station['name']}}"> {{$station['name']}}</option>
             @endforeach
-  
+
             <option class="add1" value="/lines">&#x2b; Add a new equipment</option>
           </select>
         </div>
@@ -175,6 +175,17 @@
       <textarea name="description"  cols="53" rows="10" placeholder="Write a description of this Type of this equipment (optional)" style="resize: none" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"></textarea>
     </x-formInput>
 
+    <x-formInput>
+      <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
+        disable ip pinging for this equipment
+      </label>
+      <input name="state" type="checkbox" class="appearance-none block text-gray-700 border border-gray-300 rounded py-2 px-2 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+      <script>
+   $('input[type="checkbox"]').change(function(){
+     this.value = (Number(this.checked));
+   });
+   </script>
+    </x-formInput>
 
   <div class="flex justify-center">
     <input class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow" type="submit" name="submit">
@@ -215,7 +226,7 @@
     </script>
     <script type="text/javascript">
     $.ajaxSetup({ headers: { 'csrftoken' : '{{ csrf_token() }}' } });
-    </script>  
+    </script>
     {{-- live search --}}
     <script src="/js/sort.js"></script>
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -241,12 +252,12 @@
                 equipment's occupied port
             </th>
             <th scope="col" class="px-6 py-3 cursor-pointer">
-                equipment type 
+                equipment type
             </th>
             <th scope="col" class="px-6 py-3 cursor-pointer">
                 Equipment station
             </th>
- 
+
             <th scope="col" class="px-6 py-3 cursor-pointer">
                 equipment description
             </th>
@@ -276,7 +287,7 @@
               </td>
             <td class="px-6 py-4">
               @php
-               $switch = $switches->where('id', '=', $equipment['switch']);   
+               $switch = $switches->where('id', '=', $equipment['switch']);
               @endphp
                 @if (!$switch->isEmpty())
                 {{$switch[$switch->keys()[0]]->cabName}} - {{$switch[$switch->keys()[0]]->switchName}}
@@ -296,7 +307,7 @@
               </td>
               <td class="px-4 py-4 text-right flex">
                 @php
-                $url = urlencode($equipment['SN']);   
+                $url = urlencode($equipment['SN']);
                @endphp
                 <a data-id="{{$equipment['SN']}}" data-method="get" href="{{route('showEquipment', $url)}}" id="edit" class="m-2 font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
                 <a data-id="{{$equipment['SN']}}" data-method="DELETE" href="{{route('deleteEquipment', $url)}}" id="delete" class="m-2 font-medium text-red-600 dark:text-red-500 hover:underline">Delete</a>

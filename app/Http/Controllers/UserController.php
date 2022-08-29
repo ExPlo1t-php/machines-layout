@@ -14,7 +14,7 @@ class UserController extends Controller
     public function showUsers(){
         // shows all the users in the table
         $users = User::paginate(7);
-        return view('index', ['users'=>$users]); 
+        return view('index', ['users'=>$users]);
       }
 
     //   show a specific user preparing for edit
@@ -34,23 +34,16 @@ class UserController extends Controller
             ]);
             // inserting validated data
         $user = User::where('id', '=', $id)->get();
-        // check if the input password match the record
-        $hashCheck = Hash::check($request->currentPw, $user[0]->password);
         // checking if the user entered current/new password
-        if($request->currentPw && $request->password && $request->password_confirmation){
-            // if new password = new password repeat and current password match records
+        if($request->password && $request->password_confirmation){
+            // if new password = new password repeat
             // update the db record
-            if($hashCheck){
                 User::where('id',$id)->update([
                    'name' => $request->name,
                    'email' => $request->email,
                    'password' => Hash::make($request->password_confirmation),
                 ]);
                 return redirect('users')->with('success','User details and password changed successfully!');;
-            }else{
-                // in case the passwords didn't match return with an error message
-                return redirect('users')->with('error','Passwords didn\'t match, nothing happened!');;
-            }
         }else{
             User::where('id',$id)->update([
                 'name' => $request->name,
@@ -58,7 +51,7 @@ class UserController extends Controller
             ]);
             return redirect('users')->with('success','User details changed successfully!');;
         }
- 
+
     }
 
     public function deleteUser($id){

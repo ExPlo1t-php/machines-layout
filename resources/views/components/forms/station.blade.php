@@ -21,14 +21,14 @@
         </label>
         <input name="name" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="text" placeholder="station name">
       </x-formInput>
-      
-      
+
+
     <div class="flex flex-wrap mb-6 w-full">
       <div class="w-full">
         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
           Station type
         </label>
-        
+
         <select name="type" id="type"
         onchange="let add = document.querySelector('.add');
         if(this.options[this.selectedIndex] == add){
@@ -51,7 +51,7 @@
       </div>
     </div>
   </div>
-    
+
   <div class="flex justify-between">
     <x-formInput class="w-full mr-3">
     <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
@@ -93,7 +93,7 @@
     <input name="mainIpAddr" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="text" placeholder="Main ip address format(xxx.xxx.xxx.xxx)">
   </x-formInput>
 
-  
+
   <div class="flex flex-wrap w-full">
     <div class="w-full">
       <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
@@ -115,12 +115,12 @@
       @foreach ($switches as $switch)
       <option value="{{$switch['id']}}"> {{$switch['cabName']}} - {{ $switch['switchName']}}</option>
       @endforeach
-      
+
       <option class="add2" value="/switch">&#x2b; Add a new switch</option>
     </select>
   </div>
 
-  
+
   <div class="flex flex-wrap mb-6 w-full">
     <div class="w-full">
       <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
@@ -189,6 +189,18 @@
       <textarea name="description"  cols="53" rows="10" placeholder="Write a description of this Type of this equipment (optional)" style="resize: none" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"></textarea>
     </x-formInput>
 
+    <x-formInput>
+      <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
+        disable ip pinging for this station
+      </label>
+      <input name="state" type="checkbox" class="appearance-none block text-gray-700 border border-gray-300 rounded py-2 px-2 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+      <script>
+   $('input[type="checkbox"]').change(function(){
+     this.value = (Number(this.checked));
+   });
+   </script>
+    </x-formInput>
+
   <div class="flex justify-center">
     <input class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow" type="submit" name="submit">
   </div>
@@ -209,7 +221,7 @@
         @endif
     {{-- error handling --}}
     </form>
-    
+
 @endsection
 
 
@@ -238,11 +250,11 @@
        $(elem).insertAfter( "#ip" );
       }
   }
-  </script>  
+  </script>
   {{-- live search --}}
       <script type="text/javascript">
     $.ajaxSetup({ headers: { 'csrftoken' : '{{ csrf_token() }}' } });
-    </script>  
+    </script>
   <script src="/js/sort.js"></script>
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
   <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400 ">
@@ -261,7 +273,7 @@
                 Station's main ip address
             </th>
             <th scope="col" class="px-6 py-3 cursor-pointer">
-              Station's occupied switch 
+              Station's occupied switch
             </th>
             <th scope="col" class="px-6 py-3 cursor-pointer">
                 Station's occupied port
@@ -302,7 +314,7 @@
               <td class="px-6 py-4">
                 @if (!$switches->where('id','=',$station['switch'])->isEmpty())
                 @php
-                $switch = $switches->where('id', '=', $station['switch']);   
+                $switch = $switches->where('id', '=', $station['switch']);
                @endphp
                @if (!$switch->isEmpty())
                {{$switch[$switch->keys()[0]]->cabName}} - {{$switch[$switch->keys()[0]]->switchName}}
@@ -326,7 +338,7 @@
 
               <td class="px-4 py-4 text-right flex">
                 @php
-                 $url = rawurlencode($station['SN']);   
+                 $url = rawurlencode($station['SN']);
                 @endphp
                 <a data-id="{{$station['SN']}}" data-method="get" href="{{route('showStation', $url)}}" id="edit" class="m-2 font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
                 <a data-id="{{$station['SN']}}" data-method="DELETE" href="{{route('deleteStation', $url)}}" id="delete" class="m-2 font-medium text-red-600 dark:text-red-500 hover:underline">Delete</a>

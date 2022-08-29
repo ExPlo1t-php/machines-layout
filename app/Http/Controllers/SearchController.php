@@ -18,9 +18,13 @@ class SearchController extends Controller
     $station= DB::table('station')
     ->where('name','LIKE','%'.$request->search."%")
     ->orWhere('SN','LIKE','%'.$request->search."%")
+    ->orWhere('supplier','LIKE','%'.$request->search."%")
+    ->orWhere('line','LIKE','%'.$request->search."%")
     ->orWhere('type','LIKE','%'.$request->search."%")
     ->orWhere('mainIpAddr','LIKE','%'.$request->search."%")
-    ->orWhere('mainIpAddr','LIKE','%'.$request->search."%")
+    ->orWhere('IpAddr1','LIKE','%'.$request->search."%")
+    ->orWhere('IpAddr2','LIKE','%'.$request->search."%")
+    ->orWhere('IpAddr3','LIKE','%'.$request->search."%")
     ->get();
     // just a variable to store classes of td opening tag
     $attr = '<td scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">';
@@ -57,6 +61,7 @@ class SearchController extends Controller
     // search criteria
     $type= DB::table('station_type')
     ->where('name','LIKE','%'.$request->search."%")
+    ->where('description','LIKE','%'.$request->search."%")
     ->get();
     // just a variable to store classes of td opening tag
     $attr = '<td scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">';
@@ -66,7 +71,7 @@ class SearchController extends Controller
     $output.='<tr class="border-b dark:bg-gray-800 dark:border-gray-700 odd:bg-white even:bg-gray-50 odd:dark:bg-gray-800 even:dark:bg-gray-700">'.
     $attr.$type->name.'</td>'.
     $attr.$type->description.'</td>'.
-    $attr.'<img src="Image/'.$type->icon.'"></td>'.
+    $attr.'<img src="/assets/images/machines/'.$type->icon.'" class="w-20 h-20"></td>'.
     '<td class="px-4 py-4 text-right flex">'
     .'<a href="#" class="m-2 font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>'
     .'<a data-id="'.$type->name.'" data-method="DELETE" href="'.route('deleteEquipmentType', $type->name).'" id="delete" class="m-2 font-medium text-red-600 dark:text-red-500 hover:underline">Delete</a>'
@@ -77,9 +82,9 @@ class SearchController extends Controller
        }
        }
     }
-    
-    
-    
+
+
+
     // equipment search bar -------------------------------------------------
     public function searchEquipment(Request $request)
     {
@@ -90,6 +95,9 @@ class SearchController extends Controller
     ->where('name','LIKE','%'.$request->search."%")
     ->orWhere('SN','LIKE','%'.$request->search."%")
     ->orWhere('IpAddr','LIKE','%'.$request->search."%")
+    ->orWhere('supplier','LIKE','%'.$request->search."%")
+    ->orWhere('type','LIKE','%'.$request->search."%")
+    ->orWhere('station','LIKE','%'.$request->search."%")
     ->get();
     $attr = '<td scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">';
     if($equipment)
@@ -115,7 +123,7 @@ class SearchController extends Controller
        }
        }
     }
-   
+
     // equipment type search bar -------------------------------------------------
     public function searchEquipmentType(Request $request)
     {
@@ -125,6 +133,7 @@ class SearchController extends Controller
     // search criteria
     $type= DB::table('equipment_type')
     ->where('name','LIKE','%'.$request->search."%")
+    ->orWhere('description','LIKE','%'.$request->search."%")
     ->get();
     // just a variable to store classes of td opening tag
     $attr = '<td scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">';
@@ -134,7 +143,7 @@ class SearchController extends Controller
     $output.='<tr class="border-b dark:bg-gray-800 dark:border-gray-700 odd:bg-white even:bg-gray-50 odd:dark:bg-gray-800 even:dark:bg-gray-700">'.
     $attr.$type->name.'</td>'.
     $attr.$type->description.'</td>'.
-    $attr.'<img src="Image/'.$type->icon.'"></td>'.
+    $attr.'<img src="/assets/images/equipments/'.$type->icon.'" class="w-20 h-20"></td>'.
     '<td class="px-4 py-4 text-right flex">'
     .'<a href="#" class="m-2 font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>'
     .'<a data-id="'.$type->name.'" data-method="DELETE" href="'.route('deleteEquipmentType', $type->name).'" id="delete" class="m-2 font-medium text-red-600 dark:text-red-500 hover:underline">Delete</a>'
@@ -145,7 +154,7 @@ class SearchController extends Controller
        }
        }
     }
-    
+
     // Assembly line search bar -------------------------------------------------
     public function searchLine(Request $request)
     {
@@ -155,6 +164,7 @@ class SearchController extends Controller
     // search criteria
     $line= DB::table('line')
     ->where('name','LIKE','%'.$request->search."%")
+    ->orWhere('description','LIKE','%'.$request->search."%")
     ->get();
     // just a variable to store classes of td opening tag
     $attr = '<td scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">';
@@ -164,6 +174,7 @@ class SearchController extends Controller
     $output.='<tr class="border-b dark:bg-gray-800 dark:border-gray-700 odd:bg-white even:bg-gray-50 odd:dark:bg-gray-800 even:dark:bg-gray-700">'.
     $attr.$line->name.'</td>'.
     $attr.$line->description.'</td>'.
+    $attr.'<img src="/assets/images/lines/'.$line->icon.'" class="w-20 h-20"></td>'.
     '<td class="px-4 py-4 text-right flex">'
     .'<a href="#" class="m-2 font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>'
     .'<a data-id="'.$line->name.'" data-method="DELETE" href="'.route('deleteLine', $line->name).'" id="delete" class="m-2 font-medium text-red-600 dark:text-red-500 hover:underline">Delete</a>'
@@ -174,7 +185,7 @@ class SearchController extends Controller
        }
        }
     }
-    
+
     // switch search bar -------------------------------------------------
     public function searchCabinet(Request $request)
     {
@@ -185,6 +196,7 @@ class SearchController extends Controller
     $cabinet= DB::table('network_cabinet')
     ->where('name','LIKE','%'.$request->search."%")
     ->orWhere('zone','LIKE','%'.$request->search."%")
+    ->orWhere('description','LIKE','%'.$request->search."%")
     ->get();
     // just a variable to store classes of td opening tag
     $attr = '<td scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">';
@@ -216,6 +228,7 @@ class SearchController extends Controller
     $switch= DB::table('switch')
     ->where('id','LIKE','%'.$request->search."%")
     ->orWhere('ipAddr','LIKE','%'.$request->search."%")
+    ->orWhere('switchName','LIKE','%'.$request->search."%")
     ->orWhere('portsNum','LIKE','%'.$request->search."%")
     ->orWhere('cabName','LIKE','%'.$request->search."%")
     ->get();
@@ -225,7 +238,7 @@ class SearchController extends Controller
     {
     foreach ($switch as $key => $switch) {
     $output.='<tr class="border-b dark:bg-gray-800 dark:border-gray-700 odd:bg-white even:bg-gray-50 odd:dark:bg-gray-800 even:dark:bg-gray-700">'.
-    $attr.$switch->id.'</td>'.
+    $attr.$switch->switchName.'</td>'.
     $attr.$switch->ipAddr.'</td>'.
     $attr.$switch->portsNum.'</td>'.
     $attr.$switch->cabName.'</td>'.

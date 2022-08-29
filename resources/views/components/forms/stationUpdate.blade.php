@@ -3,11 +3,11 @@
 
 @section('component')
 @php
-$url = urlencode($station[$index]->SN);   
+$url = urlencode($station[$index]->SN);
 @endphp
 <form class="w-full max-w-2xl flex-col self-center" method="POST" action="/updateStation/{{$url}}" enctype="multipart/form-data">
     @csrf
-    
+
     <div class="flex justify-between">
       <x-formInput class="w-full mr-3">
         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
@@ -15,14 +15,14 @@ $url = urlencode($station[$index]->SN);
         </label>
         <input value="{{$station[$index]->name}}" name="name" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="text" placeholder="station name">
       </x-formInput>
-      
-      
+
+
     <div class="flex flex-wrap mb-6 w-full">
       <div class="w-full">
         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
           Station type
         </label>
-        
+
         <select name="type" id="type"
         onchange="let add = document.querySelector('.add');
         if(this.options[this.selectedIndex] == add){
@@ -45,7 +45,7 @@ $url = urlencode($station[$index]->SN);
       </div>
     </div>
   </div>
-    
+
 
   <x-formInput>
     <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
@@ -125,9 +125,9 @@ $url = urlencode($station[$index]->SN);
             @php
                 use App\Models\CabinetSwitch;
                 $switches = CabinetSwitch::get();
-                $switchesName = $switches->where('switchName','=',$station[$index]->switch);
+                $switchesName = $switches->where('id','=',$station[$index]->switch);
             @endphp
-            @if (!$switchesName->isEmpty())
+            @if (!$switchesName->isEmpty() && isset($station[$index]->switch) )
             <option value="{{$station[$index]->switch}}" selected hidden >{{$switchesName[$switchesName->keys()[0]]->cabName}} - {{$station[$index]->switch}}</option>
             @else
             <option hidden selected disabled>Missing switch</option>
@@ -136,7 +136,7 @@ $url = urlencode($station[$index]->SN);
             @foreach ($switches as $switch)
             <option value="{{$switch['id']}}"> {{$switch['cabName']}} - {{ $switch['switchName']}}</option>
             @endforeach
-  
+
             <option class="add1" value="/switch">&#x2b; Add a new switch</option>
           </select>
         </div>
@@ -191,7 +191,7 @@ $url = urlencode($station[$index]->SN);
             @foreach ($lines as $line)
             <option value="{{$line['name']}}"> {{$line['name']}}</option>
             @endforeach
-  
+
             <option value>No station (Injection)</option>
             <option class="add2" value="/lines">&#x2b; Add a new assembly line</option>
           </select>
@@ -206,6 +206,23 @@ $url = urlencode($station[$index]->SN);
       <textarea name="description"  cols="53" rows="10" placeholder="Write a description of this Type of this equipment (optional)" style="resize: none" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">{{$station[$index]->description}}</textarea>
     </div>
   </div>
+
+  <x-formInput>
+    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
+      disable ip pinging for this equipment
+    </label>
+    <input name="state"
+    @if($station[$index]->state == 1)
+    value="$station[$index]->state"
+    @checked(true)
+    @endif
+     type="checkbox" class="appearance-none block text-gray-700 border border-gray-300 rounded py-2 px-2 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+    <script>
+ $('input[type="checkbox"]').change(function(){
+   this.value = (Number(this.checked));
+ });
+ </script>
+  </x-formInput>
 
   <div class="flex justify-center">
     <input class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow" type="submit" value="update">
@@ -228,4 +245,3 @@ $url = urlencode($station[$index]->SN);
 {{-- error handling --}}
     </form>
 @endsection
-

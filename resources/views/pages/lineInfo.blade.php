@@ -7,20 +7,20 @@
     <div class="container w-full h-screen right mx-auto grid gap-3 grid-cols-2 grid-rows-1 p-5 h-screen place-items-center flex ">
         <div>
             @foreach ($stations as $station)
-            <div 
+            <div
             style="top:{{$station->posTop}}px; left:{{$station->posLeft}}px;"
             class="{{$station->SN}} bg-black/40 hover:bg-black/10  shadow-md m-1 border border-gray-200 rounded-lg max-w-sm dark:bg-gray-800 dark:border-gray-700 cursor-move">
-                <div class="p-10 ">
+                <div class="p-5 ">
                 @php
-                    $url = urlencode($station->SN);   
+                    $url = urlencode($station->SN);
                     $typereq = $stType->where('name', '=', $station->type);
                     $index = $typereq->keys()[0];
                     $sttype = $typereq[$index];
                 @endphp
-                <img alt="..." src="/assets/images/machines/{{$sttype->icon}}" class="w-3/4 align-middle rounded-t-lg align-center self-center">
-                    <a href="/stationInfo/{{$url}}">
-                    <h5 class="text-gray-900 hover:bg-gray-300 rounded text-center font-bold text-xl tracking-tight mb-2 dark:text-white">{{$station->name}}</h5>
-                    </a>
+                <a href="/stationInfo/{{$url}}">
+                  <h5 class="text-gray-900 hover:bg-gray-300 rounded text-center font-bold text-xl tracking-tight mb-2 dark:text-white">{{$station->name}}</h5>
+                </a>
+                <img alt="..." src="/assets/images/machines/{{$sttype->icon}}" class="m-auto p-0 object-fit h-48">
                 </div>
             </div>
             <form action="/stationPos" method="POST">
@@ -35,7 +35,7 @@
                 revert: true,
                 @endif
                 //container aka walls
-                containment: '.container',  
+                containment: '.container',
                 // container grid
                 grid: [ 10 , 10 ],
                 scroll: true,
@@ -75,7 +75,7 @@
                 }
                 @endif
             });
-                
+
                 })
                 </script>
             @endforeach

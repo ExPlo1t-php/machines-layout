@@ -41,12 +41,12 @@
         </div>
       </div>
 
-      
+
       <x-formInput>
           <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
             Switch Name
           </label>
-          <input name="switchName" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" minlength="7" maxlength="15" size="15" id="grid-password" type="number" placeholder="Switch name" required>
+          <input name="switchName" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" maxlength="15" size="15" id="grid-password" type="text" placeholder="Switch name" required>
         </x-formInput>
 
       <x-formInput>
@@ -55,12 +55,24 @@
           </label>
           <input name="ipAddr" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" minlength="7" maxlength="15" size="15" id="grid-password" type="text" placeholder="Ip format (xxx.xxx.xxx.xxx)" required>
         </x-formInput>
-    
+
         <x-formInput>
             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
                 Number of ports
             </label>
             <input name="portsNum" min="0" max="99" maxlength="2"  minlength="7" maxlength="15" size="15" id="grid-password" type="number" placeholder="Number of the switch's ports" required class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 appearance-none">
+          </x-formInput>
+
+          <x-formInput>
+            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
+              disable ip pinging for this switch
+            </label>
+            <input name="state" type="checkbox" class="appearance-none block text-gray-700 border border-gray-300 rounded py-2 px-2 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+            <script>
+         $('input[type="checkbox"]').change(function(){
+           this.value = (Number(this.checked));
+         });
+         </script>
           </x-formInput>
 
   <div class="flex justify-center">
@@ -101,7 +113,7 @@ $('#search').on('keyup',function(){
   </script>
   <script type="text/javascript">
   $.ajaxSetup({ headers: { 'csrftoken' : '{{ csrf_token() }}' } });
-  </script>  
+  </script>
   {{-- live search --}}
   <script src="/js/sort.js"></script>
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">

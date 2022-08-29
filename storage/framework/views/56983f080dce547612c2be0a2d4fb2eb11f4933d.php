@@ -2,14 +2,9 @@
 
 
 <?php $__env->startSection('component'); ?>
-
 <?php if( Session::has('success') ): ?>
-        <span id="successTxt" class="text-green-500 flex self-center m-5"><?php echo e(Session::get('success')); ?></span>
+        <span id="successTxt" class="text-green-500 flex self-center"><?php echo e(Session::get('success')); ?></span>
 <?php endif; ?>
-<?php if( Session::has('error') ): ?>
-        <span id="successTxt" class="text-red-500 flex self-center m-5"><?php echo e(Session::get('error')); ?></span>
-<?php endif; ?>
-
 
         
 
@@ -102,7 +97,6 @@
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('table'); ?>
-
 <script>
   $('#search').on('keyup',function(){
     $value=$(this).val();
@@ -120,22 +114,21 @@
     $.ajaxSetup({ headers: { 'csrftoken' : '<?php echo e(csrf_token()); ?>' } });
     </script>  
     
-    
     <script src="/js/sort.js"></script>
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
   <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400 ">
       <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
           <tr>
-            <th scope="col" class="px-6 py-3 cursor-pointer">
+            <th scope="col" class="px-6 py-3">
                 Cabinet name
             </th>
-            <th scope="col" class="px-6 py-3 cursor-pointer">
+            <th scope="col" class="px-6 py-3">
                 Cabinet zone
             </th>
-            <th scope="col" class="px-6 py-3 cursor-pointer">
+            <th scope="col" class="px-6 py-3">
                 Cabinet description
             </th>
-            <th scope="col" class="px-6 py-3 cursor-pointer">
+            <th scope="col" class="px-6 py-3">
                 <span class="sr-only">Edit</span>
             </th>
           </tr>

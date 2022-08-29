@@ -1,7 +1,7 @@
-<x-app-layout>  
+<x-app-layout>
     @section('title', 'Layout | Injection layout')
     <link rel="stylesheet" href="/css/draggable.css">
-    
+
         @foreach ($stations as $station)
         <div
         style="top:{{$station->posTop}}px; left:{{$station->posLeft}}px;"
@@ -11,6 +11,7 @@
                 @php
                 // ❗ if the target ping is offline it takes longer time
                 // try to reduce it, good luck
+                if($station->state !== 1){
                     $ip = $station->mainIpAddr;
                     $ping = exec('ping -n 1 '.$ip, $output, $status);
                     if($status == 1){
@@ -23,17 +24,22 @@
                         // error
                         echo  '<i class="fa-solid fa-circle w-1/12 text-xs text-orange-500"></i>';
                     }
+                }
                     @endphp
             </div>
             <h1>{{$station->mainIpAddr}}</h1>
             @php
                 $typereq =  $type->where('name', '=', $station->type);
+                if(!$typereq->isEmpty()){
                 $index = $typereq->keys()[0];
                 $stType = $typereq[$index];
+              }
             @endphp
+            @if(isset($stType))
             <img src="/assets/images/machines/{{$stType->icon}}" alt="{{$station->name}}" class="m-auto p-0 object-fit h-3/4">
+            @endif
             <span
-            onclick="location.href='/stationInfo/{{$station->SN}}'" 
+            onclick="location.href='/stationInfo/{{$station->SN}}'"
             class="bg-black w-full p-2 rounded-md sm:text-2xs md:text-2xs hover:bg-black/10 cursor-pointer ease-in-out"
             >Go to details</span>
         </div>
@@ -48,8 +54,8 @@
             @if (!session()->get('username'))
             revert: true,
             @endif
-            //container 
-            // containment: '.container',  
+            //container
+            // containment: '.container',
             //  grid
             grid: [ 6, 6 ],
             scroll: true,
@@ -88,18 +94,18 @@
             }
             @endif
         });
-            
+
             })
             </script>
         @endforeach
                     {{-- network cabinet  --}}
             @if (isset($cabinets))
             @foreach ($cabinets as $cabinet)
-            <div 
+            <div
             style="top:{{$cabinet->posTop}}px; left:{{$cabinet->posLeft}}px;"
-             class="cabinet{{$cabinet->id}} w-1/12 h-fit flex flex-col items-center justify-center text-center md:text-md sm:text-sm text-white bg-black/40 cursor-move ">
+             class="cabinet{{$cabinet->id}} w-24 h-44 p-3 z-0 text-xs flex-col items-center justify-center text-center text-white bg-black/40  cursor-move draggable ui-widget-content">
             <h1>{{$cabinet->name}}</h1>
-            <img src="/assets/images/network/switchCabinet.png" alt="cabinet" class="rounded w-full">
+            <img src="/assets/images/network/switchCabinet.png" alt="cabinet" class="m-auto p-0 object-fit h-3/4">
             {{-- modal toggle --}}
             <span
             class="bg-black w-full m-1 p-1 rounded-md hover:bg-black/10 cursor-pointer ease-in-out md:text-sm sm:text-2xs"
@@ -122,7 +128,7 @@
                         </div>
                         <!-- Modal body -->
                         <div class="p-6 space-y-6 flex content-center">
-                            <ul class="rounded overflow-hidden shadow-md text-left w-1/2">         
+                            <ul class="rounded overflow-hidden shadow-md text-left w-1/2">
                                 <x-detailsitem>
                                   <x-detailsspan>
                                     Cabinet name:
@@ -141,7 +147,7 @@
                                 @php
                                     $switches = $switch->where('cabName', '=', $cabinet->name);
                                 @endphp
-                                
+
                                 @foreach ($switches as $switch)
                                 <div class="flex items-center m-3">
                                     <span class="text-black">{{$switch->switchNumber}}</span>
@@ -168,7 +174,7 @@
                                             </div>
                                             <!-- Modal body -->
                                             <div class="p-6 space-y-6 flex content-center ">
-                                                <ul class="rounded overflow-hidden shadow-md text-left w-1/2">         
+                                                <ul class="rounded overflow-hidden shadow-md text-left w-1/2">
                                                     <x-detailsitem>
                                                       <x-detailsspan>
                                                         Switch number of ports:
@@ -187,6 +193,7 @@
                                                         Status:
                                                       </x-detailsspan>
                                                       @php
+                                                      if($station->state !== 1){
                                                       $ip = $switch->ipAddr;
                                                       $ping = exec('ping -n 1 '.$ip, $output, $status);
                                                       if($status == 1){
@@ -196,6 +203,7 @@
                                                       }else{
                                                         echo  '<i class="fa-solid fa-circle  w-2/12 text-xs text-orange-500 text-right">Error</i>';
                                                       }
+                                                    }
                                                       @endphp
                                                       </x-detailsitem>
                                                 </ul>
@@ -204,7 +212,7 @@
                                                     @php
                                                     // specifying the collected ports
                                                     $ports = $port->where('switchId','=',$switch->id);
-                                                    
+
                                                     @endphp
                                                     <ul class="text-black h-64 overflow-auto">
                                                         @foreach ($ports->keys() as $key)
@@ -249,7 +257,7 @@
                     @if (!session()->get('username'))
                         revert: true,
                     @endif
-                    //container 
+                    //container
                     // containment: 'main',
                     // scroll
                     scroll: true, scrollSensitivity: 50,
@@ -289,7 +297,7 @@
                     }
                     @endif
                     });
-    
+
                     })
                     </script>
             </div>

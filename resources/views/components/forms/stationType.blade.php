@@ -103,7 +103,7 @@
       </script>
       <script type="text/javascript">
       $.ajaxSetup({ headers: { 'csrftoken' : '{{ csrf_token() }}' } });
-      </script>  
+      </script>
       {{-- live search --}}
       <script src="/js/sort.js"></script>
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -138,11 +138,11 @@
               {{$type['description']}}
             </td>
             <td class="px-6 py-4">
-               <img src="/assets/images/machines/{{$type['icon']}}" alt="icon" class="w-1/7 h-1/7"> 
+               <img src="/assets/images/machines/{{$type['icon']}}" alt="icon" class="w-20 h-20"> 
               </td>
               <td class="px-4 py-4 text-right flex">
                 @php
-                $url = urlencode($type['id']);   
+                $url = urlencode($type['id']);
                @endphp
                 <a data-id="{{$type['id']}}" data-method="get" href="{{route('showStationType', $url)}}" id="edit" class="m-2 font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
                 <a data-id="{{$type['id']}}" data-method="DELETE" href="{{route('deleteStationType', $url)}}" id="delete" class="m-2 font-medium text-red-600 dark:text-red-500 hover:underline">Delete</a>

@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('switchName');
             $table->string('ipAddr')->unique();
             $table->integer('portsNum');
-            
+            $table->boolean('state')->nullable();
             // foreign key
             $table->string('cabName', 20)->nullable();
             $table->foreign('cabName')->references('name')
@@ -26,10 +26,10 @@ return new class extends Migration
             ->onUpdate('cascade')
             ->onDelete('set null');
         });
-        
-        
+
+
     }
-    
+
     /**
      * Reverse the migrations.
      *

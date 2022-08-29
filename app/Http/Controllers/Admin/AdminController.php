@@ -73,9 +73,9 @@ class AdminController extends Controller
         ]);
         // inserting validated data
         NetworkCabinet::create($input);
-        
+
         return redirect('cabinet')->with('success','Item added successfully!');
-        
+
     }
     // cabinet-------------------------------------------
 
@@ -86,7 +86,7 @@ class AdminController extends Controller
         // validating input data
         $request->validate([
            'cabName' => 'required|max:20',
-           'switchName'=>'required|max:5',
+           'switchName'=>'required|max:20',
             'ipAddr' => ['required', 'max:15', 'regex:/^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/i', 'unique:switch'],
             'portsNum' => 'required|max:2'
         ]);
@@ -113,7 +113,14 @@ class AdminController extends Controller
         $request->validate([
            'name' => 'required|max:20|unique:line',
            'description' => 'max:500',
-        ]);
+       ]);
+           if($request->icon){
+       $filename = $input['icon']->getClientOriginalName();
+       // moving temporary image to the main folder and switching the request name
+       // with the actual file name
+       $input['icon']-> move(public_path('/assets/images/lines/'), $filename);
+       $input['icon']= $filename;
+     }
         // inserting validated data
         Line::create($input);
 
@@ -127,15 +134,15 @@ class AdminController extends Controller
         // fetching input data
         $input = $request->all();
 
-        
-        
+
+
         // validating input data
         $request->validate([
             'name' => 'required|max:20|unique:station_type',
             'description' => 'max:500',
             'icon' => 'required|max:50',
         ]);
-        
+
         $filename = $input['icon']->getClientOriginalName();
         // moving temporary image to the main folder and switching the request name
         // with the actual file name
@@ -154,15 +161,15 @@ class AdminController extends Controller
         // fetching input data
         $input = $request->all();
 
-        
-        
+
+
         // validating input data
         $request->validate([
             'name' => 'required|max:20|unique:equipment_type',
             'description' => 'max:500',
             'icon' => 'required|max:50',
         ]);
-        
+
         $filename = $input['icon']->getClientOriginalName();
         // moving temporary image to the main folder and switching the request name
         // with the actual file name
@@ -181,8 +188,8 @@ class AdminController extends Controller
         // fetching input data
         $input = $request->all();
 
-        
-        
+
+
         // validating input data
         $request->validate([
             'type' => 'required|max:20',
@@ -218,15 +225,15 @@ class AdminController extends Controller
         // fetching input data
         $input = $request->all();
 
-        
-        
+
+
         // validating input data
         $request->validate([
             'type' => 'required|max:20',
             'name' => 'required|max:20|unique:equipment',
             'SN' => 'required|max:20|unique:equipment',
             'supplier' => 'max:20',
-            'ipAddr' => [ 'max:15', 'regex:/^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/i', 'unique:equipment'],
+            'ipAddr' => [ 'max:15','nullable', 'regex:/^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/i', 'unique:equipment'],
             'port' => 'max:20',
             'station' => 'required|max:20',
             'description' => 'max:500',
@@ -239,16 +246,16 @@ class AdminController extends Controller
         ]);
         // inserting validated data
         Equipment::create($input);
-        
-        
+
+
         return redirect('equipment')->with('success','Item changed successfully!');
     }
     public function addSpecificEquipment(Request $request, $SN){
         // fetching input data
         $input = $request->all();
 
-        
-        
+
+
         // validating input data
         $request->validate([
             'type' => 'required|max:20',

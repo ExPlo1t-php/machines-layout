@@ -12,7 +12,7 @@
         </label>
         <input value="{{$equipment[$index]->name}}" name="name" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="text" placeholder="equipment name">
       </x-formInput>
-  
+
         <x-formInput>
           <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
             Equipment Supplier
@@ -42,7 +42,7 @@
             @foreach ($types as $type)
             <option value="{{$type['name']}}"> {{$type['name']}}</option>
             @endforeach
-  
+
             <option class="add" value="equipment-type">&#x2b; Add a new equipment type</option>
           </select>
         </div>
@@ -55,7 +55,7 @@
           </label>
           <input value="{{$equipment[$index]->IpAddr}}" name="ipAddr" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="text" placeholder="Ip address format(xxx.xxx.xxx.xxx)">
         </div>
-      </div> 
+      </div>
 
       <div class="flex flex-wrap -mx-3 mb-6">
         <div class="w-full px-3">
@@ -72,9 +72,9 @@
             @php
                 use App\Models\CabinetSwitch;
                 $switches = CabinetSwitch::get();
-                $switchesName = $switches->where('switchName','=',$equipment[$index]->switch);
+                $switchesName = $switches->where('id','=',$equipment[$index]->switch);
             @endphp
-            @if (!$switchesName->isEmpty())
+             @if (!$switchesName->isEmpty() && isset($equipment[$index]->switch) )
             <option value="{{$equipment[$index]->switch}}" selected hidden >{{$switchesName[$switchesName->keys()[0]]->cabName}} - {{$equipment[$index]->switch}}</option>
             @else
             <option hidden selected disabled>Missing switch</option>
@@ -83,7 +83,7 @@
             @foreach ($switches as $switch)
             <option value="{{$switch['id']}}"> {{$switch['cabName']}} - {{ $switch['switchName']}}</option>
             @endforeach
-  
+
             <option class="add1" value="/switch">&#x2b; Add a new switch</option>
           </select>
         </div>
@@ -96,7 +96,7 @@
           </label>
           <select name="port" id="port"
           class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password">
-            <option value="null" selected disabled hidden >- select the station's port number -</option>
+          <option value="{{$equipment[$index]->port}}" selected hidden >{{$equipment[$index]->port}}</option>
           </select>
           <script>
             // using the select:switch value to fetch unused ports
@@ -137,7 +137,7 @@
             @foreach ($equipments as $equipment)
             <option value="{{$equipment['name']}}"> {{$equipment['name']}}</option>
             @endforeach
-  
+
             <option class="add1" value="/lines">&#x2b; Add a new station</option>
           </select>
         </div>
@@ -151,6 +151,23 @@
       <textarea name="description"  cols="53" rows="10" placeholder="Write a description of this Type of this equipment (optional)" style="resize: none" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"></textarea>
     </div>
   </div>
+
+  <x-formInput>
+    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
+      disable ip pinging for this equipment
+    </label>
+    <input name="state"
+    @if($equipment[$index]->state == 1)
+    value="$equipment[$index]->state"
+    @checked(true)
+    @endif
+     type="checkbox" class="appearance-none block text-gray-700 border border-gray-300 rounded py-2 px-2 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+    <script>
+ $('input[type="checkbox"]').change(function(){
+   this.value = (Number(this.checked));
+ });
+ </script>
+  </x-formInput>
 
   <div class="flex justify-center">
     <input class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow" value="update" type="submit">

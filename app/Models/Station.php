@@ -25,7 +25,7 @@ class Station extends Model
         'line',
         'posTop',
         'posLeft',
-
+        'state',
     ];
 
     public function line()

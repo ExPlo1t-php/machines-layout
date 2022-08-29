@@ -15,6 +15,6 @@ class Line extends Model
         'description',
         'posTop',
         'posLeft',
-
+        'icon',
     ];
 }
