@@ -11,20 +11,25 @@
     <!-- component -->
 
 <section class="relative pt-13 bg-blueGray-50 max-h-screen bg-gray-100">
-<div class="container mx-4"> 
+<div class="container mx-4">
   <div class="flex flex-wrap w-screen content-between items-center">
     <div class="w-10/12 md:w-6/12 mb-32 lg:w-4/12 px-12 md:px-4 mr-auto ml-auto -mt-78">
       <div class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg bg-gray-300">
         <?php
-        $typereq = $stType->where('name', '=', $station->type);
-        $index = $typereq->keys()[0];
-        $sttype = $typereq[$index];
+        // if the station has no type the image will not load
+          $typereq = $stType->where('name', '=', $station->type);
+        if(!$typereq->isEmpty()){
+          $index1 = $typereq->keys()[0];
+          $sttype = $typereq[$index1];
+        }
         ?>
+        <?php if(!$typereq->isEmpty()): ?>
         <img alt="..." src="/assets/images/machines/<?php echo e($sttype->icon); ?>" class="w-1/4 align-middle rounded-t-lg align-center self-center">
+        <?php endif; ?>
         <h1 class="text-center font-semibold text-md">Station Details</h1>
         <ul class="border border-gray-200 rounded overflow-hidden shadow-md text-left">
-            
-            
+
+
             <li class="px-4 py-3 bg-white border-b last:border-none border-gray-200 text-gray-500 transition-all duration-300 ease-in-out"><span class="text-md text-black pr-6 ">Station name: </span><?php echo e($station->name); ?></li>
             <li class="px-4 py-3 bg-white border-b last:border-none border-gray-200 text-gray-500 transition-all duration-300 ease-in-out"><span class="text-md text-black pr-6 ">Station type: </span> <?php echo e($station->type); ?></li>
             <?php if($station->line!==null): ?>
@@ -59,6 +64,7 @@
 <?php unset($__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4); ?>
 <?php endif; ?>
               <?php
+              if($station->state !== 1){
               $ip = $station->mainIpAddr;
               $ping = exec('ping -n 1 '.$ip, $output, $status);
               if($status == 1){
@@ -68,6 +74,7 @@
               }else{
                 echo  '<i class="fa-solid fa-circle  w-2/12 text-xs text-orange-500 text-right">Error</i>';
               }
+            }
               ?>
                <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
@@ -76,7 +83,7 @@
 <?php unset($__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4); ?>
 <?php endif; ?>
             <?php if(!is_null($station->switch)): ?>
-            <li class="px-4 py-3 bg-white border-b last:border-none border-gray-200 text-gray-500 transition-all duration-300 ease-in-out"><span class="text-md text-black pr-6 ">Switch: </span> <?php echo e($switch->switchNumber); ?></li> 
+            <li class="px-4 py-3 bg-white border-b last:border-none border-gray-200 text-gray-500 transition-all duration-300 ease-in-out"><span class="text-md text-black pr-6 ">Switch: </span> <?php echo e($switch->switchName); ?></li>
             <?php endif; ?>
             <li class="px-4 py-3 bg-white border-b last:border-none border-gray-200 text-gray-500 transition-all duration-300 ease-in-out"><span class="text-md text-black pr-6 ">Port: </span> <?php if(!$station->port): ?>there's no port <?php endif; ?><?php echo e($station->port); ?></li>
             <li class="px-4 py-3 bg-white border-b last:border-none border-gray-200 text-gray-500 transition-all duration-300 ease-in-out"><span class="text-md text-black pr-6 ">Description: </span> <?php if(!$station->description): ?>there's no description <?php endif; ?><?php echo e($station->description); ?></li>
@@ -90,7 +97,7 @@
           <div class="relative flex flex-col mt-4 ">
             <div class="px-4 py-5 flex-auto">
               <h6 class="text-xl mb-1 font-semibold">About connected switch</h6>
-              <ul class="border border-gray-200 rounded overflow-hidden shadow-md text-left">         
+              <ul class="border border-gray-200 rounded overflow-hidden shadow-md text-left">
                 <?php if(isset($switch) && isset($cabinet)): ?>
                 <?php if (isset($component)) { $__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4 = $component; } ?>
 <?php $component = $__env->getContainer()->make(Illuminate\View\AnonymousComponent::class, ['view' => 'components.detailsitem','data' => []] + (isset($attributes) ? (array) $attributes->getIterator() : [])); ?>
@@ -110,7 +117,7 @@
 <?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
 <?php endif; ?>
 <?php $component->withAttributes([]); ?>
-                    Cabinet name: 
+                    Cabinet name:
                    <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4)): ?>
@@ -144,7 +151,7 @@
 <?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
 <?php endif; ?>
 <?php $component->withAttributes([]); ?>
-                    Cabinet zone: 
+                    Cabinet zone:
                    <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4)): ?>
@@ -212,7 +219,7 @@
 <?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
 <?php endif; ?>
 <?php $component->withAttributes([]); ?>
-                    Switch number of ports: 
+                    Switch number of ports:
                    <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4)): ?>
@@ -270,10 +277,10 @@
             </div>
           <h6 class="text-xl mb-1 font-semibold">
             Connected Equipments
-          </h6> 
+          </h6>
           <div class="relative flex flex-col mt-4  h-56 overflow-auto">
             <div class="px-4 py-5 flex-auto">
-              <ul class="border border-gray-200 rounded shadow-md text-left">         
+              <ul class="border border-gray-200 rounded shadow-md text-left">
                 <?php if($equipments == ''): ?>
                 <li>there are no equipments</li>
                 <?php else: ?>
@@ -289,9 +296,11 @@
                   <div class="flex items-center text-gray-400">
                         <?php echo e($equipment->type); ?>
 
-                        <?php echo e($equipment->IpAddr); ?>
+                    <?php if($equipment->IpAddr): ?>
+                    <?php echo e($equipment->IpAddr); ?>
 
-                        <?php
+                    <?php
+                    if($equipment->state == 1){
                     $ip = $equipment->IpAddr;
                     $ping = exec('ping -n 1 '.$ip, $output, $status);
                     if($status == 1){
@@ -301,7 +310,9 @@
                     }else{
                         echo  '<i class="fa-solid fa-circle  w-1/12 m-5 text-xs text-orange-500"></i>';
                       }
+                    }
                       ?>
+                      <?php endif; ?>
                       </div>
                     </div>
                   </li>
@@ -325,7 +336,7 @@
                                 <div class="p-6 space-y-6 flex items-center">
                                     <img class="w-28 h-28 rounded-full" src="/assets/images/equipments/<?php echo e($type[$type->keys()[0]]->icon); ?>">
                                     <div class="px-4 flex-auto">
-                                      <ul class="rounded overflow-hidden shadow-md text-left">         
+                                      <ul class="rounded overflow-hidden shadow-md text-left">
                                         <?php if(isset($equipment)): ?>
                                         <?php if (isset($component)) { $__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4 = $component; } ?>
 <?php $component = $__env->getContainer()->make(Illuminate\View\AnonymousComponent::class, ['view' => 'components.detailsitem','data' => []] + (isset($attributes) ? (array) $attributes->getIterator() : [])); ?>
@@ -413,7 +424,7 @@
 <?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
 <?php endif; ?>
 <?php $component->withAttributes([]); ?>
-                                            Equipment type: 
+                                            Equipment type:
                                            <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4)): ?>
@@ -447,7 +458,7 @@
 <?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
 <?php endif; ?>
 <?php $component->withAttributes([]); ?>
-                                            Equipment supplier: 
+                                            Equipment supplier:
                                            <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4)): ?>
@@ -493,7 +504,7 @@
                                           <?php else: ?>
                                           <?php echo e($equipment->IpAddr); ?>
 
-                                          <?php endif; ?> 
+                                          <?php endif; ?>
                                            <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4)): ?>
@@ -565,7 +576,7 @@
                                           <?php else: ?>
                                           <?php echo e($equipment->description); ?>
 
-                                          <?php endif; ?> 
+                                          <?php endif; ?>
                                            <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4)): ?>
@@ -586,15 +597,15 @@
                   <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                   <?php if(session()->get('username')): ?>
                   <li onclick="location.href='/equipment/<?php echo e($station->SN); ?>'" class="flex px-4 py-3 border-b last:border-none border-gray-200 hover:bg-gray-200 text-gray-500 transition-all duration-300 ease-in-out cursor-pointer">
-                    &#x2b; Add a new equipment 
+                    &#x2b; Add a new equipment
                   </li>
                 <?php endif; ?>
                 <?php endif; ?>
               </ul>
             </div>
           </div>
-            
-            
+
+
           </div>
           </div>
         </div>
@@ -609,4 +620,5 @@
 <?php if (isset($__componentOriginal8e2ce59650f81721f93fef32250174d77c3531da)): ?>
 <?php $component = $__componentOriginal8e2ce59650f81721f93fef32250174d77c3531da; ?>
 <?php unset($__componentOriginal8e2ce59650f81721f93fef32250174d77c3531da); ?>
-<?php endif; ?><?php /**PATH C:\xampp\htdocs\layout\resources\views/pages/stationInfo.blade.php ENDPATH**/ ?>
+<?php endif; ?>
+<?php /**PATH C:\xampp\htdocs\layout\resources\views/pages/stationInfo.blade.php ENDPATH**/ ?>

@@ -132,10 +132,10 @@
             {{-- fetching cabinet data to load in select menu --}}
             @php
                 use App\Models\Station;
-                $equipments = Station::get();
+                $stations = Station::get();
             @endphp
-            @foreach ($equipments as $equipment)
-            <option value="{{$equipment['name']}}"> {{$equipment['name']}}</option>
+            @foreach ($stations as $station)
+            <option value="{{$station['name']}}"> {{$station['name']}}</option>
             @endforeach
 
             <option class="add1" value="/lines">&#x2b; Add a new station</option>
@@ -148,7 +148,7 @@
       <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
         Description
       </label>
-      <textarea name="description"  cols="53" rows="10" placeholder="Write a description of this Type of this equipment (optional)" style="resize: none" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"></textarea>
+      <textarea value="{{$equipment[$index]->description}}" name="description"  cols="53" rows="10" placeholder="Write a description of this Type of this equipment (optional)" style="resize: none" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"></textarea>
     </div>
   </div>
 
