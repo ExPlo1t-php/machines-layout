@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Line extends Model
 {
     use HasFactory;
+    protected $connection = 'mysql';
     public $timestamps = false;
     protected $table = 'line';
     protected $fillable = [

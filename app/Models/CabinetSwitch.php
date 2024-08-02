@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class CabinetSwitch extends Model
 {
     use HasFactory;
+    protected $connection = 'mysql';
     public $timestamps = false;
     protected $table = 'switch';
     protected $fillable = [
@@ -16,6 +17,7 @@ class CabinetSwitch extends Model
         'ipAddr',
         'portsNum',
         'state',
+        'description',
     ];
 
 

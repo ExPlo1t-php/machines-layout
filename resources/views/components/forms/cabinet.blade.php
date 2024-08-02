@@ -11,7 +11,7 @@
 @endif
 {{-- update messages --}}
 
-        
+
 
 <form class="w-full max-w-lg flex-col self-center" method="POST" action="/addCabinet">
     @csrf
@@ -19,14 +19,14 @@
           <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
             Cabinet Name
           </label>
-          <input name="name" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="text" placeholder="Cabinet name">
+          <input name="name" required class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="text" placeholder="Cabinet name">
       </x-formInput>
 
       <x-formInput>
           <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
             Zone
           </label>
-          <select name="zone"
+          <select name="zone" required
            class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password">
            <option  selected disabled hidden >- select a the zone where this cabinet exist -</option>
             <option value="injection">Injection</option>
@@ -79,9 +79,9 @@
     </script>
     <script type="text/javascript">
     $.ajaxSetup({ headers: { 'csrftoken' : '{{ csrf_token() }}' } });
-    </script>  
+    </script>
     {{-- live search --}}
-    
+
     <script src="/js/sort.js"></script>
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
   <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400 ">
@@ -119,7 +119,7 @@
               </td>
               <td class="px-4 py-4 text-right flex">
                 @php
-                $url = urlencode($cabinet['id']);   
+                $url = urlencode($cabinet['id']);
                @endphp
                 <a data-id="{{$cabinet['id']}}" data-method="get" href="{{route('showCabinet', $url)}}" id="edit" class="m-2 font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
                 <a data-id="{{$cabinet['id']}}" data-method="DELETE" href="{{route('deleteCabinet', $url)}}" id="delete" class="m-2 font-medium text-red-600 dark:text-red-500 hover:underline">Delete</a>

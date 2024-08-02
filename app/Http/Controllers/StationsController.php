@@ -41,7 +41,6 @@ class StationsController extends Controller
         {
            $input = $request->all();
            Station::where('SN',$SN)->update($input);
-           return redirect('test');
              }
         }
     // save line position on drag

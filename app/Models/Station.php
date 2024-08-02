@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Station extends Model
 {
     use HasFactory;
+    protected $connection = 'mysql';
     public $timestamps = false;
     protected $table = 'station';
     protected $fillable = [
@@ -22,6 +23,7 @@ class Station extends Model
         'switch',
         'port',
         'decription',
+        'link',
         'line',
         'posTop',
         'posLeft',

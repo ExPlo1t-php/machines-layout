@@ -30,6 +30,12 @@
             <li class="px-4 py-3 bg-white border-b last:border-none border-gray-200 text-gray-500 transition-all duration-300 ease-in-out"><span class="text-md text-black pr-6 ">Serial number: </span> {{$station->SN}}</li>
             <li class="px-4 py-3 bg-white border-b last:border-none border-gray-200 text-gray-500 transition-all duration-300 ease-in-out"><span class="text-md text-black pr-6 ">Station supplier: </span> {{$station->supplier}}</li>
             <li class="px-4 py-3 bg-white border-b last:border-none border-gray-200 text-gray-500 transition-all duration-300 ease-in-out"><span class="text-md text-black pr-6 ">Main Ip Address: </span> {{$station->mainIpAddr}}</li>
+            {{-- if the station type is bmb show additional ip addresses --}}
+            @if (strtolower($station->type) == 'bmb')
+            <li class="px-4 py-3 bg-white border-b last:border-none border-gray-200 text-gray-500 transition-all duration-300 ease-in-out"><span class="text-md text-black pr-6 ">Ip Address N1: </span> {{$station->IpAddr1}}</li>
+            <li class="px-4 py-3 bg-white border-b last:border-none border-gray-200 text-gray-500 transition-all duration-300 ease-in-out"><span class="text-md text-black pr-6 ">Ip Address N2: </span> {{$station->IpAddr2}}</li>
+            <li class="px-4 py-3 bg-white border-b last:border-none border-gray-200 text-gray-500 transition-all duration-300 ease-in-out"><span class="text-md text-black pr-6 ">Ip Address N3: </span> {{$station->IpAddr3}}</li>
+            @endif
             <x-detailsitem>
               <x-detailsspan>
                 Status:
@@ -37,7 +43,7 @@
               @php
               if($station->state !== 1){
               $ip = $station->mainIpAddr;
-              $ping = exec('ping -n 1 '.$ip, $output, $status);
+              $ping = exec('ping -n 1 -w 1000 '.$ip, $output, $status);
               if($status == 1){
                   echo  '<i class="fa-solid fa-circle w-2/12 text-xs text-red-600 text-right">offline</i>';
               }elseif ($status == 0) {
@@ -52,7 +58,8 @@
             <li class="px-4 py-3 bg-white border-b last:border-none border-gray-200 text-gray-500 transition-all duration-300 ease-in-out"><span class="text-md text-black pr-6 ">Switch: </span> {{$switch->switchName}}</li>
             @endif
             <li class="px-4 py-3 bg-white border-b last:border-none border-gray-200 text-gray-500 transition-all duration-300 ease-in-out"><span class="text-md text-black pr-6 ">Port: </span> @if (!$station->port)there's no port @endif{{$station->port}}</li>
-            <li class="px-4 py-3 bg-white border-b last:border-none border-gray-200 text-gray-500 transition-all duration-300 ease-in-out"><span class="text-md text-black pr-6 ">Description: </span> @if (!$station->description)there's no description @endif{{$station->description}}</li>
+            <li class="px-4 py-3 bg-white border-b last:border-none border-gray-200 text-gray-500 transition-all duration-300 ease-in-out"><span class="text-md text-black pr-6 ">Description: </span> @if (!$station->description)there's no description @else {{$station->description}} @endif</li>
+              <li class="px-4 py-3 bg-white border-b last:border-none border-gray-200 text-gray-500 transition-all duration-300 ease-in-out"><span class="text-md text-black pr-6 ">Link: </span> @if (!$station->link)there's no embedded link @else <a href="{{$station->link}}"  target="_blank" class="text-blue-700"> {{$station->link}} </a>@endif</li>
         </ul>
       </div>
     </div>
@@ -116,6 +123,11 @@
                 @if ($equipments == '')
                 <li>there are no equipments</li>
                 @else
+                @if(session()->get('username'))
+                  <li onclick="location.href='/equipment/{{$station->SN}}'" class="flex px-4 py-3 border-b last:border-none border-gray-200 hover:bg-gray-200 text-gray-500 transition-all duration-300 ease-in-out cursor-pointer">
+                    &#x2b; Add a new equipment
+                  </li>
+                @endif
                 @foreach ($equipments as $equipment)
                 @php
                 $type = $eqtype->where('name', '=', $equipment->type);
@@ -124,26 +136,26 @@
                   <img class="w-14 h-14 rounded-full" src="/assets/images/equipments/{{$type[$type->keys()[0]]->icon}}">
                   <div class="block">
                     {{$equipment->name}}
-                  <div class="flex items-center text-gray-400">
+                    <div class="flex items-center text-gray-400">
                         {{$equipment->type}}
-                    @if($equipment->IpAddr)
-                    {{$equipment->IpAddr}}
-                    @php
-                    if($equipment->state == 1){
-                    $ip = $equipment->IpAddr;
-                    $ping = exec('ping -n 1 '.$ip, $output, $status);
-                    if($status == 1){
-                      echo  '<i class="fa-solid fa-circle w-1/12 m-5 text-xs text-red-600"></i>';
-                    }elseif ($status == 0) {
-                      echo  '<i class="fa-solid fa-circle w-1/12 m-5 text-xs text-green-500"></i>';
-                    }else{
-                        echo  '<i class="fa-solid fa-circle  w-1/12 m-5 text-xs text-orange-500"></i>';
-                      }
-                    }
-                      @endphp
-                      @endif
-                      </div>
+                        @if($equipment->IpAddr)
+                          {{$equipment->IpAddr}}
+                          @php
+                          if($equipment->state == 1){
+                          $ip = $equipment->IpAddr;
+                          $ping = exec('ping -n 1 -w 1000 '.$ip, $output, $status);
+                          if($status == 1){
+                            echo  '<i class="fa-solid fa-circle w-1/12 m-5 text-xs text-red-600"></i>';
+                          }elseif ($status == 0) {
+                            echo  '<i class="fa-solid fa-circle w-1/12 m-5 text-xs text-green-500"></i>';
+                          }else{
+                              echo  '<i class="fa-solid fa-circle  w-1/12 m-5 text-xs text-orange-500"></i>';
+                            }
+                          }
+                          @endphp
+                        @endif
                     </div>
+                  </div>
                   </li>
                   {{-- -------------------------------------modal------------------------------------------------------------------------- --}}
                   <div id="{{$equipment->name}}modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full">
@@ -237,11 +249,6 @@
                 </div>
                 {{-- -------------------------------------modal------------------------------------------------------------------------- --}}
                   @endforeach
-                  @if(session()->get('username'))
-                  <li onclick="location.href='/equipment/{{$station->SN}}'" class="flex px-4 py-3 border-b last:border-none border-gray-200 hover:bg-gray-200 text-gray-500 transition-all duration-300 ease-in-out cursor-pointer">
-                    &#x2b; Add a new equipment
-                  </li>
-                @endif
                 @endif
               </ul>
             </div>

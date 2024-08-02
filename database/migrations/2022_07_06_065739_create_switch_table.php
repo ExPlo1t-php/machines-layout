@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    protected $connection = 'mysql';
     /**
      * Run the migrations.
      *
@@ -19,6 +20,7 @@ return new class extends Migration
             $table->string('ipAddr')->unique();
             $table->integer('portsNum');
             $table->boolean('state')->nullable();
+            $table->longText('description')->nullable();
             // foreign key
             $table->string('cabName', 20)->nullable();
             $table->foreign('cabName')->references('name')

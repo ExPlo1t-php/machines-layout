@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Ports extends Model
 {
     use HasFactory;
+    protected $connection = 'mysql';
     public $timestamps = false;
     protected $table = 'ports';
     protected $fillable = [

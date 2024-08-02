@@ -6,6 +6,7 @@ use App\Models\CabinetSwitch;
 use App\Models\Equipment;
 use App\Models\EquipmentType;
 use App\Models\Line;
+use App\Models\Ping;
 use App\Models\NetworkCabinet;
 use App\Models\Station;
 use App\Models\StationType;
@@ -21,13 +22,14 @@ class LineController extends Controller
     $stations = Station::get()->where('line', '=', $line[$line->keys()[0]]->name);
     $stType = StationType::get();
     $index = $stations->keys();
+    $ping = Ping::where("type", "=", "station")->get();
 
     if(isset($index[0])){
         // $switch = CabinetSwitch::get()->where('switchId', '=', $stations[$index]->switch);
         $switch = null;
         $cabinet = null;
         // $cabinet = NetworkCabinet::get()->where('cabName', '=', $switch[0]->name);
-        return view('pages.lineInfo', ['stations'=>$stations, 'index'=>$index, 'switch'=>$switch, 'cabinet'=>$cabinet, 'stType'=>$stType]);
+        return view('pages.lineInfo', ['stations'=>$stations, 'index'=>$index, 'switch'=>$switch, 'cabinet'=>$cabinet, 'stType'=>$stType, 'line'=>$line, 'ping'=>$ping]);
     }else{
         $status = 'There\'s no stations in this line.';
         return view('pages.lineInfo', ['status'=>$status, 'index'=>$index, 'line'=>$stations, 'stType'=>$stType]);

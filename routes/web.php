@@ -99,8 +99,10 @@ Route::post('/updateLine/{id}', [UpdateController::class, 'updateLine'])->name('
 // Station 
 Route::get('/searchStation',[SearchController::class, 'searchStation'])->name('searchStation')->middleware(['auth']);
 Route::get('/station', [AdminController::class, 'showStation'])->name('station')->middleware(['auth']);
+    Route::get('/station/{SN}', [AdminController::class, 'showSpecificStation'])->name('stationSpecific')->middleware(['auth']);
 Route::post('/addStation', [AdminController::class, 'addStation'])->name('addStation')->middleware(['auth']);
-Route::delete('/deleteStation/{SN}',[DeleteController::class, 'deleteStation'])->name('deleteStation')->middleware(['auth']);
+Route::post('/addStation/{id}', [AdminController::class, 'addSpecificStation'])->name('addSpecificStation')->middleware(['auth']);
+    Route::delete('/deleteStation/{SN}',[DeleteController::class, 'deleteStation'])->name('deleteStation')->middleware(['auth']);
 Route::get('/showStation/{name}', [UpdateController::class, 'showStation'])->name('showStation')->middleware(['auth']);
 Route::post('/updateStation/{SN}', [UpdateController::class, 'updateStation'])->name('updateStation')->middleware(['auth']);
 // Station Type
@@ -113,9 +115,9 @@ Route::post('/updateStationType/{id}', [UpdateController::class, 'updateStationT
 // Equipment
 Route::get('/searchEquipment',[SearchController::class, 'searchEquipment'])->name('searchEquipment')->middleware(['auth']);
 Route::get('/equipment', [AdminController::class, 'showEquipment'])->name('equipment')->middleware(['auth']);
-Route::get('/equipment/{SN}', [AdminController::class, 'showSpecificEquipment'])->name('equipmentSpecific')->middleware(['auth']);
+    Route::get('/equipment/{SN}', [AdminController::class, 'showSpecificEquipment'])->name('equipmentSpecific')->middleware(['auth']);
 Route::post('/addEquipment', [AdminController::class, 'addEquipment'])->name('addEquipment')->middleware(['auth']);
-Route::post('/addEquipment/{SN}', [AdminController::class, 'addSpecificEquipment'])->name('addSpecificEquipment')->middleware(['auth']);
+    Route::post('/addEquipment/{SN}', [AdminController::class, 'addSpecificEquipment'])->name('addSpecificEquipment')->middleware(['auth']);
 Route::delete('/deleteEquipment/{SN}',[DeleteController::class, 'deleteEquipment'])->name('deleteEquipment')->middleware(['auth']);
 Route::get('/showEquipment/{name}', [UpdateController::class, 'showEquipment'])->name('showEquipment')->middleware(['auth']);
 Route::post('/updateEquipment/{name}', [UpdateController::class, 'updateEquipment'])->name('updateEquipment')->middleware(['auth']);

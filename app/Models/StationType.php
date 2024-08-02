@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class StationType extends Model
 {
     use HasFactory;
+    protected $connection = 'mysql';
     public $timestamps = false;
     protected $table = 'station_type';
     protected $fillable = [

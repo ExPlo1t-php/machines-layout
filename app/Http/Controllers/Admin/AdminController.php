@@ -38,6 +38,12 @@ class AdminController extends Controller
     public function showStation(){
         return view('components.forms.station');
     }
+        // show a specific equipment(selected)
+        public function showSpecificStation($id){
+            $line = Line::get()->where('id', '=', $id);
+            $index = $line->keys()[0];
+            return view('components.forms.station', ['lineF'=>$line[$index]]);
+        }
     // station type
     public function showStationType(){
         return view('components.forms.stationType');
@@ -194,7 +200,7 @@ class AdminController extends Controller
         $request->validate([
             'type' => 'required|max:20',
             'name' => 'required|max:20',
-            'SN' => 'required|max:20|unique:station',
+            'SN' => 'required|max:20|unique:station|regex:/^([a-zA-Z0-9]+s?)*$/i',
             'supplier' => 'max:20',
             'mainIpAddr' => ['required', 'max:15', 'regex:/^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/i', 'unique:station'],
             'ipAddr1' => ['max:15', 'regex:/^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/i', 'unique:station'],
@@ -213,10 +219,48 @@ class AdminController extends Controller
                 ]);
                 // alter the ports:assigned and ports:assignedTo values
         // inserting validated data
+        $input['posTop'] = 0;
+         $input['posLeft'] = 0;
         Station::create($input);
 
         return redirect('station')->with('success','Item added successfully!');
 
+    }
+    // add station--------------------------------------------
+
+    // add station--------------------------------------------
+    public function addSpecificStation(Request $request, $id){
+                // fetching input data
+                $input = $request->all();
+
+
+
+                // validating input data
+                $request->validate([
+                    'type' => 'required|max:20',
+                    'name' => 'required|max:20',
+                    'SN' => 'required|max:20|unique:station|regex:/^([a-zA-Z0-9]+s?)*$/i',
+                    'supplier' => 'max:20',
+                    'mainIpAddr' => ['required', 'max:15', 'regex:/^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/i', 'unique:station'],
+                    'ipAddr1' => ['max:15', 'regex:/^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/i', 'unique:station'],
+                    'ipAddr2' => ['max:15', 'regex:/^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/i', 'unique:station'],
+                    'ipAddr3' => ['max:15', 'regex:/^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/i', 'unique:station'],
+                    'switch' => 'required|max:20',
+                    'port' => 'required|max:20',
+                    'line' => 'max:20',
+                    'description' => 'max:500',
+                ]);
+                        // alter the ports:assigned and ports:assignedTo values
+                        Ports::where('portNum', $request->port)->where('switchId', $request->switch)
+                        ->update([
+                               'assigned' => 1,
+                               'assignedTo' => $request->name,
+                        ]);
+                        // alter the ports:assigned and ports:assignedTo values
+                // inserting validated data
+                Station::create($input);
+        
+                return redirect('station/'.$id)->with('success','Item added successfully!');
     }
     // add station--------------------------------------------
 
@@ -231,7 +275,7 @@ class AdminController extends Controller
         $request->validate([
             'type' => 'required|max:20',
             'name' => 'required|max:20|unique:equipment',
-            'SN' => 'required|max:20|unique:equipment',
+            'SN' => 'required|max:20|unique:equipment|regex:/^([a-zA-Z0-9]+s?)*$/i',
             'supplier' => 'max:20',
             'ipAddr' => [ 'max:15','nullable', 'regex:/^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/i', 'unique:equipment'],
             'port' => 'max:20',
@@ -260,20 +304,13 @@ class AdminController extends Controller
         $request->validate([
             'type' => 'required|max:20',
             'name' => 'required|max:20',
-            'SN' => 'required|max:20|unique:station',
+            'SN' => 'required|max:20|unique:station|regex:/^([a-zA-Z0-9]+s?)*$/i',
             'supplier' => 'max:20',
-            'ipAddr' => ['max:15', 'regex:/^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/i', 'unique:equipment'],
+            'ipAddr' => [ 'max:15','nullable', 'regex:/^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/i', 'unique:equipment'],
             'port' => 'max:20',
             'station' => 'required|max:20',
             'description' => 'max:500',
         ]);
-        // // alter the ports:assigned and ports:assignedTo values
-        // Ports::where('portNum', $request->port)->where('switchId', $portNum)
-        // ->update([
-        //        'assigned' => 1,
-        //        'assignedTo' => $request->name,
-        // ]);
-        // // alter the ports:assigned and ports:assignedTo values
         // inserting validated data
         Equipment::create($input);
         return redirect('stationInfo/'.$SN)->with('success','Item added successfully!');;

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class NetworkCabinet extends Model
 {
     use HasFactory;
+    protected $connection = 'mysql';
     public $timestamps = false; 
     protected $table = 'network_cabinet';
     protected $fillable = [
