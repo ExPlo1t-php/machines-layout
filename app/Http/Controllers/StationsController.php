@@ -31,7 +31,6 @@ class StationsController extends Controller
                 return view('pages.stationInfo', ['index'=>$index, 'station'=>$station[$index], 'switch'=>$switch[$switch->keys()[0]], 'cabinet'=>$cabinet[$cabinet->keys()[0]],  'equipments'=>$equipments, 'eqtype'=>$eqtype, 'stType'=>$stType]);
             }else{
                 return view('pages.stationInfo', ['index'=>$index, 'station'=>$station[$index],'equipments'=>$equipments, 'eqtype'=>$eqtype, 'stType'=>$stType]);
-
             }
     }
 
@@ -59,5 +58,16 @@ class StationsController extends Controller
            NetworkCabinet::where('id',$id)->update($input);
              }
         }
+        
+    public function store(Request $request){
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'required|string|max:255',
+        ]);
 
+        $station = Station::create($validatedData);
+
+        return response()->json($station);
+    }
+        
     }

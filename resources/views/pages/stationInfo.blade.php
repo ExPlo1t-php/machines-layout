@@ -6,7 +6,7 @@
 <div class="container mx-4">
   <div class="flex flex-wrap w-screen content-between items-center">
     <div class="w-10/12 md:w-6/12 mb-32 lg:w-4/12 px-12 md:px-4 mr-auto ml-auto -mt-78">
-      <div class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg bg-gray-300">
+      <div class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-gray-300">
         @php
         // if the station has no type the image will not load
           $typereq = $stType->where('name', '=', $station->type);
@@ -67,8 +67,8 @@
     <div class="w-screen h-screen md:w-6/12">
       <div class="flex flex-wrap h-fit">
         <div class="w-full md:w-6/12 px-4">
-          <div class="relative flex flex-col mt-4 ">
-            <div class="px-4 py-5 flex-auto">
+          <div class="relative flex flex-col ">
+            <div class="px-4 py flex-auto">
               <h6 class="text-xl mb-1 font-semibold">About connected switch</h6>
               <ul class="border border-gray-200 rounded overflow-hidden shadow-md text-left">
                 @if (isset($switch) && isset($cabinet))
@@ -253,11 +253,27 @@
               </ul>
             </div>
           </div>
-
-
-          </div>
           </div>
         </div>
+      </div>
+        
+        {{-- ==================== --}}
+        <div class="w-screen h-screen md:w-6/12">
+          <div class="flex flex-wrap h-fit">
+            <div class="w-full md:w-6/12 px-4">
+              <div class="relative flex flex-col ">
+                <x-detailsitem>
+                  <x-detailsspan>
+                    Postgre TEST:
+                  </x-detailsspan>
+                  {{$zaza}}
+                </x-detailsitem>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {{-- ==================== --}}
       </div>
     </div>
   </div>

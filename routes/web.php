@@ -129,3 +129,7 @@ Route::delete('/deleteEquipmentType/{name}', [DeleteController::class, 'deleteEq
 Route::get('/showEquipmentType/{name}', [UpdateController::class, 'showEquipmentType'])->name('showEquipmentType')->middleware(['auth']);
 Route::post('/updateEquipmentType/{name}', [UpdateController::class, 'updateEquipmentType'])->name('updateEquipmentType')->middleware(['auth']);
 // end of admin routes
+
+
+// API routes for interacting with PLC
+Route::post('/station/store', [StationsController::class, 'store'])->name('station.store');
