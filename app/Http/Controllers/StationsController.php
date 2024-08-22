@@ -10,11 +10,16 @@ use App\Models\Station;
 use Illuminate\Http\Request;
 use App\Models\Coordinates;
 use App\Models\Line;
+use App\Models\PLine;
+use App\Models\PStation;
 use App\Models\StationType;
+use Illuminate\Support\Facades\Http;
 
 class StationsController extends Controller
 {
-    public function stationInfo($SN){
+    public function stationInfo(Request $request, $SN){
+        // requesting plcTracking token:
+        $plcToken = $request->session()->get('token');
         // fetch data for station info view
         $url = urldecode($SN);
         $station = Station::get()->where('SN', '=', $url);
@@ -25,13 +30,34 @@ class StationsController extends Controller
             $cabinet = NetworkCabinet::get()->where('name', '=', $switch[$switch->keys()[0]]->cabName);
         }
         $equipments = Equipment::get()->where('station', '=', $station[$index]->name);
-            $eqtype = EquipmentType::get();
-            $stType = StationType::get();
-            if(isset($switch) && isset($cabinet)){
-                return view('pages.stationInfo', ['index'=>$index, 'station'=>$station[$index], 'switch'=>$switch[$switch->keys()[0]], 'cabinet'=>$cabinet[$cabinet->keys()[0]],  'equipments'=>$equipments, 'eqtype'=>$eqtype, 'stType'=>$stType]);
-            }else{
-                return view('pages.stationInfo', ['index'=>$index, 'station'=>$station[$index],'equipments'=>$equipments, 'eqtype'=>$eqtype, 'stType'=>$stType]);
+        $eqtype = EquipmentType::get();
+        $stType = StationType::get();
+        // requesting station id from the PLC database
+        $plcLineId = PLine::where('name', '=', $station[$index]->line)->get();
+        $plcStationId = PStation::where('name', '=', $station[$index]->name)->get();
+        // requesting prototypes using PLC api
+        $api = env('API_IP');
+        try{
+            $response = HTTP::withHeaders([
+                'Authorization' => "Bearer $plcToken",
+            ])->get("$api/api/v1/prototypes");
+            if($response->successful()){
+                $data = $response->json();
             }
+        }catch(\Exception $e){
+        }
+        if (count($plcLineId)!==0) {
+            $plcLineId = PLine::where('name', '=', $station[$index]->line)->get()[0]->line_id;
+        }
+        if (count($plcStationId)!==0) {
+            $plcStationId = PStation::where('name', '=', $station[$index]->name)->get()[0]->station_id;
+        }
+        $role = session()->get('role');
+        if(isset($switch) && isset($cabinet)){
+            return view('pages.stationInfo', ['index'=>$index, 'station'=>$station[$index], 'switch'=>$switch[$switch->keys()[0]], 'cabinet'=>$cabinet[$cabinet->keys()[0]],  'equipments'=>$equipments, 'eqtype'=>$eqtype, 'stType'=>$stType, 'token'=>$plcToken, 'stationId'=>$plcStationId, 'lineId'=>$plcLineId, 'role'=>$role, 'prototypes'=>$data]);
+        }else{
+            return view('pages.stationInfo', ['index'=>$index, 'station'=>$station[$index],'equipments'=>$equipments, 'eqtype'=>$eqtype, 'stType'=>$stType, 'token'=>$plcToken, 'stationId'=>$plcStationId, 'lineId'=>$plcLineId, 'role'=>$role, 'prototypes'=>$data]);
+        }
     }
 
     // save station position on drag 
@@ -49,7 +75,7 @@ class StationsController extends Controller
            $input = $request->all();
            Line::where('id',$id)->update($input);
              }
-            }
+    }
     // save cabinet position on drag
     public function cabinetPos(Request $request, $id) {
         if($request->ajax())
@@ -70,4 +96,4 @@ class StationsController extends Controller
         return response()->json($station);
     }
         
-    }
+}

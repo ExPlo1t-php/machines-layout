@@ -15,14 +15,15 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
     // fetches all the data needed for the injection view
-    public function injection(){
-      $stations = Station::get()->whereNull('line');
-      $cabinets = NetworkCabinet::get()->where('zone', '=','injection');
+  public function injection(){
+    $stations = Station::get()->whereNull('line');
+    $cabinets = NetworkCabinet::get()->where('zone', '=','injection');
     $type = StationType::get();
     $switch = CabinetSwitch::get();
     $port = Ports::get();
@@ -58,5 +59,15 @@ class Controller extends BaseController
     return Response($output);
   }
        }
+  }
+
+  public function test(){
+    $response = Http::post('http://172.30.125.81:8080/api/v1/auth/login', [
+      'email' => 'mouad@opm.com',
+      'password' => 'test123',
+    ]);
+
+    $token = $response->json()['token'];
+    return view('test', ['token'=>$token]);  
   }
 }

@@ -2,11 +2,11 @@
   @section('title', 'Layout | Station Info')
     <!-- component -->
 
-<section class="relative pt-13 bg-blueGray-50 max-h-screen bg-gray-100">
+<section class="relative pt-13 bg-blueGray-50 bg-gray-100">
 <div class="container mx-4">
-  <div class="flex flex-wrap w-screen content-between items-center">
-    <div class="w-10/12 md:w-6/12 mb-32 lg:w-4/12 px-12 md:px-4 mr-auto ml-auto -mt-78">
-      <div class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-gray-300">
+  <div class="flex flex-wrap content-between items-center">
+    <div class="w-10/12 md:w-6/12 mb-10 lg:w-4/12 px-12 md:px-4 mr-auto ml-auto -mt-78">
+      <div class="relative flex flex-col min-w-0  w-full mb-6 shadow-lg rounded-lg bg-gray-300">
         @php
         // if the station has no type the image will not load
           $typereq = $stType->where('name', '=', $station->type);
@@ -43,7 +43,9 @@
               @php
               if($station->state !== 1){
               $ip = $station->mainIpAddr;
-              $ping = exec('ping -n 1 -w 1000 '.$ip, $output, $status);
+              // $ping = exec('ping -n 1 -w 1000 '.$ip, $output, $status);
+              // remove this
+              $status = 1;
               if($status == 1){
                   echo  '<i class="fa-solid fa-circle w-2/12 text-xs text-red-600 text-right">offline</i>';
               }elseif ($status == 0) {
@@ -64,7 +66,7 @@
       </div>
     </div>
 
-    <div class="w-screen h-screen md:w-6/12">
+    <div class="w-screen  md:w-6/12">
       <div class="flex flex-wrap h-fit">
         <div class="w-full md:w-6/12 px-4">
           <div class="relative flex flex-col ">
@@ -143,7 +145,9 @@
                           @php
                           if($equipment->state == 1){
                           $ip = $equipment->IpAddr;
-                          $ping = exec('ping -n 1 -w 1000 '.$ip, $output, $status);
+                          // $ping = exec('ping -n 1 -w 1000 '.$ip, $output, $status);
+                          // remove this
+                          $status = 1;
                           if($status == 1){
                             echo  '<i class="fa-solid fa-circle w-1/12 m-5 text-xs text-red-600"></i>';
                           }elseif ($status == 0) {
@@ -160,91 +164,91 @@
                   {{-- -------------------------------------modal------------------------------------------------------------------------- --}}
                   <div id="{{$equipment->name}}modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full">
                     <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
-                        <!-- Modal content -->
-                        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-                            <!-- Modal header -->
-                            <div class="flex justify-between items-start p-4 rounded-t border-b dark:border-gray-600">
-                                <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                                    Details of {{$equipment->name}}
-                                  </h3>
-                                  <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="{{$equipment->name}}modal">
-                                    <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-                                    <span class="sr-only">Close modal</span>
-                                  </button>
-                                </div>
-                                <!-- Modal body -->
-                                <div class="p-6 space-y-6 flex items-center">
-                                    <img class="w-28 h-28 rounded-full" src="/assets/images/equipments/{{$type[$type->keys()[0]]->icon}}">
-                                    <div class="px-4 flex-auto">
-                                      <ul class="rounded overflow-hidden shadow-md text-left">
-                                        @if (isset($equipment))
-                                        <x-detailsitem>
-                                          <x-detailsspan>
-                                            Equipment name:
-                                          </x-detailsspan>
-                                          {{$equipment->name}}
-                                          </x-detailsitem>
-                                          {{--  --}}
-                                        <x-detailsitem>
-                                          <x-detailsspan>
-                                            Equipment serial number:
-                                          </x-detailsspan>
-                                          {{$equipment->SN}}
-                                          </x-detailsitem>
-                                          {{--  --}}
-                                        <x-detailsitem>
-                                          <x-detailsspan>
-                                            Equipment type:
-                                          </x-detailsspan>
-                                          {{$equipment->type}}
-                                          </x-detailsitem>
-                                          {{--  --}}
-                                        <x-detailsitem>
-                                          <x-detailsspan>
-                                            Equipment supplier:
-                                          </x-detailsspan>
-                                          {{$equipment->supplier}}
-                                          </x-detailsitem>
-                                          {{--  --}}
-                                        <x-detailsitem>
-                                          <x-detailsspan>
-                                            Equipment ip address:
-                                          </x-detailsspan>
-                                          @if($equipment->IpAddr =='')
-                                            This item doesn't have an ip address
-                                          @else
-                                          {{$equipment->IpAddr}}
-                                          @endif
-                                          </x-detailsitem>
-                                          {{--  --}}
-                                        <x-detailsitem>
-                                          <x-detailsspan>
-                                            Connected port:
-                                          </x-detailsspan>
-                                          {{$equipment->port}}
-                                          </x-detailsitem>
-                                          {{--  --}}
-                                        <x-detailsitem>
-                                          <x-detailsspan>
-                                            description:
-                                          </x-detailsspan>
-                                          @if($equipment->description =='')
-                                            there's no description
-                                          @else
-                                          {{$equipment->description}}
-                                          @endif
-                                          </x-detailsitem>
+                      <!-- Modal content -->
+                      <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                          <!-- Modal header -->
+                          <div class="flex justify-between items-start p-4 rounded-t border-b dark:border-gray-600">
+                            <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                              Details of {{$equipment->name}}
+                            </h3>
+                            <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="{{$equipment->name}}modal">
+                              <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                              <span class="sr-only">Close modal</span>
+                            </button>
+                          </div>
+                              <!-- Modal body -->
+                              <div class="p-6 space-y-6 flex items-center">
+                                  <img class="w-28 h-28 rounded-full" src="/assets/images/equipments/{{$type[$type->keys()[0]]->icon}}">
+                                  <div class="px-4 flex-auto">
+                                    <ul class="rounded overflow-hidden shadow-md text-left">
+                                      @if (isset($equipment))
+                                      <x-detailsitem>
+                                        <x-detailsspan>
+                                          Equipment name:
+                                        </x-detailsspan>
+                                        {{$equipment->name}}
+                                        </x-detailsitem>
+                                        {{--  --}}
+                                      <x-detailsitem>
+                                        <x-detailsspan>
+                                          Equipment serial number:
+                                        </x-detailsspan>
+                                        {{$equipment->SN}}
+                                        </x-detailsitem>
+                                        {{--  --}}
+                                      <x-detailsitem>
+                                        <x-detailsspan>
+                                          Equipment type:
+                                        </x-detailsspan>
+                                        {{$equipment->type}}
+                                        </x-detailsitem>
+                                        {{--  --}}
+                                      <x-detailsitem>
+                                        <x-detailsspan>
+                                          Equipment supplier:
+                                        </x-detailsspan>
+                                        {{$equipment->supplier}}
+                                        </x-detailsitem>
+                                        {{--  --}}
+                                      <x-detailsitem>
+                                        <x-detailsspan>
+                                          Equipment ip address:
+                                        </x-detailsspan>
+                                        @if($equipment->IpAddr =='')
+                                          This item doesn't have an ip address
                                         @else
-                                        <li class="px-4 py-3 border-b last:border-none border-gray-200 text-gray-500 transition-all duration-300 ease-in-out"><span class="text-md text-black pr-6 ">There's no switch / cabinet </span></li>
+                                        {{$equipment->IpAddr}}
                                         @endif
-                                    </ul>
-                                </div>
-                            </div>
-                            {{-- <!-- Modal footer -->
-                            <div class="flex items-center p-6 space-x-2 rounded-b border-t border-gray-200 dark:border-gray-600">
-                                <button data-modal-toggle="{{$equipment->name}}modal" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">hide details</button>
-                            </div> --}}
-                        </div>
+                                        </x-detailsitem>
+                                        {{--  --}}
+                                      <x-detailsitem>
+                                        <x-detailsspan>
+                                          Connected port:
+                                        </x-detailsspan>
+                                        {{$equipment->port}}
+                                        </x-detailsitem>
+                                        {{--  --}}
+                                      <x-detailsitem>
+                                        <x-detailsspan>
+                                          description:
+                                        </x-detailsspan>
+                                        @if($equipment->description =='')
+                                          there's no description
+                                        @else
+                                        {{$equipment->description}}
+                                        @endif
+                                        </x-detailsitem>
+                                      @else
+                                      <li class="px-4 py-3 border-b last:border-none border-gray-200 text-gray-500 transition-all duration-300 ease-in-out"><span class="text-md text-black pr-6 ">There's no switch / cabinet </span></li>
+                                      @endif
+                                  </ul>
+                              </div>
+                          </div>
+                          {{-- <!-- Modal footer -->
+                          <div class="flex items-center p-6 space-x-2 rounded-b border-t border-gray-200 dark:border-gray-600">
+                              <button data-modal-toggle="{{$equipment->name}}modal" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">hide details</button>
+                          </div> --}}
+                      </div>
                     </div>
                 </div>
                 {{-- -------------------------------------modal------------------------------------------------------------------------- --}}
@@ -257,27 +261,269 @@
         </div>
       </div>
         
-        {{-- ==================== --}}
-        <div class="w-screen h-screen md:w-6/12">
-          <div class="flex flex-wrap h-fit">
-            <div class="w-full md:w-6/12 px-4">
-              <div class="relative flex flex-col ">
-                <x-detailsitem>
-                  <x-detailsspan>
-                    Postgre TEST:
-                  </x-detailsspan>
-                  {{$zaza}}
-                </x-detailsitem>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {{-- ==================== --}}
-      </div>
     </div>
   </div>
 </div>
+</div>
 
 </section>
+{{-- ==================== --}}
+<div class="flex">
+  <div class="list-none flex flex-col min-w-0  w-4/5 h-fit mb-6 shadow-lg rounded-lg bg-white">
+    <div class="flex items-center bg-gray-200">
+      <span class=" font-bold text-xl text-center m-auto p-3 w-full">PLC data</span>
+      <button class="self-end  border-2 border-black rounded-md" onclick="readAllData()">
+        <x-faRefresh/>
+      </button>
+    </div>
+    <div class="flex justify-evenly">
+      <div>
+        <h2 class="text-center text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">User Variables</h2>
+        <div id="accordion">
+        </div>
+      </div>
+      <x-table :headers="['Variable Name', 'Current Value', 'Options']" id="modelVariablesTable" caption="Model variables"/>
+      <x-table :headers="['Variable Name', 'Current Value', 'Options']" id="otherVariablesTable" caption="Other variables"/>
+    </div>
+  </div>
+  <div class="list-none flex flex-col min-w-0  w-1/5 h-fit mb-6 shadow-lg rounded-lg bg-gray-300">
+    <span class="bg-gray-200 font-bold text-xl text-center m-auto p-3 w-full">PLC Controls</span>
+    <x-selectVariable :token="$token" :stationid="$stationId"/>
+    <x-selectUser :token="$token" :stationid="$stationId"/>
+    <x-createPrototype :token="$token" :stationid="$stationId"/>
+    <x-usePrototype :token="$token" :stationid="$stationId" :prototypes="$prototypes"/>
+    <x-eraseDb :token="$token" :stationid="$stationId"/>
+  </div>
+</div>
+{{-- ==================== --}}
+<script>
+  const stationId = '{{$stationId}}'; // Replace with your actual station ID
+  function handleEditClick(id){
+    if('{{$role}}' !== 'USER1'){
+      window.location.href = `http://127.0.0.1:8000/variable/${id}`
+    }
+  }
+  function handleDeleteClick(id){
+    if('{{$role}}' !== 'USER1'){
+      if(confirm("Are you sure you want to delete this variable?")){
+        $.ajax({
+          url: `http://172.30.125.81:8080/api/v1/variables/delete/${id}`,
+          type: 'DELETE', 
+          headers: {
+              'Authorization': `Bearer ${"{{$token}}"}`
+          },
+          success: function (response) {
+            alert('Variable deleted successfully!');
+            $(`#item-${id}`).remove();
+          },
+        })
+      }
+  }
+  }
+  function fillTables(data, table){
+    const tbody = table.find('tbody');
+    tbody.empty();
+    data.forEach(variable => {
+      const row = `<tr id="item-${variable.variableId}" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+          <td class="px-6 py-4">${variable.variableName}</td>
+          <td class="px-6 py-4" id="value-${variable.variableId}">${variable.currentValue}</td>
+          <td class="px-6 py-4">
+            <button onclick="handleEditClick(${variable.variableId})">
+              <x-faEdit/>
+            </button>
+            <button onclick="handleDeleteClick(${variable.variableId})">
+              <x-faDelete/>
+            </button>
+          </td>
+      </tr>`;
+      table.append(row);
+    });
+  }
+
+  function fillAccordion(data, accordion){
+    accordion.empty();
+    $( function() {
+      $( "#accordion" ).accordion({
+        collapsible: true,
+        active: false
+      });
+    } );
+    data.forEach((group, index) => {
+      let id = index+1;
+      let accordionHtml = `
+        <h2>
+          <button type="button" class="flex items-center justify-between w-full px-24 py-2 font-medium rtl:text-right text-gray-500 border border-b-0 border-gray-200 rounded-t-xl dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 gap-3">
+            <span>${group[0].variableName} - ${group[0].currentValue}</span>
+            <svg class="w-3 h-3 rotate-180 shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5 5 1 1 5"/>
+            </svg>
+          </button>
+        </h2>
+        <div>
+          <div class="p-5 border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900">
+            <div class="relative overflow-x-auto">
+              <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                  <tr>
+                    <th>Name</th>
+                    <th>Value</th>
+                    <th>Options</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="mb-2">
+                    <td>name</td>
+                    <td>${group[0].currentValue}</td>
+                    <td>
+                      <button onclick="handleEditClick(${group[0].variableId})">
+                        <x-faEdit/>
+                      </button>
+                      <button onclick="handleDeleteClick(${group[0].variableId})">
+                        <x-faDelete/>
+                      </button>
+                    </td>
+                  </tr>
+                  ${group.slice(1).map(item => `
+                      <tr class="mb-2">
+                        <td class="text-gray-500 dark:text-gray-400">${item.variableName.split(" ")[1]}</td>
+                        <td>${item.currentValue}</td>
+                        <td>
+                          <button onclick="handleEditClick(${item.variableId})">
+                            <x-faEdit/>
+                          </button>
+                          <button onclick="handleDeleteClick(${item.variableId})">
+                            <x-faDelete/>
+                          </button>
+                        </td>
+                      </tr>
+                    `).join('')}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>`;
+      accordion.append(accordionHtml);
+    });
+  }
+
+  function groupItemsByOffset(items) {
+      // Sort items by varOffset
+      items.sort((a, b) => a.varOffset - b.varOffset);
+
+      let groupedData = [];
+      let currentGroup = [];
+
+      for (let i = 0; i < items.length; i++) {
+          if (currentGroup.length === 0) {
+              currentGroup.push(items[i]);
+          } else {
+              let lastItem = currentGroup[currentGroup.length - 1];
+              let expectedOffset = lastItem.varOffset + 18;
+              if (items[i].varOffset === expectedOffset) {
+                  currentGroup.push(items[i]);
+              } else {
+                  // Process the current group
+                  if (currentGroup.length > 0) {
+                      // Ensure correct indices for password and level
+                      let filledGroup = fillMissingItems(currentGroup);
+                      groupedData.push(filledGroup);
+                  }
+                  // Start a new group with the current item
+                  currentGroup = [items[i]];
+              }
+          }
+
+          // Push the last group if it has items and is not empty
+          if (i === items.length - 1 && currentGroup.length > 0) {
+              let filledGroup = fillMissingItems(currentGroup);
+              groupedData.push(filledGroup);
+          }
+      }
+
+      return groupedData;
+  }
+
+  function fillMissingItems(group) {
+      // Ensure the group has exactly 3 items
+      let result = [null, null, null];
+
+      group.forEach(item => {
+          if (item.variableName.includes('password')) {
+              result[1] = item;
+          } else if (item.variableName.includes('level')) {
+              result[2] = item;
+          } else {
+              result[0] = item;
+          }
+      });
+
+      // Replace missing items with empty values
+      return result.map(item => item || {
+          "variableId": null,
+          "variableName": "n/a n/a",
+          "currentValue": "n/a",
+          "dbNumber": null,
+          "varOffset": null,
+          "bitPosition": 0,
+          "strict_Access": false,
+          "dataRecordsList": [],
+          "variable_type": ""
+      });
+  }
+  function filterAndSortData(data, offset){
+    return data
+    .filter(item => [offset].includes(item.dbNumber))
+    .sort((a, b) => {
+        if (a.varOffset < b.varOffset) return -1;
+        if (a.varOffset > b.varOffset) return 1;
+        if (a.dbNumber < b.dbNumber) return -1;
+        if (a.dbNumber > b.dbNumber) return 1;
+        return 0;
+    });
+  }
+  function patchData(stationId){
+    $.ajax({
+        url: `http://172.30.125.81:8080/api/v1/stations/read/{{$stationId}}`,
+        type: 'PATCH', // Use PATCH method
+        headers: {
+            'Authorization': `Bearer ${"{{$token}}"}`
+        },
+        contentType: 'application/json',
+    });
+  }
+  function fetchData(stationId){
+      $.ajax({
+          url: `http://172.30.125.81:8080/api/v1/stations/${stationId}/variables`,
+          type: 'GET',
+          headers: {
+              'Authorization': `Bearer ${"{{$token}}"}`
+          },
+          dataType: 'json',
+          success: function(data) {
+              const userAccordion = $('#accordion');
+              const modelTable = $('#modelVariablesTable');
+              const otherTable = $('#otherVariablesTable');
+            // data filtration based on db
+            patchData(stationId);
+            modelVariableData = filterAndSortData(data, 9007);
+            otherVariableData = filterAndSortData(data, 105);
+            userVariablesData = filterAndSortData(data, 3032);
+            let groupedUserData = groupItemsByOffset(userVariablesData);
+            fillAccordion(groupedUserData, userAccordion);
+            fillTables(modelVariableData, modelTable)
+            fillTables(otherVariableData, otherTable)
+          },
+          error: function(xhr, status, error) {
+              console.error('Failed to fetch data:', error);
+              alert('An error occurred while fetching the data.');
+          }
+      });
+  }
+  function readAllData(){
+    fetchData(stationId);
+  }
+$(document).ready(function() {
+    fetchData(stationId);
+  });
+</script>
 </x-app-layout>

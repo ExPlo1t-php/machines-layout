@@ -193,9 +193,6 @@ class AdminController extends Controller
     public function addStation(Request $request){
         // fetching input data
         $input = $request->all();
-
-
-
         // validating input data
         $request->validate([
             'type' => 'required|max:20',

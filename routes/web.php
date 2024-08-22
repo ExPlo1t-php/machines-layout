@@ -11,6 +11,7 @@ use App\Http\Controllers\SearchController;
 use App\Http\Controllers\StationsController;
 use App\Http\Controllers\UpdateController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\PlcController;
 use App\Models\Equipment;
 use App\Models\Coordinates;
 use App\Models\Line;
@@ -133,3 +134,5 @@ Route::post('/updateEquipmentType/{name}', [UpdateController::class, 'updateEqui
 
 // API routes for interacting with PLC
 Route::post('/station/store', [StationsController::class, 'store'])->name('station.store');
+Route::get('/variable/{id}', [PlcController::class, 'getVariableData'])->name('variable.data');
+Route::post('/variables/update/{id}', [PlcController::class, 'update'])->name('variables.update');

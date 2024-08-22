@@ -30,6 +30,16 @@
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100">
             @include('layouts.navigation')
+            @php
+            if (!session()->get('username') && !session()->get('token')){
+                $response = Http::post('http://172.30.125.81:8080/api/v1/auth/login', [
+                    'email' => 'jerry@opm.com',
+                    'password' => 'test123',
+                ]);
+                session()->put('token', $response->json()['token']);
+                session()->put('role', $response->json()['role']);
+            }
+            @endphp
 
             <!-- Page Content -->
             <main>
