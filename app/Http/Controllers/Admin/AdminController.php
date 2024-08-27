@@ -10,7 +10,9 @@ use App\Models\Equipment;
 use App\Models\EquipmentType;
 use App\Models\Line;
 use App\Models\NetworkCabinet;
+use App\Models\PLine;
 use App\Models\Ports;
+use App\Models\PStation;
 use App\Models\StationType;
 use App\Models\Station;
 // data models
@@ -127,6 +129,8 @@ class AdminController extends Controller
        $input['icon']-> move(public_path('/assets/images/lines/'), $filename);
        $input['icon']= $filename;
      }
+        $plc['name'] = $request->name;
+        PLine::insert($plc);
         // inserting validated data
         Line::create($input);
 
@@ -197,7 +201,7 @@ class AdminController extends Controller
         $request->validate([
             'type' => 'required|max:20',
             'name' => 'required|max:20',
-            'SN' => 'required|max:20|unique:station|regex:/^([a-zA-Z0-9]+s?)*$/i',
+            'SN' => 'required|max:20|unique:station|regex:/^([a-zA-Z0-9-]+s?)*$/i',
             'supplier' => 'max:20',
             'mainIpAddr' => ['required', 'max:15', 'regex:/^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/i', 'unique:station'],
             'ipAddr1' => ['max:15', 'regex:/^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/i', 'unique:station'],
@@ -208,6 +212,15 @@ class AdminController extends Controller
             'line' => 'max:20',
             'description' => 'max:500',
         ]);
+        // adding an instance for new stations in plc's database(pgsql)
+        $plcline = Pline::where('name', '=', $request->line)->get();
+        $plc = [
+            'name' => $request->name,
+            'ipaddress' => $request->mainIpAddr,
+            'line_id' => $plcline[0]->line_id,
+        ];
+    
+        PStation::insert($plc);
                 // alter the ports:assigned and ports:assignedTo values
                 Ports::where('portNum', $request->port)->where('switchId', $request->switch)
                 ->update([
@@ -227,37 +240,45 @@ class AdminController extends Controller
 
     // add station--------------------------------------------
     public function addSpecificStation(Request $request, $id){
-                // fetching input data
-                $input = $request->all();
+        // fetching input data
+        $input = $request->all();
 
 
 
-                // validating input data
-                $request->validate([
-                    'type' => 'required|max:20',
-                    'name' => 'required|max:20',
-                    'SN' => 'required|max:20|unique:station|regex:/^([a-zA-Z0-9]+s?)*$/i',
-                    'supplier' => 'max:20',
-                    'mainIpAddr' => ['required', 'max:15', 'regex:/^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/i', 'unique:station'],
-                    'ipAddr1' => ['max:15', 'regex:/^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/i', 'unique:station'],
-                    'ipAddr2' => ['max:15', 'regex:/^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/i', 'unique:station'],
-                    'ipAddr3' => ['max:15', 'regex:/^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/i', 'unique:station'],
-                    'switch' => 'required|max:20',
-                    'port' => 'required|max:20',
-                    'line' => 'max:20',
-                    'description' => 'max:500',
-                ]);
-                        // alter the ports:assigned and ports:assignedTo values
-                        Ports::where('portNum', $request->port)->where('switchId', $request->switch)
-                        ->update([
-                               'assigned' => 1,
-                               'assignedTo' => $request->name,
-                        ]);
-                        // alter the ports:assigned and ports:assignedTo values
-                // inserting validated data
-                Station::create($input);
-        
-                return redirect('station/'.$id)->with('success','Item added successfully!');
+        // validating input data
+        $request->validate([
+            'type' => 'required|max:20',
+            'name' => 'required|max:20',
+            'SN' => 'required|max:20|unique:station|regex:/^([a-zA-Z0-9]+s?)*$/i',
+            'supplier' => 'max:20',
+            'mainIpAddr' => ['required', 'max:15', 'regex:/^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/i', 'unique:station'],
+            'ipAddr1' => ['max:15', 'regex:/^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/i', 'unique:station'],
+            'ipAddr2' => ['max:15', 'regex:/^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/i', 'unique:station'],
+            'ipAddr3' => ['max:15', 'regex:/^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/i', 'unique:station'],
+            'switch' => 'required|max:20',
+            'port' => 'required|max:20',
+            'line' => 'max:20',
+            'description' => 'max:500',
+        ]);
+        // adding an instance for new stations in plc's database(pgsql)
+        $plcline = Pline::where('name', '=', $request->line)->get();
+        $plc = [
+            'name' => $request->name,
+            'ipaddress' => $request->mainIpAddr,
+            'line_id' => $plcline[0]->line_id,
+        ];
+        PStation::insert($plc);
+        // alter the ports:assigned and ports:assignedTo values
+        Ports::where('portNum', $request->port)->where('switchId', $request->switch)
+        ->update([
+                'assigned' => 1,
+                'assignedTo' => $request->name,
+        ]);
+        // alter the ports:assigned and ports:assignedTo values
+        // inserting validated data
+        Station::create($input);
+
+        return redirect('station/'.$id)->with('success','Item added successfully!');
     }
     // add station--------------------------------------------
 

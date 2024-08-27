@@ -30,9 +30,11 @@
                         <select name="prototype" required
                          class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="prototype">
                          <option selected hidden disabled>Select a prototype</option>
-                         @foreach($prototypes as $prototype)
-                         <option value="{{ $prototype['prototypeId'] }}">{{ $prototype['prototypeName'] }}</option>
-                        @endforeach
+                         @isset($prototypes)
+                            @foreach($prototypes as $prototype)
+                                <option value="{{ $prototype['prototypeId'] }}">{{ $prototype['prototypeName'] }}</option>
+                            @endforeach
+                         @endisset
                         </select>
                       </x-formInput>
                     {{--  --}}

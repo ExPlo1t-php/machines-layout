@@ -36,14 +36,7 @@ class AuthenticatedSessionController extends Controller
         // setting session variable to store username
         $username = Auth::user()->name;
         session()->put('username', $username);
-        // logging to the plc application
-        $response = Http::post('http://172.30.125.81:8080/api/v1/auth/login', [
-            'email' => 'mouad@opm.com',
-            'password' => 'test123',
-        ]);
-        session()->put('token', $response->json()['token']);
-        session()->put('role', $response->json()['role']);
-        // //////
+
         return redirect()->intended(RouteServiceProvider::HOME);
     }
 

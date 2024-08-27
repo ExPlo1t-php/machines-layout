@@ -1,4 +1,4 @@
-@section('title', 'Layout | New Assembly line')
+@section('title', 'Layout | Edit user')
 @extends('dashboard')
 
 @section('component')

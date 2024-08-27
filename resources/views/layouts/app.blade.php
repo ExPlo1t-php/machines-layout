@@ -14,33 +14,22 @@
 
         <!-- Custom style -->
         <link rel="stylesheet" href="/css/tips.css">
+        <link rel="stylesheet" href="/css/jquery-ui.css">
         <link rel="stylesheet" href="https://demos.creative-tim.com/notus-js/assets/styles/tailwind.css">
         <link rel="stylesheet" href="/css/draggable.css">
         <link rel="stylesheet" href="https://unpkg.com/flowbite@1.5.1/dist/flowbite.min.css" />
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
-        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
         <script src="//unpkg.com/alpinejs" defer></script>
         <script src="https://unpkg.com/flowbite@1.5.1/dist/flowbite.js"></script>
         <script src="/js/jquery-3.6.0.min.js"></script>
-        <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js" integrity="sha256-xLD7nhI62fcsEZK2/v8LsBcb4lG7dgULkuXoXB/j91c=" crossorigin="anonymous"></script>
+        <script src="/js/jquery-3.7.1.js"></script>
+        <script src="/js/jquery-ui.js"></script>
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100">
             @include('layouts.navigation')
-            @php
-            if (!session()->get('username') && !session()->get('token')){
-                $response = Http::post('http://172.30.125.81:8080/api/v1/auth/login', [
-                    'email' => 'jerry@opm.com',
-                    'password' => 'test123',
-                ]);
-                session()->put('token', $response->json()['token']);
-                session()->put('role', $response->json()['role']);
-            }
-            @endphp
-
             <!-- Page Content -->
             <main>
                 {{ $slot }}

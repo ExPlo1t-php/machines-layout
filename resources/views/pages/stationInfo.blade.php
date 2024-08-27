@@ -268,8 +268,11 @@
 
 </section>
 {{-- ==================== --}}
+@if (session()->get("loggedIn"))
+  
+
 <div class="flex">
-  <div class="list-none flex flex-col min-w-0  w-4/5 h-fit mb-6 shadow-lg rounded-lg bg-white">
+  <div class="list-none flex flex-col min-w-0 max-w-full w-4/5 h-fit mb-6 shadow-lg rounded-lg bg-white">
     <div class="flex items-center bg-gray-200">
       <span class=" font-bold text-xl text-center m-auto p-3 w-full">PLC data</span>
       <button class="self-end  border-2 border-black rounded-md" onclick="readAllData()">
@@ -277,30 +280,42 @@
       </button>
     </div>
     <div class="flex justify-evenly">
-      <div>
+      <div class="w-full">
         <h2 class="text-center text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">User Variables</h2>
         <div id="accordion">
         </div>
       </div>
+      @if ($loggedIn && $role!=="USER1")
       <x-table :headers="['Variable Name', 'Current Value', 'Options']" id="modelVariablesTable" caption="Model variables"/>
       <x-table :headers="['Variable Name', 'Current Value', 'Options']" id="otherVariablesTable" caption="Other variables"/>
+      @else
+      <x-table :headers="['Variable Name', 'Current Value']" id="modelVariablesTable" caption="Model variables"/>
+      <x-table :headers="['Variable Name', 'Current Value']" id="otherVariablesTable" caption="Other variables"/>
+      @endif
     </div>
   </div>
+  
+  @if ($loggedIn && $role!=="USER1")
   <div class="list-none flex flex-col min-w-0  w-1/5 h-fit mb-6 shadow-lg rounded-lg bg-gray-300">
     <span class="bg-gray-200 font-bold text-xl text-center m-auto p-3 w-full">PLC Controls</span>
     <x-selectVariable :token="$token" :stationid="$stationId"/>
     <x-selectUser :token="$token" :stationid="$stationId"/>
     <x-createPrototype :token="$token" :stationid="$stationId"/>
     <x-usePrototype :token="$token" :stationid="$stationId" :prototypes="$prototypes"/>
+    @if ($loggedIn && $role==="ADMIN")
     <x-eraseDb :token="$token" :stationid="$stationId"/>
+    @endif
   </div>
+  @endif
 </div>
 {{-- ==================== --}}
 <script>
   const stationId = '{{$stationId}}'; // Replace with your actual station ID
   function handleEditClick(id){
     if('{{$role}}' !== 'USER1'){
-      window.location.href = `http://127.0.0.1:8000/variable/${id}`
+        var baseUrl = "{{ route('variable.data', ['id' => 'PLACEHOLDER']) }}";
+        var finalUrl = baseUrl.replace('PLACEHOLDER', id);
+        window.location.href = finalUrl;
     }
   }
   function handleDeleteClick(id){
@@ -318,8 +333,24 @@
           },
         })
       }
+    }
   }
+  @if ($loggedIn && $role==="ADMIN")
+  function handleEditValueClick(id){
+    let newValue = prompt("Please enter the new value (this will change the actual plc value, BE CAREFUL!!)");
+    if (newValue == null || newValue == ""){
+      e.preventDefault(); // Prevent the default form submission
+      $.ajax({
+        url: `http://172.30.125.81:8080/api/v1/variables/current_value_changing/${id}`,
+        type: 'PATCH',
+        headers: {
+          'Authorization': `Bearer ${"{{$token}}"}`
+        },
+        data: { newValue: newValue },
+      });
+    }
   }
+  @endif
   function fillTables(data, table){
     const tbody = table.find('tbody');
     tbody.empty();
@@ -327,33 +358,35 @@
       const row = `<tr id="item-${variable.variableId}" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
           <td class="px-6 py-4">${variable.variableName}</td>
           <td class="px-6 py-4" id="value-${variable.variableId}">${variable.currentValue}</td>
-          <td class="px-6 py-4">
+          @if ($loggedIn && $role!=="USER1")
+          <td class="px-6 py-4 flex">
             <button onclick="handleEditClick(${variable.variableId})">
-              <x-faEdit/>
+              <x-faChange/>
             </button>
             <button onclick="handleDeleteClick(${variable.variableId})">
               <x-faDelete/>
             </button>
+            @if ($loggedIn && $role==="ADMIN")
+            <button onclick="handleEditValueClick(${variable.variableId})">
+              <x-faEdit/>
+            </button>
+            @endif
           </td>
+          @endif
       </tr>`;
-      table.append(row);
+      tbody.append(row);
     });
   }
 
   function fillAccordion(data, accordion){
+    
     accordion.empty();
-    $( function() {
-      $( "#accordion" ).accordion({
-        collapsible: true,
-        active: false
-      });
-    } );
     data.forEach((group, index) => {
       let id = index+1;
       let accordionHtml = `
         <h2>
           <button type="button" class="flex items-center justify-between w-full px-24 py-2 font-medium rtl:text-right text-gray-500 border border-b-0 border-gray-200 rounded-t-xl dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 gap-3">
-            <span>${group[0].variableName} - ${group[0].currentValue}</span>
+            <span>${group[0].currentValue}</span>
             <svg class="w-3 h-3 rotate-180 shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
               <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5 5 1 1 5"/>
             </svg>
@@ -367,34 +400,50 @@
                   <tr>
                     <th>Name</th>
                     <th>Value</th>
+                     @if ($loggedIn && $role!=="USER1")
                     <th>Options</th>
+                    @endif
                   </tr>
                 </thead>
                 <tbody>
                   <tr class="mb-2">
                     <td>name</td>
                     <td>${group[0].currentValue}</td>
+                    @if ($loggedIn && $role!=="USER1")
                     <td>
                       <button onclick="handleEditClick(${group[0].variableId})">
-                        <x-faEdit/>
+                        <x-faChange/>
                       </button>
                       <button onclick="handleDeleteClick(${group[0].variableId})">
                         <x-faDelete/>
                       </button>
+                      @if ($loggedIn && $role==="ADMIN")
+                      <button onclick="handleEditValueClick(${group[0].variableId})">
+                        <x-faEdit/>
+                      </button>
+                      @endif
                     </td>
+                    @endif
                   </tr>
                   ${group.slice(1).map(item => `
                       <tr class="mb-2">
                         <td class="text-gray-500 dark:text-gray-400">${item.variableName.split(" ")[1]}</td>
                         <td>${item.currentValue}</td>
+                        @if ($loggedIn && $role!=="USER1")
                         <td>
                           <button onclick="handleEditClick(${item.variableId})">
-                            <x-faEdit/>
+                            <x-faChange/>
                           </button>
                           <button onclick="handleDeleteClick(${item.variableId})">
                             <x-faDelete/>
                           </button>
+                          @if ($loggedIn && $role==="ADMIN")
+                          <button onclick="handleEditValueClick(${item.variableId})">
+                            <x-faEdit/>
+                          </button>
+                          @endif
                         </td>
+                        @endif
                       </tr>
                     `).join('')}
                 </tbody>
@@ -404,6 +453,12 @@
         </div>`;
       accordion.append(accordionHtml);
     });
+    $( function() {
+      $( "#accordion" ).accordion({
+        collapsible: true,
+        active: false
+      });
+    } );
   }
 
   function groupItemsByOffset(items) {
@@ -491,8 +546,11 @@
         contentType: 'application/json',
     });
   }
+  const userAccordion = $('#accordion');
+  const modelTable = $('#modelVariablesTable');
+  const otherTable = $('#otherVariablesTable');
   function fetchData(stationId){
-      $.ajax({
+        $.ajax({
           url: `http://172.30.125.81:8080/api/v1/stations/${stationId}/variables`,
           type: 'GET',
           headers: {
@@ -500,9 +558,9 @@
           },
           dataType: 'json',
           success: function(data) {
-              const userAccordion = $('#accordion');
-              const modelTable = $('#modelVariablesTable');
-              const otherTable = $('#otherVariablesTable');
+            if('{{$role}}'=="USER1"){
+              data = data.filter(variable => !variable.strict_Access);
+            }
             // data filtration based on db
             patchData(stationId);
             modelVariableData = filterAndSortData(data, 9007);
@@ -515,15 +573,19 @@
           },
           error: function(xhr, status, error) {
               console.error('Failed to fetch data:', error);
-              alert('An error occurred while fetching the data.');
+              alert('Something went wrong, data will not be loaded');
           }
       });
   }
+
   function readAllData(){
+    $( "#accordion" ).accordion( "destroy" );
     fetchData(stationId);
   }
-$(document).ready(function() {
+  
+  // $(document).ready(function() {
     fetchData(stationId);
-  });
+  // });
 </script>
+@endif
 </x-app-layout>

@@ -12,12 +12,6 @@ use App\Http\Controllers\StationsController;
 use App\Http\Controllers\UpdateController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PlcController;
-use App\Models\Equipment;
-use App\Models\Coordinates;
-use App\Models\Line;
-use App\Models\Station;
-use App\Models\StationType;
-use Illuminate\Contracts\Pagination\Paginator;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,6 +29,8 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
+Route::get('/traceability', [PlcController::class, 'show'])->middleware(['auth'])->name('traceability');
+Route::get('/traceability/{id}', [PlcController::class, 'viewTraceability'])->name('traceability.view');
 Route::get('/home', function () {
     return view('pages.home');
 })->name('home');
@@ -136,3 +132,6 @@ Route::post('/updateEquipmentType/{name}', [UpdateController::class, 'updateEqui
 Route::post('/station/store', [StationsController::class, 'store'])->name('station.store');
 Route::get('/variable/{id}', [PlcController::class, 'getVariableData'])->name('variable.data');
 Route::post('/variables/update/{id}', [PlcController::class, 'update'])->name('variables.update');
+Route::post('/plc/login', [PlcController::class, 'login'])->name('plc.login');
+Route::get('/plc/logout', [PlcController::class, 'logout'])->name('plc.logout');
+Route::post('/plc/tracking/{id}',[ PlcController::class, 'setTrackingValue'])->name('plc.tracking');

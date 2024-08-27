@@ -12,8 +12,8 @@ class PStation extends Model
     public $timestamps = false;
     protected $table = 'station';
     protected $fillable = [
-        'station_id',
         'ipaddress',
         'name',
+        'line_id',
     ];
 }

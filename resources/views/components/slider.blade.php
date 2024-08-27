@@ -22,6 +22,7 @@
                         <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
                     </div>
                 </div>
+                <x-loginDialog :status="session()->get('loggedIn')"/>
                
                <!-- Authentication -->
                <form method="get" action="{{ route('dashboard') }}">
@@ -96,6 +97,7 @@
                @else
                 <div class="flex-col sm:flex-col sm:items-center sm:ml-6 text-center mt-10">
                     <x-dropdown-link :href="route('login')" class="text-xl"> {{ __('Login') }}</x-dropdown-link>
+                    <x-loginDialog :status="session()->get('loggedIn')"/>
                     <p class="text-xs text-gray-400">There's no user connected <span class="text-indigo-500">Log In</span> to unlock admin controls</p>
                     </div>
                     <div :class="{'block': open, 'lg:hidden': ! open}" class="lg:hidden>

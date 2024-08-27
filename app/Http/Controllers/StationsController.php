@@ -37,6 +37,7 @@ class StationsController extends Controller
         $plcStationId = PStation::where('name', '=', $station[$index]->name)->get();
         // requesting prototypes using PLC api
         $api = env('API_IP');
+        $data = null;
         try{
             $response = HTTP::withHeaders([
                 'Authorization' => "Bearer $plcToken",
@@ -53,10 +54,11 @@ class StationsController extends Controller
             $plcStationId = PStation::where('name', '=', $station[$index]->name)->get()[0]->station_id;
         }
         $role = session()->get('role');
-        if(isset($switch) && isset($cabinet)){
-            return view('pages.stationInfo', ['index'=>$index, 'station'=>$station[$index], 'switch'=>$switch[$switch->keys()[0]], 'cabinet'=>$cabinet[$cabinet->keys()[0]],  'equipments'=>$equipments, 'eqtype'=>$eqtype, 'stType'=>$stType, 'token'=>$plcToken, 'stationId'=>$plcStationId, 'lineId'=>$plcLineId, 'role'=>$role, 'prototypes'=>$data]);
+        $loggedIn = session()->get('loggedIn');
+        if(isset($switch) && isset($cabinet) || $data == null){
+            return view('pages.stationInfo', ['index'=>$index, 'station'=>$station[$index], 'switch'=>$switch[$switch->keys()[0]], 'cabinet'=>$cabinet[$cabinet->keys()[0]],  'equipments'=>$equipments, 'eqtype'=>$eqtype, 'stType'=>$stType, 'token'=>$plcToken, 'stationId'=>$plcStationId, 'lineId'=>$plcLineId, 'role'=>$role, 'loggedIn'=>$loggedIn, 'prototypes'=>$data]);
         }else{
-            return view('pages.stationInfo', ['index'=>$index, 'station'=>$station[$index],'equipments'=>$equipments, 'eqtype'=>$eqtype, 'stType'=>$stType, 'token'=>$plcToken, 'stationId'=>$plcStationId, 'lineId'=>$plcLineId, 'role'=>$role, 'prototypes'=>$data]);
+            return view('pages.stationInfo', ['index'=>$index, 'station'=>$station[$index],'equipments'=>$equipments, 'eqtype'=>$eqtype, 'stType'=>$stType, 'token'=>$plcToken, 'stationId'=>$plcStationId, 'lineId'=>$plcLineId, 'role'=>$role, 'loggedIn'=>$loggedIn]);
         }
     }
 

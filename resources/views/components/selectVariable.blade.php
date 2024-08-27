@@ -1,6 +1,6 @@
 <!-- Select variable toggle -->
 <button data-modal-target="selectVariable" data-modal-toggle="selectVariable" class="block text-white bg-gray-800 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm mx-5 my-3 px-5 py-2.5 text-center" type="button">
-    Select variable
+    Show variable
 </button>
   
   <!-- Select variable modal -->
@@ -20,7 +20,7 @@
                       <span class="sr-only">Close modal</span>
                   </button>
               </div>
-              <!-- Show variable Modal body ############################################################################################################################# -->
+              <!-- Show variable Modal body -->
               <div class="p-4 md:p-5">
                   <form id="variableForm" class="space-y-4" action="#">
                     <x-formInput>

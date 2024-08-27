@@ -7,7 +7,9 @@ use App\Models\Equipment;
 use App\Models\EquipmentType;
 use App\Models\Line;
 use App\Models\NetworkCabinet;
+use App\Models\PLine;
 use App\Models\Ports;
+use App\Models\PStation;
 use App\Models\Station;
 use App\Models\StationType;
 use Illuminate\Validation\Rule;
@@ -150,6 +152,10 @@ class UpdateController extends Controller
         $input['icon']= $filename;
          // inserting validated data
        }
+       PLine::updateOrInsert(
+        ['name' => $request->name],
+        ['name' => $request->name]   
+        );
          Line::where('id',$url)->update($input);
 
          return redirect('lines')->with('success','Item changed successfully!');
@@ -174,7 +180,7 @@ class UpdateController extends Controller
             'type' => 'required|max:20',
             'name' => ['required','max:20',Rule::unique('station')->ignore($SN, 'SN')],
             'supplier' => 'max:20',
-            'SN' => ['required', 'max:20', Rule::unique('station')->ignore($url, 'SN'), 'regex:/^([a-zA-Z0-9]+s?)*$/i'],
+            'SN' => ['required', 'max:20', Rule::unique('station')->ignore($url, 'SN'), 'regex:/^([a-zA-Z0-9-]+s?)*$/i'],
             'mainIpAddr' => ['required', 'max:15', 'regex:/^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/i', Rule::unique('station')->ignore($url, 'SN')],
             'ipAddr1' => ['max:15', 'regex:/^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/i', Rule::unique('station')->ignore($url, 'SN')],
             'ipAddr2' => ['max:15', 'regex:/^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/i', Rule::unique('station')->ignore($url, 'SN')],
@@ -184,22 +190,27 @@ class UpdateController extends Controller
             'line' => 'max:20',
             'description' => 'max:500',
          ]);
-                $station = Station::where('SN','=',$SN);
-                $stations = $station->get()[0];
-                // setting the assigned and assignedTo values to null on the port that was used by the station
-                //releasing the port
-                Ports::where('portNum', $stations->port)->where('switchId', $stations->switch)
-                ->update([
-                        'assigned' => NULL,
-                        'assignedTo' =>NULL,
-                ]);
-                // alter the ports:assigned and ports:assignedTo values
-                Ports::where('portNum', $request->port)->where('switchId', $request->switch)
-                ->update([
-                       'assigned' => 1,
-                       'assignedTo' => $request->name,
-                ]);
-                // alter the ports:assigned and ports:assignedTo values
+        $station = Station::where('SN','=',$SN);
+        $stations = $station->get()[0];
+        // setting the assigned and assignedTo values to null on the port that was used by the station
+        //releasing the port
+        $plcline = Pline::where('name', '=', $stations->line)->orWhere('name', '=', $request->line)->get();
+        PStation::updateOrInsert(
+            ['name' => $stations->name, 'ipaddress' => $stations->mainIpAddr, 'line_id'=>$plcline[0]->line_id],
+            ['name' => $request->name, 'ipaddress' => $request->mainIpAddr, 'line_id'=>$plcline[0]->line_id]   
+        );
+        Ports::where('portNum', $stations->port)->where('switchId', $stations->switch)
+        ->update([
+                'assigned' => NULL,
+                'assignedTo' =>NULL,
+        ]);
+        // alter the ports:assigned and ports:assignedTo values
+        Ports::where('portNum', $request->port)->where('switchId', $request->switch)
+        ->update([
+                'assigned' => 1,
+                'assignedTo' => $request->name,
+        ]);
+        // alter the ports:assigned and ports:assignedTo values
          // inserting validated data
          $input['posTop'] = 0;
          $input['posLeft'] = 0;
