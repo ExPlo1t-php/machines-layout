@@ -30,7 +30,7 @@
                       <input name="userVariableName" required class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="userVariableName" type="text" placeholder="User Display Name">
                     </x-formInput>
                     {{--  --}}
-                    <x-formInput class="none">
+                    <x-formInput class="none hidden">
                       <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="userVariable_type">
                         Variable Type
                       </label>
@@ -45,7 +45,7 @@
                       </select>
                     </x-formInput>
                     {{--  --}}
-                    <x-formInput>
+                    <x-formInput class="hidden">
                       <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="userDbNumber">
                           DB Number
                       </label>
@@ -59,7 +59,7 @@
                       <input name="userVarOffset" required min="0"  id="userVarOffset" type="number" placeholder="Variable Offset" required class=" block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 appearance-none">
                     </x-formInput>
                     {{--  --}}
-                    <x-formInput class="none">
+                    <x-formInput class="hidden">
                       <input name="userBitPosition" value="0" min="0"  id="userBitPosition" type="number" placeholder="Bit position" required class="invisible block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 appearance-none">
                     </x-formInput>
                     {{--  --}}

@@ -39,7 +39,10 @@ Route::get('/test', [Controller::class, 'test'])->name('test');
 Route::get('/assembly', [Controller::class, 'assembly'])->name('assembly');
 Route::get('/injection', [Controller::class, 'injection'])->name('injection');
 Route::get('/fetchFreePorts', [Controller::class, 'fetchFreePorts'])->name('fetchFreePorts');
-
+// stationinfo
+Route::get('/stationInfo/{SN}', [StationsController::class, 'stationInfo'])->name('stationInfo');
+//assembly line inner layout
+Route::get('/lineInfo/{type}', [LineController::class, 'lineInfo'])->name('lineInfo');
 // routes that require authentication
 // auth routes
 require __DIR__.'/auth.php';
@@ -67,10 +70,7 @@ Route::middleware(['auth'])->group(function () {
 
     // admin routes ------------------------------------------------------------------------------------------------------------------
     // data showing routes
-    // stationinfo
-    Route::get('/stationInfo/{SN}', [StationsController::class, 'stationInfo'])->name('stationInfo');
-    //assembly line inner layout
-    Route::get('/lineInfo/{type}', [LineController::class, 'lineInfo'])->name('lineInfo');
+
 
     // data management routes add - delete - update - search ------------------------------------------------------------------------ 
     // network cabinet
