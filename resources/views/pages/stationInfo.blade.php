@@ -66,10 +66,8 @@
       </div>
     </div>
 
-    <div class="w-screen  md:w-6/12">
-      <div class="flex flex-wrap h-fit">
-        <div class="w-full md:w-6/12 px-4">
-          <div class="relative flex flex-col ">
+    <div class="w-10/12 md:w-6/12 mb-10 lg:w-4/12 px-12 md:px-4 mr-auto ml-auto -mt-78">
+      <div class="relative flex flex-col min-w-0  w-full mb-6rounded-lg">
             <div class="px-4 py flex-auto">
               <h6 class="text-xl mb-1 font-semibold">About connected switch</h6>
               <ul class="border border-gray-200 rounded overflow-hidden shadow-md text-left">
@@ -110,8 +108,6 @@
                 @endif
             </ul>
         </div>
-    </div>
-    <div class="relative flex flex-col min-w-full w-auto h-fit">
       <div class="py-5 flex-auto ">
             <div class="text-blueGray-500 p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-white">
               <i class="fas fa-sitemap"></i>
@@ -258,9 +254,6 @@
             </div>
           </div>
           </div>
-        </div>
-      </div>
-        
     </div>
   </div>
 </div>
@@ -271,8 +264,8 @@
 @if (session()->get("loggedIn"))
   
 
-<div class="flex">
-  <div class="list-none flex flex-col min-w-0 max-w-full w-4/5 h-fit mb-6 shadow-lg rounded-lg bg-white">
+<div class="block lg:flex">
+  <div class="list-none flex flex-col min-w-0 max-w-full lg:w-4/5 h-fit mb-6 shadow-lg rounded-lg bg-white">
     <div class="flex items-center bg-gray-200">
       <span class=" font-bold text-xl text-center m-auto p-3 w-full">PLC data</span>
       <button class="self-end  border-2 border-black rounded-md" onclick="readAllData()">
@@ -296,7 +289,7 @@
   </div>
   
   @if ($loggedIn && $role!=="USER1")
-  <div class="list-none flex flex-col min-w-0  w-1/5 h-fit mb-6 shadow-lg rounded-lg bg-gray-300">
+  <div class="list-none flex lg:flex-col min-w-0  w-full lg:w-1/5 h-fit mb-6 shadow-lg rounded-lg bg-gray-300">
     <span class="bg-gray-200 font-bold text-xl text-center m-auto p-3 w-full">PLC Controls</span>
     <x-selectVariable :token="$token" :stationid="$stationId"/>
     <x-selectUser :token="$token" :stationid="$stationId"/>
@@ -328,7 +321,7 @@
               'Authorization': `Bearer ${"{{$token}}"}`
           },
           success: function (response) {
-            alert('Variable deleted successfully!');
+            alert('Variable hidden successfully!');
             $(`#item-${id}`).remove();
           },
         })
@@ -461,70 +454,32 @@
     } );
   }
 
-  function groupItemsByOffset(items) {
-      // Sort items by varOffset
-      items.sort((a, b) => a.varOffset - b.varOffset);
+  function groupItemsByVariableName(items){
+    let groupedData = {};
+    
+    // Function to extract base identifier from variableName
+    function extractBaseName(variableName) {
+        // Split the variable name by spaces and take the first part as the base
+        return variableName.split(' ')[0];
+    }
 
-      let groupedData = [];
-      let currentGroup = [];
+    // Iterate through the items and group them by their base name
+    items.forEach(item => {
+        const baseName = extractBaseName(item.variableName);
+        
+        if (!groupedData[baseName]) {
+            groupedData[baseName] = [];
+        }
 
-      for (let i = 0; i < items.length; i++) {
-          if (currentGroup.length === 0) {
-              currentGroup.push(items[i]);
-          } else {
-              let lastItem = currentGroup[currentGroup.length - 1];
-              let expectedOffset = lastItem.varOffset + 18;
-              if (items[i].varOffset === expectedOffset) {
-                  currentGroup.push(items[i]);
-              } else {
-                  // Process the current group
-                  if (currentGroup.length > 0) {
-                      // Ensure correct indices for password and level
-                      let filledGroup = fillMissingItems(currentGroup);
-                      groupedData.push(filledGroup);
-                  }
-                  // Start a new group with the current item
-                  currentGroup = [items[i]];
-              }
-          }
+        groupedData[baseName].push(item);
+    });
 
-          // Push the last group if it has items and is not empty
-          if (i === items.length - 1 && currentGroup.length > 0) {
-              let filledGroup = fillMissingItems(currentGroup);
-              groupedData.push(filledGroup);
-          }
-      }
+    // Convert the grouped data object to an array
+    let groupedDataArray = Object.values(groupedData);
 
-      return groupedData;
+    return groupedDataArray;
   }
-
-  function fillMissingItems(group) {
-      // Ensure the group has exactly 3 items
-      let result = [null, null, null];
-
-      group.forEach(item => {
-          if (item.variableName.includes('password')) {
-              result[1] = item;
-          } else if (item.variableName.includes('level')) {
-              result[2] = item;
-          } else {
-              result[0] = item;
-          }
-      });
-
-      // Replace missing items with empty values
-      return result.map(item => item || {
-          "variableId": null,
-          "variableName": "n/a n/a",
-          "currentValue": "n/a",
-          "dbNumber": null,
-          "varOffset": null,
-          "bitPosition": 0,
-          "strict_Access": false,
-          "dataRecordsList": [],
-          "variable_type": ""
-      });
-  }
+  
   function filterAndSortData(data, offset){
     return data
     .filter(item => [offset].includes(item.dbNumber))
@@ -566,14 +521,14 @@
             modelVariableData = filterAndSortData(data, 9007);
             otherVariableData = filterAndSortData(data, 105);
             userVariablesData = filterAndSortData(data, 3032);
-            let groupedUserData = groupItemsByOffset(userVariablesData);
+            let groupedUserData = groupItemsByVariableName(userVariablesData);
             fillAccordion(groupedUserData, userAccordion);
             fillTables(modelVariableData, modelTable)
             fillTables(otherVariableData, otherTable)
           },
           error: function(xhr, status, error) {
               console.error('Failed to fetch data:', error);
-              alert('Something went wrong, data will not be loaded');
+              alert('Something went wrong, either this station doesn\'t have a plc connected or you\'re not logged in');
           }
       });
   }

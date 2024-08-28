@@ -104,7 +104,6 @@ $(document).ready(function () {
             data: JSON.stringify(formData),  // Convert form data to JSON string
             success: function (response) {
                 console.log(response);
-                alert('Variable updated successfully!');
                 window.history.back();
             },
             error: function (xhr, status, error) {

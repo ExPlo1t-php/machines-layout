@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\PUser;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules;
 class PlcController extends Controller
 {
     public function login(Request $request){
@@ -18,7 +22,7 @@ class PlcController extends Controller
         $email = $request->input('email');
         $password = $request->input('password');
 
-        $response = Http::post('http://172.30.125.81:8080/api/v1/auth/login', [
+        $response = Http::post("$api/api/v1/auth/login", [
             'email' => $email,
             'password' => $password,
         ]);
@@ -84,5 +88,65 @@ class PlcController extends Controller
         session()->put('tracking', $request->tracking);
         $trackingVal = session()->get('tacking');
         return response()->json(['tracking', $trackingVal]);
+    }
+    
+    public function showPlcUsers(){
+        $users = PUser::paginate(7);
+        return view('plcUsers', ['users'=>$users]);
+    }
+    
+    public function addPlcUser(Request $request){
+        $request->validate([
+            'email' => ['required', 'string', 'email', 'max:255'],
+            'role' => ['required', 'string', 'max:255'],
+            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+        ]);
+        PUser::create([
+            'email' => $request->email,
+            'role' => $request->role,
+            'password' => Hash::make($request->password),
+        ]);
+
+        return redirect('/plcUsers');
+    }
+
+    public function showPlcUser($id){
+        $user = PUser::where('id', '=', $id)->get();
+        return view('components.forms.plcUser', ['user'=>$user]);
+    }
+
+    public function editPlcUser(Request $request, $id){
+         // fetching input data
+         $input = $request->except('_token', 'update');
+         // validating input data
+         $request->validate([
+             'email' => ['required', 'string', 'email', 'max:255', Rule::unique('pgsql.app_users')->ignore($id)],
+             'role' => ['required', 'string', 'max:255'],
+             'password' => ['string', 'nullable', 'confirmed', Rules\Password::defaults()],
+            ]);
+            // inserting validated data
+        // checking if the user entered current/new password
+        if($request->password && $request->password_confirmation){
+            // if new password = new password repeat
+            // update the db record
+            PUser::where('id',$id)->update([
+                'email' => $request->email,
+                'role' => $request->role,
+                'password' => Hash::make($request->password_confirmation),
+            ]);
+            return redirect('plcUsers')->with('success','Plc User details and password changed successfully!');;
+        }else{
+            PUser::where('id',$id)->update([
+                'email' => $request->email,
+                'role' => $request->role,
+            ]);
+            return redirect('plcUsers')->with('success','Plc User details changed successfully!');;
+        }
+
+    }
+
+    public function deletePlcUser($id){
+        $user = PUser::where('id','=',$id);
+        $user->delete();
     }
 }

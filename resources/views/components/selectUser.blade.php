@@ -122,7 +122,6 @@ $('#userForm').on('submit', function (e) {
         data: JSON.stringify(formData),  // Convert form data to JSON string
         success: function (response) {
             console.log(response);
-            alert('Form submitted successfully!');
         },
         error: function (xhr, status, error) {
             console.error(error);
