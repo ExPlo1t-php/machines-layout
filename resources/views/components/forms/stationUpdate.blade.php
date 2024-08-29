@@ -13,7 +13,7 @@ $url = urlencode($station[$index]->SN);
         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
           Station name
         </label>
-        <input value="{{$station[$index]->name}}" name="name" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="text" placeholder="station name">
+        <input value="{{$station[$index]->name}}" required name="name" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="text" placeholder="station name">
       </x-formInput>
 
 
@@ -23,7 +23,7 @@ $url = urlencode($station[$index]->SN);
           Station type
         </label>
 
-        <select name="type" id="type"
+        <select name="type" id="type" required
         onchange="let add = document.querySelector('.add');
         if(this.options[this.selectedIndex] == add){
         window.location = add.value;
@@ -40,11 +40,18 @@ $url = urlencode($station[$index]->SN);
           <option value="{{$type['name']}}"> {{$type['name']}}</option>
           @endforeach
 
-          <option class="add" value="station-type">&#x2b; Add a new station type</option>
+          <option class="add" value="/station-type">&#x2b; Add a new station type</option>
         </select>
       </div>
     </div>
   </div>
+
+  <x-formInput class="w-full mr-3">
+    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
+      Station's serial number
+    </label>
+    <input name="SN" value="{{$station[$index]->SN}}" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="text" placeholder="serial number" required>
+  </x-formInput>
 
 
   <x-formInput>
@@ -83,13 +90,13 @@ $url = urlencode($station[$index]->SN);
         </div>
       </div>
 
-      @if ($station[$index]->type == 'bmb')
+      @if (strtolower($station[$index]->type) == 'bmb')
       <div class="flex flex-wrap -mx-3 mb-6" id="ipAddr1">
         <div class="w-full px-3">
           <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
             Ip address 1
           </label>
-          <input value="{{$station[$index]->IpAddr1}}" name="ipAddr1" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="text" placeholder="Ip address 1">
+          <input value="{{$station[$index]->IpAddr1}}" required name="ipAddr1" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="text" placeholder="Ip address 1">
         </div>
       </div>
       <div class="flex flex-wrap -mx-3 mb-6" id="ipAddr2">
@@ -97,7 +104,7 @@ $url = urlencode($station[$index]->SN);
           <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
             Ip address 2
           </label>
-          <input value="{{$station[$index]->IpAddr2}}" name="ipAddr2" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="text" placeholder="Ip address 2">
+          <input value="{{$station[$index]->IpAddr2}}" required name="ipAddr2" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="text" placeholder="Ip address 2">
         </div>
       </div>
       <div class="flex flex-wrap -mx-3 mb-6" id="ipAddr3">
@@ -105,7 +112,7 @@ $url = urlencode($station[$index]->SN);
           <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
             Ip address 3
           </label>
-          <input value="{{$station[$index]->IpAddr3}}" name="ipAddr3" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="text" placeholder="Ip address 3">
+          <input value="{{$station[$index]->IpAddr3}}" required name="ipAddr3" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="text" placeholder="Ip address 3">
         </div>
       </div>
       @endif
@@ -192,7 +199,7 @@ $url = urlencode($station[$index]->SN);
             <option value="{{$line['name']}}"> {{$line['name']}}</option>
             @endforeach
 
-            <option value>No station (Injection)</option>
+            <option value>No line (Injection)</option>
             <option class="add2" value="/lines">&#x2b; Add a new assembly line</option>
           </select>
         </div>
@@ -209,11 +216,18 @@ $url = urlencode($station[$index]->SN);
 
   <x-formInput>
     <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
-      disable ip pinging for this equipment
+      Link
+    </label>
+    <input name="link" value="{{$station[$index]->link}}" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="text" placeholder="AGW link">
+  </x-formInput>
+
+  <x-formInput>
+    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
+      disable ip pinging for this station
     </label>
     <input name="state"
     @if($station[$index]->state == 1)
-    value="$station[$index]->state"
+    value="{{$station[$index]->state}}"
     @checked(true)
     @endif
      type="checkbox" class="appearance-none block text-gray-700 border border-gray-300 rounded py-2 px-2 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">

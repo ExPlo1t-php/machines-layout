@@ -10,8 +10,11 @@
         <span id="successTxt" class="text-red-500 flex self-center m-5">{{ Session::get('error') }}</span>
 @endif
 {{-- update messages --}}
-
+@if(isset($lineF))
+<form class="w-full max-w-2xl flex-col self-center" method="POST" action="/addStation/{{$lineF['id']}}" enctype="multipart/form-data">
+@else
 <form class="w-full max-w-2xl flex-col self-center" method="POST" action="/addStation" enctype="multipart/form-data">
+@endif
     @csrf
 
     <div class="flex justify-between">
@@ -19,7 +22,7 @@
         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
           Station name
         </label>
-        <input name="name" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="text" placeholder="station name">
+        <input name="name" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="text" placeholder="station name" required>
       </x-formInput>
 
 
@@ -34,6 +37,7 @@
         if(this.options[this.selectedIndex] == add){
         window.location = add.value;
         }"
+        required
         {{-- select option -> add button --}}
         class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password">
           <option value="null" selected disabled hidden >- select a station type -</option>
@@ -46,7 +50,7 @@
           <option value="{{$type['name']}}"> {{$type['name']}}</option>
           @endforeach
 
-          <option class="add" value="station-type">&#x2b; Add a new station type</option>
+          <option class="add" value="/station-type">&#x2b; Add a new station type</option>
         </select>
       </div>
     </div>
@@ -57,7 +61,7 @@
     <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
       Station's serial number
     </label>
-    <input name="SN" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="text" placeholder="serial number">
+    <input name="SN" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="text" placeholder="serial number" required>
   </x-formInput>
 
   <x-formInput>
@@ -74,7 +78,7 @@
     if(this.value.toLowerCase().trim() == 'bmb'){
       var i = 3;
       for (i; i >= 1 ; i--) {
-          var elem =  "<div id='ipAddr"+[i]+"' class='flex flex-wrap  mb-6'><div class='w-full'><label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='grid-password'>ip address "+[i]+"</label><input name='ipAddr"+[i]+"' class='appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500' id='grid-password' type='text' placeholder='ip address "+[i]+"'></div></div>";
+          var elem =  "<div id='ipAddr"+[i]+"' class='flex flex-wrap  mb-6'><div class='w-full'><label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='grid-password'>ip address "+[i]+"</label><input name='ipAddr"+[i]+"' required class='appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500' id='grid-password' type='text' placeholder='ip address "+[i]+"'></div></div>";
           // console.log(i);
          $(elem).insertAfter( "#ip" );
         }
@@ -90,7 +94,7 @@
     <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
       main ip address
     </label>
-    <input name="mainIpAddr" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="text" placeholder="Main ip address format(xxx.xxx.xxx.xxx)">
+    <input name="mainIpAddr" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="text" placeholder="Main ip address format(xxx.xxx.xxx.xxx)" required>
   </x-formInput>
 
 
@@ -104,6 +108,7 @@
     if(this.options[this.selectedIndex] == add){
     window.location = add.value;
     }"
+    required
     {{-- select option -> add button --}}
     class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password">
       <option value="null" selected disabled hidden >- select a the switch connected to this station -</option>
@@ -126,7 +131,7 @@
       <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
         port
       </label>
-      <select name="port" id="port"
+      <select name="port" id="port" required
       class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password">
         <option value="null" selected disabled hidden >- select the station's port number -</option>
       </select>
@@ -162,7 +167,11 @@
       }"
       {{-- select option -> add button --}}
       class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password">
+        @if(isset($lineF))
+        <option value="{{$lineF['name']}}" selected hidden> {{$lineF['name']}}</option>
+        @else
         <option value="null" selected disabled hidden >- select a the line where this station exist -</option>
+        @endif
         {{-- fetching cabinet data to load in select menu --}}
         @php
             use App\Models\Line;
@@ -171,7 +180,7 @@
         @foreach ($lines as $line)
         <option value="{{$line['name']}}"> {{$line['name']}}</option>
         @endforeach
-        <option value>No station (Injection)</option>
+        <option value>No line (Injection)</option>
         <option class="add1" value="/lines">&#x2b; Add a new assembly line</option>
       </select>
       {{-- notice --}}
@@ -187,6 +196,13 @@
         Description
       </label>
       <textarea name="description"  cols="53" rows="10" placeholder="Write a description of this Type of this equipment (optional)" style="resize: none" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"></textarea>
+    </x-formInput>
+
+    <x-formInput>
+      <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
+        Link
+      </label>
+      <input name="link" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="text" placeholder="AGW link">
     </x-formInput>
 
     <x-formInput>
@@ -309,7 +325,14 @@
                 {{$station['supplier']}}
               </td>
             <td class="px-6 py-4">
-                {{$station['mainIpAddr']}}
+              {{$station['mainIpAddr']}}
+              @if ($station['type'] == 'bmb')
+                    <ul class="list-disc">
+                    <li>{{$station['IpAddr1']}}</li>
+                    <li>{{$station['IpAddr2']}}</li>
+                    <li>{{$station['IpAddr3']}}</li>
+                    </ul>
+                @endif
               </td>
               <td class="px-6 py-4">
                 @if (!$switches->where('id','=',$station['switch'])->isEmpty())

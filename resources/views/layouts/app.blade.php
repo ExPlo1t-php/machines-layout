@@ -28,7 +28,7 @@
         <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js" integrity="sha256-xLD7nhI62fcsEZK2/v8LsBcb4lG7dgULkuXoXB/j91c=" crossorigin="anonymous"></script>
     </head>
     <body class="font-sans antialiased">
-        <div class="min-h-screen max-h-full bg-gray-100">
+        <div class="min-h-screen bg-gray-100">
             @include('layouts.navigation')
 
             <!-- Page Content -->

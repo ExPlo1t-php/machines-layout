@@ -17,7 +17,7 @@
           <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
             Equipment type name
           </label>
-          <input name="name" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="text" placeholder="equipment type">
+          <input name="name" required class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="text" placeholder="equipment type">
         </x-formInput>
 
 
@@ -25,7 +25,7 @@
       <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
         Description
       </label>
-      <textarea name="description"  cols="53" rows="10" placeholder="Write a description of this Type of this equipment (optional)" style="resize: none" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"></textarea>
+      <textarea name="description" cols="53" rows="10" placeholder="Write a description of this Type of this equipment (optional)" style="resize: none" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"></textarea>
     </x-formInput>
 
 
@@ -33,7 +33,7 @@
 
 <div class="flex flex-col flex-grow max-w-xl mb-6">
     <div x-data="{ files: null }" id="FileUpload" class="block w-full py-2 px-3 relative bg-white appearance-none border-2 border-gray-300 border-dashed rounded-md cursor-pointer hover:border-gray-400 focus:outline-none">
-        <input type="file" multiple accept="image/*" name="icon"
+        <input type="file" multiple accept="image/*" name="icon" required
                class="absolute inset-0 z-50 m-0 p-0 w-full h-full outline-none opacity-0"
                x-on:change="files = $event.target.files; console.log($event.target.files);"
                x-on:dragover="$el.classList.add('active')" x-on:dragleave="$el.classList.remove('active')" x-on:drop="$el.classList.remove('active')"
@@ -139,7 +139,7 @@
               {{$type['description']}}
             </td>
             <td class="px-6 py-4">
-               <img src="/assets/images/equipments/{{$type['icon']}}" alt="icon" class="w-20 h-20"> 
+               <img src="/assets/images/equipments/{{$type['icon']}}" alt="icon" class="w-20 h-20">
               </td>
               <td class="px-4 py-4 text-right flex">
                 @php

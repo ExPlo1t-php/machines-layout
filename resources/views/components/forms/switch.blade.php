@@ -19,7 +19,7 @@
           <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
             Switch location
           </label>
-          <select name="cabName"
+          <select name="cabName" required
           onchange="let add = document.querySelector('.add');
           if(this.options[this.selectedIndex] == add){
           window.location = add.value;
@@ -46,21 +46,28 @@
           <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
             Switch Name
           </label>
-          <input name="switchName" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" maxlength="15" size="15" id="grid-password" type="text" placeholder="Switch name" required>
+          <input name="switchName" required class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" maxlength="15" size="15" id="grid-password" type="text" placeholder="Switch name" required>
         </x-formInput>
 
       <x-formInput>
           <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
             Ip Address
           </label>
-          <input name="ipAddr" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" minlength="7" maxlength="15" size="15" id="grid-password" type="text" placeholder="Ip format (xxx.xxx.xxx.xxx)" required>
+          <input name="ipAddr" required class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" minlength="7" maxlength="15" size="15" id="grid-password" type="text" placeholder="Ip format (xxx.xxx.xxx.xxx)" required>
         </x-formInput>
 
         <x-formInput>
             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
                 Number of ports
             </label>
-            <input name="portsNum" min="0" max="99" maxlength="2"  minlength="7" maxlength="15" size="15" id="grid-password" type="number" placeholder="Number of the switch's ports" required class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 appearance-none">
+            <input name="portsNum" required min="0" max="99" maxlength="2"  minlength="7" maxlength="15" size="15" id="grid-password" type="number" placeholder="Number of the switch's ports" required class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 appearance-none">
+          </x-formInput>
+
+          <x-formInput>
+            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
+              Description
+            </label>
+            <textarea name="description"  cols="53" rows="10" placeholder="Write a description of this switch (optional)" style="resize: none" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"></textarea>
           </x-formInput>
 
           <x-formInput>
@@ -133,6 +140,9 @@ $('#search').on('keyup',function(){
                 Cabinet name
             </th>
              <th scope="col" class="px-6 py-3 cursor-pointer">
+                Description
+            </th>
+             <th scope="col" class="px-6 py-3 cursor-pointer">
               tools
             </th>
           </tr>
@@ -155,6 +165,9 @@ $('#search').on('keyup',function(){
               </td>
             <td class="px-6 py-4">
                 {{$switch['cabName']}}
+              </td>
+            <td class="px-6 py-4">
+                {{$switch['description']}}
               </td>
               <td class="px-4 py-4 text-right flex">
                 <a data-id="{{$switch['id']}}" data-method="get" href="{{route('showSwitch', $switch['id'])}}" id="edit" class="m-2 font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>

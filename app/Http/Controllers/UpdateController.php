@@ -173,7 +173,8 @@ class UpdateController extends Controller
          $request->validate([
             'type' => 'required|max:20',
             'name' => ['required','max:20',Rule::unique('station')->ignore($SN, 'SN')],
-            'supplier' => 'required|max:20',
+            'supplier' => 'max:20',
+            'SN' => ['required', 'max:20', Rule::unique('station')->ignore($url, 'SN'), 'regex:/^([a-zA-Z0-9]+s?)*$/i'],
             'mainIpAddr' => ['required', 'max:15', 'regex:/^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/i', Rule::unique('station')->ignore($url, 'SN')],
             'ipAddr1' => ['max:15', 'regex:/^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/i', Rule::unique('station')->ignore($url, 'SN')],
             'ipAddr2' => ['max:15', 'regex:/^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/i', Rule::unique('station')->ignore($url, 'SN')],
@@ -186,6 +187,7 @@ class UpdateController extends Controller
                 $station = Station::where('SN','=',$SN);
                 $stations = $station->get()[0];
                 // setting the assigned and assignedTo values to null on the port that was used by the station
+                //releasing the port
                 Ports::where('portNum', $stations->port)->where('switchId', $stations->switch)
                 ->update([
                         'assigned' => NULL,
@@ -199,6 +201,8 @@ class UpdateController extends Controller
                 ]);
                 // alter the ports:assigned and ports:assignedTo values
          // inserting validated data
+         $input['posTop'] = 0;
+         $input['posLeft'] = 0;
          Station::where('SN',$url)->update($input);
 
          return redirect('station')->with('success','Item changed successfully!');
@@ -257,7 +261,8 @@ class UpdateController extends Controller
          $request->validate([
             'type' => 'required|max:20',
             'name' => ['required','max:20',Rule::unique('equipment')->ignore($url, 'SN')],
-            'supplier' => 'required|max:20',
+            'supplier' => 'max:20',
+            'SN' => ['required', 'max:20', Rule::unique('equipment')->ignore($url, 'SN'), 'regex:/^([a-zA-Z0-9]+s?)*$/i'],
             'ipAddr' => ['max:15', 'nullable', 'regex:/^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/i', Rule::unique('equipment')->ignore($url, 'SN')],
             'station' => 'required|max:20',
             'port' => 'max:20',

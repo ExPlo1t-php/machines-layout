@@ -6,6 +6,7 @@ use App\Models\CabinetSwitch;
 use App\Models\Line;
 use App\Models\NetworkCabinet;
 use App\Models\Ports;
+use App\Models\Ping;
 use App\Models\Station;
 use App\Models\StationType;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -25,7 +26,8 @@ class Controller extends BaseController
     $type = StationType::get();
     $switch = CabinetSwitch::get();
     $port = Ports::get();
-    return view('pages.injection', ['stations'=>$stations, 'type'=>$type, 'cabinets'=>$cabinets, 'switch'=>$switch, 'port'=>$port]);
+    $ping = Ping::get();
+    return view('pages.injection', ['stations'=>$stations, 'type'=>$type, 'cabinets'=>$cabinets, 'switch'=>$switch, 'port'=>$port, 'ping'=>$ping]);
   }
   
   // fetches all the data needed for the assembly view
@@ -34,7 +36,8 @@ class Controller extends BaseController
     $cabinets = NetworkCabinet::get()->where('zone', '=','assembly');
     $switch = CabinetSwitch::get();
     $port = Ports::get();
-    return view('pages.assembly', ['lines'=>$lines, 'cabinets'=>$cabinets, 'switch'=>$switch, 'port'=>$port]);
+    $ping = Ping::where('type', '=', 'switch')->get();
+    return view('pages.assembly', ['lines'=>$lines, 'cabinets'=>$cabinets, 'switch'=>$switch, 'port'=>$port, 'ping'=>$ping]);
   }
 
   // fetching the unused ports ([assigned col = null] and [assignedTo col = null])
@@ -57,4 +60,3 @@ class Controller extends BaseController
        }
   }
 }
-

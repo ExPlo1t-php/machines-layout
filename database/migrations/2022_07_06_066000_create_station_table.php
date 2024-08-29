@@ -16,14 +16,15 @@ return new class extends Migration
         Schema::create('station', function (Blueprint $table) {
             $table->string('name')->unique();
             $table->string('SN')->unique()->primary();
-            $table->string('supplier');
+            $table->string('supplier')->nullable();
             $table->string('mainIpAddr', 15)->unique();
-              $table->boolean('state')->nullable();
+            $table->boolean('state')->nullable();
             $table->string('IpAddr1', 15)->unique()->nullable();
             $table->string('IpAddr2', 15)->unique()->nullable();
             $table->string('IpAddr3', 15)->unique()->nullable();
             $table->integer('port');
             $table->longText('description')->nullable();
+            $table->string('link', 255)->nullable();
             $table->decimal('posTop',  4, 0)->nullable();
             $table->decimal('posLeft',  4, 0)->nullable();
             // foreign key

@@ -54,11 +54,18 @@
 
           <x-formInput>
             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
+              Description
+            </label>
+            <textarea name="description"  cols="53" rows="10" placeholder="Write a description of this Type of station (optional)" style="resize: none" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">{{$switch[$index]->description}}</textarea>
+            </x-formInput>
+
+          <x-formInput>
+            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
               disable ip pinging for this switch
             </label>
             <input name="state"
             @if($switch[$index]->state == 1)
-            value="$switch[$index]->state"
+            value="{{$switch[$index]->state}}"
             @checked(true)
             @endif
              type="checkbox" class="appearance-none block text-gray-700 border border-gray-300 rounded py-2 px-2 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">

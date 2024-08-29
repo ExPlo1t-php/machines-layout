@@ -1,4 +1,3 @@
-// it's working don't touch it please 😀
 $(document).ready(function () {
 
   $("body").on("click","#delete",function(e){
@@ -30,7 +29,6 @@ $(document).ready(function () {
         }
       });
 
-      // refresh not reload 😃
       location.reload(true);
       return false;
     });

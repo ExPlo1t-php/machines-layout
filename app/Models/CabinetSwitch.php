@@ -16,6 +16,7 @@ class CabinetSwitch extends Model
         'ipAddr',
         'portsNum',
         'state',
+        'description',
     ];
 
 

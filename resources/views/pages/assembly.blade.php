@@ -111,30 +111,30 @@
                                   </x-detailsitem>
                             </ul>
                             <div>
-                                @php
-                                    $switches = $switch->where('cabName', '=', $cabinet->name);
-                                @endphp
+                              @php
+                              $switches = $switch->where('cabName', '=', $cabinet->name)
+                              @endphp
+                                @foreach ($switches->keys() as $key)
 
-                                @foreach ($switches as $switch)
                                 <div class="flex items-center m-3">
-                                    <span class="text-black">{{$switch->switchName}}</span>
+                                    <span class="text-black">{{$switch[$key]->switchName}}</span>
                                     <img src="/assets/images/network/switch.png" alt="switch" class="w-1/2 h-1/2">
                                     <span
                                     class="bg-black w-full h-fit m-1 p-1 rounded-md hover:hover:bg-black/10 cursor-pointer ease-in-out md:text-sm sm:text-2xs"
-                                    data-modal-toggle="switch{{$switch->id .$switch->cabName}}"
+                                    data-modal-toggle="switch{{$switch[$key]->id .$switch[$key]->cabName}}"
                                     >show more info</span>
                                 </div>
                                 {{-- switch modal --}}
-                                <div id="switch{{$switch->id .$switch->cabName}}" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full cursor-default" >
+                                <div id="switch{{$switch[$key]->id .$switch[$key]->cabName}}" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full cursor-default" >
                                     <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
                                         <!-- Modal content -->
                                         <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
                                             <!-- Modal header -->
                                             <div class="flex justify-between items-start p-4 rounded-t border-b dark:border-gray-600">
                                                 <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                                                    Switch: {{$switch->cabName}} - {{$switch->switchName}}
+                                                    Switch: {{$switch[$key]->cabName}} - {{$switch[$key]->switchName}}
                                                 </h3>
-                                                <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="switch{{$switch->id .$switch->cabName}}">
+                                                <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="switch{{$switch[$key]->id .$switch[$key]->cabName}}">
                                                     <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
                                                     <span class="sr-only">Close modal</span>
                                                 </button>
@@ -146,39 +146,47 @@
                                                       <x-detailsspan>
                                                         Switch number of ports:
                                                       </x-detailsspan>
-                                                      {{$switch->portsNum}}
+                                                      {{$switch[$key]->portsNum}}
                                                       </x-detailsitem>
                                                       {{--  --}}
                                                     <x-detailsitem>
                                                       <x-detailsspan>
                                                         Switch ip address:
                                                       </x-detailsspan>
-                                                      {{$switch->ipAddr}}
+                                                      {{$switch[$key]->ipAddr}}
                                                       </x-detailsitem>
-                                                    <x-detailsitem>
-                                                      <x-detailsspan>
-                                                        Status:
-                                                      </x-detailsspan>
-                                                      @php
-                                                      if($switch->state !== 1){
-                                                      $ip = $switch->ipAddr;
-                                                      $ping = exec('ping -n 1 '.$ip, $output, $status);
-                                                      if($status == 1){
-                                                          echo  '<i class="fa-solid fa-circle w-2/12 text-xs text-red-600 text-right">offline</i>';
-                                                      }elseif ($status == 0) {
-                                                          echo  '<i class="fa-solid fa-circle  w-2/12 text-xs text-green-500 text-right">Live</i>';
-                                                      }else{
-                                                        echo  '<i class="fa-solid fa-circle  w-2/12 text-xs text-orange-500 text-right">Error</i>';
-                                                      }
-                                                    }
-                                                      @endphp
+                                                      <x-detailsitem>
+                                                          <x-detailsspan>
+                                                              Status:
+                                                            </x-detailsspan>
+                                                            @php
+                                                            if($switch[$key]->state !== 1){
+                                                              foreach ($ping as $p){
+                                                                  if($switch[$key]->ipAddr == $p->ipAddr && $switch[$key]->SwitchName == $p->name){
+                                                                      if($p->state == 0){
+                                                                          // offline
+                                                                          echo  '<i class="fa-solid fa-circle w-1/12 text-xs text-red-600"></i>';
+                                                                      }elseif ($p->state == 1) {
+                                                                          // online
+                                                                          echo  '<i class="fa-solid fa-circle w-1/12 text-xs text-green-500"></i>';
+                                                                      }
+                                                                  }
+                                                              }
+                                                          }
+                                                          @endphp
                                                       </x-detailsitem>
-                                                </ul>
+                                                      <x-detailsitem>
+                                                        <x-detailsspan>
+                                                          Switch's Description:
+                                                        </x-detailsspan>
+                                                        {{$switch[$key]->description}}
+                                                        </x-detailsitem>
+                                                    </ul>
                                                 <div class="flex-col w-1/2 content-center text-black">
                                                     <span>Available ports</span>
                                                     @php
                                                     // specifying the collected ports
-                                                    $ports = $port->where('switchId','=',$switch->id);
+                                                    $ports = $port->where('switchId','=',$switch[$key]->id);
 
                                                     @endphp
                                                     <ul class="text-black h-64 overflow-auto">

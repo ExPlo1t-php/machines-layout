@@ -54,7 +54,7 @@ class DeleteController extends Controller
         ]);
         $equipment->delete();
     }
-    
+
     // delete equipment type -----------------------------------
     // childrens : equipment
     // parents: none
@@ -62,10 +62,10 @@ class DeleteController extends Controller
         $equipmenttype = EquipmentType::where('id','=',$id);
         $equipmenttype->delete();
     }
-    
+
     // delete station  -----------------------------------
-    // childrens : equipment 
-    // parents: station type - switch 
+    // childrens : equipment
+    // parents: station type - switch
     public function deleteStation($SN){
         $station = Station::where('SN','=',$SN);
         $stations = $station->get()[0];
@@ -76,10 +76,10 @@ class DeleteController extends Controller
                'assignedTo' =>NULL,
         ]);
         $station->delete();
-        
+
     }
     // delete station type -----------------------------------
-    // childrens :  station 
+    // childrens :  station
     // parents: none
     public function deleteStationType($id){
             $stationtype = StationType::where('id','=',$id);

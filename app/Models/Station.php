@@ -22,6 +22,7 @@ class Station extends Model
         'switch',
         'port',
         'decription',
+        'link',
         'line',
         'posTop',
         'posLeft',

@@ -25,14 +25,14 @@
       <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
       equipment name
       </label>
-      <input name="name" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="text" placeholder="equipment name">
+      <input name="name" required class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="text" placeholder="equipment name">
     </x-formInput>
 
       <x-formInput>
         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
           Equipment's serial number
         </label>
-        <input name="SN" class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="text" placeholder="serial number">
+        <input name="SN" required class="appearance-none block w-full  text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="text" placeholder="serial number">
         </x-formInput>
       </div>
 
@@ -42,7 +42,7 @@
           <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
             Equipment type
           </label>
-          <select name="type"
+          <select name="type" required
           onchange="let add = document.querySelector('.add');
           if(this.options[this.selectedIndex] == add){
           window.location = add.value;
@@ -59,7 +59,7 @@
             <option value="{{$type['name']}}"> {{$type['name']}}</option>
             @endforeach
 
-            <option class="add" value="equipment-type">&#x2b; Add a new equipment type</option>
+            <option class="add" value="/equipment-type">&#x2b; Add a new equipment type</option>
           </select>
         </div>
       </div>
@@ -141,7 +141,7 @@
           <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
            station name
           </label>
-          <select name="station"
+          <select name="station" required
           onchange="let add = document.querySelector('.add1');
           if(this.options[this.selectedIndex] == add){
           window.location = add.value;
