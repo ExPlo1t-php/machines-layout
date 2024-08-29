@@ -54,7 +54,7 @@ $('#usePrototypeForm').on('submit', function (e) {
 
     let prototypeId = $('#prototype').val();
     $.ajax({
-        url: `http://172.30.125.81:8080/api/v1/stations/{{$stationid}}/addPlcVariablesFromPrototype/${prototypeId}`,
+        url: `http://varmoxan18:2024/api/v1/stations/{{$stationid}}/addPlcVariablesFromPrototype/${prototypeId}`,
         type: 'POST',
         headers: {
             'Authorization': `Bearer ${"{{$token}}"}`

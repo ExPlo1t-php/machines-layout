@@ -44,7 +44,7 @@
 $('#changeValueForm').on('submit', function (e) {
     e.preventDefault(); // Prevent the default form submission
     $.ajax({
-        url: `http://172.30.125.81:8080/api/v1/variables/current_value_changing/{{$variableId}}`,
+        url: `http://varmoxan18:2024/api/v1/variables/current_value_changing/{{$variableId}}`,
         type: 'PATCH',
         data: { newValue: newValue },
     });

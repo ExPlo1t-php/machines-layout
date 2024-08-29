@@ -12,7 +12,7 @@
     function startTracking() {
         let id = "{{ $id }}";
         $.ajax({
-            url: `http://172.30.125.81:8080/api/v1/data_records/start-tracking/${id}`,
+            url: `http://varmoxan18:2024/api/v1/data_records/start-tracking/${id}`,
             type: 'POST',
             headers: {
                 'Authorization': `Bearer ${"{{$token}}"}`
@@ -29,7 +29,7 @@
     function stopTracking() {
         let id = "{{ $id }}";
         $.ajax({
-            url: `http://172.30.125.81:8080/api/v1/data_records/stop-tracking/${id}`,
+            url: `http://varmoxan18:2024/api/v1/data_records/stop-tracking/${id}`,
             type: 'POST',
             headers: {
                 'Authorization': `Bearer ${"{{$token}}"}`
@@ -51,7 +51,7 @@
         const tbody = table.find('tbody');
         tbody.empty();
         $.ajax({
-            url: `http://172.30.125.81:8080/api/v1/lines/${id}/records-summary?startDate=${startDate}&endDate=${endDate}`,
+            url: `http://varmoxan18:2024/api/v1/lines/${id}/records-summary?startDate=${startDate}&endDate=${endDate}`,
             type: 'GET',
             headers: {
                 'Authorization': `Bearer ${"{{$token}}"}`

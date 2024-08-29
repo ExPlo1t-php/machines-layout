@@ -62,7 +62,7 @@ class Controller extends BaseController
   }
 
   public function test(){
-    $response = Http::post('http://172.30.125.81:8080/api/v1/auth/login', [
+    $response = Http::post('http://varmoxan18:2024/api/v1/auth/login', [
       'email' => 'mouad@opm.com',
       'password' => 'test123',
     ]);

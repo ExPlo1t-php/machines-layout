@@ -113,7 +113,7 @@ $('#userForm').on('submit', function (e) {
     console.log(stationId);
 
     $.ajax({
-        url: `http://172.30.125.81:8080/api/v1/stations/{{$stationid}}/createplcuser`,
+        url: `http://varmoxan18:2024/api/v1/stations/{{$stationid}}/createplcuser`,
         type: 'POST',
         headers: {
             'Authorization': `Bearer ${"{{$token}}"}`

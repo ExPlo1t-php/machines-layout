@@ -23,7 +23,7 @@
                     </div>
                 </div>
                 <x-loginDialog :status="session()->get('loggedIn')"/>
-                @if (session()->get('loggedIn') && session()->get('role')!=="ADMIN")
+                @if (session()->get('loggedIn') && session()->get('role')=="ADMIN")
                 <button onclick="window.location.href='/plcUsers'" class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150">Manage PLC Users</button>
                 @endif
                <!-- Authentication -->
@@ -98,8 +98,11 @@
             </div>
                @else
                 <div class="flex-col sm:flex-col sm:items-center sm:ml-6 text-center mt-10">
-                    <x-dropdown-link :href="route('login')" class="text-xl"> {{ __('Login') }}</x-dropdown-link>
+                    <button onclick="window.location.href='/login'" class="inline-flex items-center px-4 py-2 mb-4 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150">Login to layout</button>
                     <x-loginDialog :status="session()->get('loggedIn')"/>
+                    @if (session()->get('loggedIn') && session()->get('role')=="ADMIN")
+                    <button onclick="window.location.href='/plcUsers'" class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150">Manage PLC Users</button>
+                    @endif
                     <p class="text-xs text-gray-400">There's no user connected <span class="text-indigo-500">Log In</span> to unlock admin controls</p>
                     </div>
                     <div :class="{'block': open, 'lg:hidden': ! open}" class="lg:hidden>

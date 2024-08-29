@@ -56,7 +56,7 @@ $('#eraseDbForm').on('submit', function (e) {
     let confirmationValue = $('#confirmationInput').val();
     if (confirmationValue == 'CONFIRM'){
         $.ajax({
-            url: `http://172.30.125.81:8080/api/v1/stations/{{$stationid}}/eraseDbData`,
+            url: `http://varmoxan18:2024/api/v1/stations/{{$stationid}}/eraseDbData`,
             type: 'POST',
             headers: {
                 'Authorization': `Bearer ${"{{$token}}"}`

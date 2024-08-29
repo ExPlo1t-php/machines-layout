@@ -49,7 +49,7 @@ $('#prototypeForm').on('submit', function (e) {
     };
 
     $.ajax({
-        url: `http://172.30.125.81:8080/api/v1/prototypes/create/{{$stationid}}`,
+        url: `http://varmoxan18:2024/api/v1/prototypes/create/{{$stationid}}`,
         type: 'POST',
         headers: {
             'Authorization': `Bearer ${"{{$token}}"}`

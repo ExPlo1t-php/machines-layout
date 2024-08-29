@@ -315,7 +315,7 @@
     if('{{$role}}' !== 'USER1'){
       if(confirm("Are you sure you want to delete this variable?")){
         $.ajax({
-          url: `http://172.30.125.81:8080/api/v1/variables/delete/${id}`,
+          url: `http://varmoxan18:2024/api/v1/variables/delete/${id}`,
           type: 'DELETE', 
           headers: {
               'Authorization': `Bearer ${"{{$token}}"}`
@@ -334,7 +334,7 @@
     if (newValue == null || newValue == ""){
       e.preventDefault(); // Prevent the default form submission
       $.ajax({
-        url: `http://172.30.125.81:8080/api/v1/variables/current_value_changing/${id}`,
+        url: `http://varmoxan18:2024/api/v1/variables/current_value_changing/${id}`,
         type: 'PATCH',
         headers: {
           'Authorization': `Bearer ${"{{$token}}"}`
@@ -493,7 +493,7 @@
   }
   function patchData(stationId){
     $.ajax({
-        url: `http://172.30.125.81:8080/api/v1/stations/read/{{$stationId}}`,
+        url: `http://varmoxan18:2024/api/v1/stations/read/{{$stationId}}`,
         type: 'PATCH', // Use PATCH method
         headers: {
             'Authorization': `Bearer ${"{{$token}}"}`
@@ -506,7 +506,7 @@
   const otherTable = $('#otherVariablesTable');
   function fetchData(stationId){
         $.ajax({
-          url: `http://172.30.125.81:8080/api/v1/stations/${stationId}/variables`,
+          url: `http://varmoxan18:2024/api/v1/stations/${stationId}/variables`,
           type: 'GET',
           headers: {
               'Authorization': `Bearer ${"{{$token}}"}`

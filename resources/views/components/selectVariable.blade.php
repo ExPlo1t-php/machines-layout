@@ -113,7 +113,7 @@ $('#variableForm').on('submit', function (e) {
     };
 
     $.ajax({
-        url: `http://172.30.125.81:8080/api/v1/stations/{{$stationid}}`,
+        url: `http://varmoxan18:2024/api/v1/stations/{{$stationid}}`,
         type: 'POST',
         headers: {
             'Authorization': `Bearer ${"{{$token}}"}`

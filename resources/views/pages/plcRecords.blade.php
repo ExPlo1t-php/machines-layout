@@ -64,7 +64,7 @@
         }
         $(document).ready(function(){
             $.ajax({
-                url: `http://172.30.125.81:8080/api/v1/lines`,
+                url: `http://varmoxan18:2024/api/v1/lines`,
                 type: 'GET',
                 headers: {
                     'Authorization': `Bearer ${"{{$token}}"}`

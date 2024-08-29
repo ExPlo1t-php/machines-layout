@@ -128,9 +128,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/updateEquipmentType/{name}', [UpdateController::class, 'updateEquipmentType'])->name('updateEquipmentType');
     // end of admin routes
     Route::post('/station/store', [StationsController::class, 'store'])->name('station.store');
-    // API routes for interacting with PLC
-    Route::post('/variables/update/{id}', [PlcController::class, 'update'])->name('variables.update');
-    Route::post('/plc/tracking/{id}',[ PlcController::class, 'setTrackingValue'])->name('plc.tracking');
+});
+// API routes for interacting with PLC
+Route::middleware(['check.admin'])->group(function(){
     Route::get('/plcUsers', [PlcController::class, 'showPlcUsers'])->name('plcUsers');
     Route::post('/addPlcUser', [PlcController::class, 'addPlcUser'])->name('addPlcUser');
     route::get('/plcUser/{id}', [PlcController::class, 'showPlcUser'])->name('plcUser');
@@ -140,6 +140,8 @@ Route::middleware(['auth'])->group(function () {
 
 
 // API routes for interacting with PLC
+Route::post('/variables/update/{id}', [PlcController::class, 'update'])->name('variables.update');
+Route::post('/plc/tracking/{id}',[ PlcController::class, 'setTrackingValue'])->name('plc.tracking');
 Route::get('/traceability', [PlcController::class, 'show'])->name('traceability');
 Route::get('/traceability/{id}', [PlcController::class, 'viewTraceability'])->name('traceability.view');
 Route::get('/variable/{id}', [PlcController::class, 'getVariableData'])->name('variable.data');

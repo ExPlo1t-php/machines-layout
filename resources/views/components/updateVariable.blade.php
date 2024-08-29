@@ -95,7 +95,7 @@ $(document).ready(function () {
 
 
         $.ajax({
-            url: `http://172.30.125.81:8080/api/v1/variables/update/${variableId}`,
+            url: `http://varmoxan18:2024/api/v1/variables/update/${variableId}`,
             type: 'PATCH', 
             headers: {
                 'Authorization': `Bearer ${"{{$token}}"}`

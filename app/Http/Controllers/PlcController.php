@@ -12,8 +12,6 @@ use Illuminate\Validation\Rules;
 class PlcController extends Controller
 {
     public function login(Request $request){
-        $api = env("API_IP");
-
         $request->validate([
             'email' => 'required|email',
             'password' => 'required|string'
@@ -22,7 +20,7 @@ class PlcController extends Controller
         $email = $request->input('email');
         $password = $request->input('password');
 
-        $response = Http::post("$api/api/v1/auth/login", [
+        $response = Http::post("http://varmoxan18:2024/api/v1/auth/login", [
             'email' => $email,
             'password' => $password,
         ]);
@@ -46,11 +44,10 @@ class PlcController extends Controller
 
     public function getVariableData(Request $request, $id){
         $token = $request->session()->get('token');
-        $api = env("API_IP");
         try{
             $response = Http::withHeaders([
                 'Authorization' => "Bearer $token",
-            ])->get("$api/api/v1/variables/{$id}");
+            ])->get("http://varmoxan18:2024/api/v1/variables/{$id}");
 
             // Check if the response is successful
             if ($response->successful()) {
